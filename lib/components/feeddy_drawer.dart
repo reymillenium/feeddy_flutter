@@ -14,7 +14,7 @@ import 'package:feeddy_flutter/components/_components.dart';
 
 // Utilities:
 
-class ExpensyDrawer extends StatelessWidget {
+class FeeddyDrawer extends StatelessWidget {
   // Properties:
   final bool showChart;
 
@@ -24,7 +24,7 @@ class ExpensyDrawer extends StatelessWidget {
   // final Function onSwitchPortraitOnLy;
 
   // Constructor:
-  ExpensyDrawer({
+  FeeddyDrawer({
     Key key,
     this.showChart,
     // this.showPortraitOnly,

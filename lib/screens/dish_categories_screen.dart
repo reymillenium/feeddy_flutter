@@ -16,38 +16,21 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 
-class DishesScreen extends StatefulWidget {
+class DishCategoriesScreen extends StatefulWidget {
   // Properties:
   final String title;
 
-  // Constructor:
-  DishesScreen({Key key, this.title}) : super(key: key);
+  const DishCategoriesScreen({Key key, this.title}) : super(key: key);
 
   @override
-  _DishesScreenState createState() => _DishesScreenState();
+  _DishCategoriesScreenState createState() => _DishCategoriesScreenState();
 }
 
-class _DishesScreenState extends State<DishesScreen> with WidgetsBindingObserver {
+class _DishCategoriesScreenState extends State<DishCategoriesScreen> {
   // State Properties:
   int touchedIndex;
   bool _showChart = true;
   bool _showPortraitOnly = false;
-
-  void _touchCallbackHandler(BarTouchResponse barTouchResponse) {
-    setState(() {
-      if (barTouchResponse.spot != null && barTouchResponse.touchInput is! PointerUpEvent && barTouchResponse.touchInput is! PointerExitEvent) {
-        touchedIndex = barTouchResponse.spot.touchedBarGroupIndex;
-      } else {
-        touchedIndex = -1;
-      }
-    });
-  }
-
-  // void onSwitchShowChart(bool choice) {
-  //   setState(() {
-  //     _showChart = choice;
-  //   });
-  // }
 
   void onSwitchPortraitOnLy(bool choice) {
     setState(() {
@@ -72,19 +55,10 @@ class _DishesScreenState extends State<DishesScreen> with WidgetsBindingObserver
       ],
     ]);
 
-    // TransactionsData transactionsData = Provider.of<TransactionsData>(context, listen: true);
-    // int amountTotalTransactions = transactionsData.transactions.length;
-
     FeeddyAppBar appBar = FeeddyAppBar(
       title: widget.title,
-      showModalNewTransaction: () => _showModalNewTransaction(context),
+      showModalNewDishCategory: () => _showModalNewDishCategory(context),
     );
-
-    // double appBarHeight = appBar.preferredSize.height;
-    // print('totalVerticalHeight: ${DeviceHelper.totalVerticalHeight(context: context)}');
-    // print('statusBarTopPadding: ${DeviceHelper.statusBarTopPadding(context: context)}');
-    // print('appBarHeight: $appBarHeight');
-    // print('availableHeight: ${DeviceHelper.availableHeight(context: context, appBarHeight: appBarHeight)}');
 
     return Scaffold(
       appBar: appBar,
@@ -115,38 +89,11 @@ class _DishesScreenState extends State<DishesScreen> with WidgetsBindingObserver
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                if (_showChart) ...[
-                  if (isWeeklyFlChart) ...[
-                    // Transactions Bar Chart
-                    Expanded(
-                      flex: isLandscape ? 4 : 3,
-                      // flex: 4,
-                      child: TransactionsChart(
-                        touchCallbackHandler: _touchCallbackHandler,
-                        touchedIndex: touchedIndex,
-                        groupedAmountLastWeek: transactionsData.groupedAmountLastWeek(),
-                        biggestAmountLastWeek: transactionsData.biggestAmountLastWeek(),
-                        orientation: orientation,
-                      ),
-                    ),
-                  ] else ...[
-                    // Home Made Transactions Bar Chart
-                    Expanded(
-                      flex: isLandscape ? 4 : 3,
-                      child: TransactionsChartHomeMade(
-                        groupedAmountLastWeek: transactionsData.groupedAmountLastWeek(),
-                        biggestAmountLastWeek: transactionsData.biggestAmountLastWeek(),
-                        orientation: orientation,
-                      ),
-                    ),
-                  ],
-                ],
-
                 // Transaction List:
-                Expanded(
-                  flex: 5,
-                  child: TransactionsList(),
-                ),
+                // Expanded(
+                //   flex: 5,
+                //   child: TransactionsList(),
+                // ),
               ],
             ),
           );
@@ -159,7 +106,7 @@ class _DishesScreenState extends State<DishesScreen> with WidgetsBindingObserver
           children: [
             IconButton(icon: Icon(null), onPressed: () {}),
             Text(
-              'Total: $amountTotalTransactions transactions',
+              'Total: 0 dishes',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic,
@@ -182,7 +129,7 @@ class _DishesScreenState extends State<DishesScreen> with WidgetsBindingObserver
           : FloatingActionButton(
               tooltip: 'Add Dish',
               child: Icon(Icons.add),
-              onPressed: () => _showModalNewTransaction(context),
+              onPressed: () => _showModalNewDishCategory(context),
             ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButtonLocation: deviceIsIOS ? null : FloatingActionButtonLocation.endDocked,
@@ -190,7 +137,7 @@ class _DishesScreenState extends State<DishesScreen> with WidgetsBindingObserver
   }
 
   // It shows the AddTransactionScreen widget as a modal:
-  void _showModalNewTransaction(BuildContext context) {
+  void _showModalNewDishCategory(BuildContext context) {
     SoundHelper().playSmallButtonClick();
     showModalBottomSheet(
       backgroundColor: Colors.transparent,

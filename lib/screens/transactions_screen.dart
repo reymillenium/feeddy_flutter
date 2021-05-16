@@ -115,7 +115,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> with WidgetsBin
         }
       },
 
-      drawer: ExpensyDrawer(
+      drawer: FeeddyDrawer(
         showChart: _showChart,
         // showPortraitOnly: _showPortraitOnly,
         onSwitchShowChart: onSwitchShowChart,

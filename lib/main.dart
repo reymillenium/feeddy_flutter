@@ -3,7 +3,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
 
 // Screens:
-import 'package:feeddy_flutter/screens/dishes_screen.dart';
+import 'package:feeddy_flutter/screens/dish_categories_screen.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: DishesScreen(title: appTitle),
+      home: DishCategoriesScreen(title: appTitle),
     );
   }
 }
