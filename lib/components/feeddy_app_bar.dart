@@ -14,12 +14,12 @@ import 'package:feeddy_flutter/models/_models.dart';
 // Utilities:
 import 'package:feeddy_flutter/utilities/constants.dart';
 
-class ExpensyAppBar extends StatelessWidget with PreferredSizeWidget {
+class FeeddyAppBar extends StatelessWidget with PreferredSizeWidget {
   // Properties:
   final String title;
   final Function showModalNewTransaction;
 
-  const ExpensyAppBar({
+  const FeeddyAppBar({
     Key key,
     this.title,
     this.showModalNewTransaction,

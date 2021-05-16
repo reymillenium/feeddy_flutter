@@ -44,19 +44,12 @@ class ExpensyDrawer extends StatelessWidget {
     Map currentThemeFont = appData.currentThemeFont;
     Function setCurrentFontFamilyHandler = (themeFontIndex) => appData.setCurrentFontFamily(themeFontIndex);
 
-    List<Map> availableCurrencies = appData.availableCurrencies;
-    Map currentCurrency = appData.currentCurrency;
-    Function setCurrentCurrencyHandler = (currencyIndex) => appData.setCurrentCurrency(currencyIndex);
-
-    List<Map> availableWeeklyCharts = appData.availableWeeklyCharts;
-    Map currentWeeklyChart = appData.currentWeeklyChart;
-    Function setCurrentWeeklyChart = (weeklyChartIndex) => appData.setCurrentWeeklyChart(weeklyChartIndex);
-
     List<Map> expansionPanelListStatus = appData.expansionPanelListStatus;
     Function openOnePanelAndCloseTheRest = appData.openOnePanelAndCloseTheRest;
 
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
+    String feeddyLogoPath = 'assets/images/feeddy_main_icon_only_bigger_1024_x_1024.png';
 
     return Drawer(
       // Add a ListView to the drawer. This ensures the user can scroll
@@ -83,7 +76,7 @@ class ExpensyDrawer extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Image.asset(
-                      "assets/images/expensy_logo.png",
+                      feeddyLogoPath,
                       width: 80,
                       height: 80,
                       fit: BoxFit.cover,
@@ -91,7 +84,7 @@ class ExpensyDrawer extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Expensy',
+                  'Feeddy',
                   style: TextStyle(
                     fontSize: 24,
                     color: Colors.white,
@@ -197,114 +190,16 @@ class ExpensyDrawer extends StatelessWidget {
                 ),
                 isExpanded: expansionPanelListStatus[1]['isOpened'],
               ),
-
-              // Expansion Panel # 3: Currencies
-              ExpansionPanel(
-                canTapOnHeader: true,
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return ListTile(
-                    leading: FaIcon(
-                      FontAwesomeIcons.moneyBill,
-                      color: Colors.black,
-                    ),
-                    title: Text(
-                      'Currency:',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
-                body: Column(
-                  children: availableCurrencies.asMap().entries.map((entry) {
-                    int index = entry.key;
-                    Map value = entry.value;
-                    // Each Currency List Tile:
-                    return ListTile(
-                      leading: FaIcon(
-                        value['icon'],
-                        color: Colors.black,
-                      ),
-                      title: Text(
-                        value['name'],
-                        style: TextStyle(
-                          fontFamily: currentThemeFont['fontFamily'],
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onTap: () {
-                        setCurrentCurrencyHandler(index);
-                        // closeAllThePanels();
-                        // Navigator.pop(context);
-                      },
-                      tileColor: _getActiveTileColor(currentCurrency['code'], value['code']),
-                    );
-                  }).toList(),
-                ),
-                isExpanded: expansionPanelListStatus[2]['isOpened'],
-              ),
-
-              // Expansion Panel # 4: Type of Weekly Chart
-              ExpansionPanel(
-                canTapOnHeader: true,
-                headerBuilder: (BuildContext context, bool isExpanded) {
-                  return ListTile(
-                    leading: FaIcon(
-                      FontAwesomeIcons.solidChartBar,
-                      color: Colors.black,
-                    ),
-                    title: Text(
-                      'Chart:',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
-                body: Column(
-                  children: availableWeeklyCharts.asMap().entries.map((entry) {
-                    int index = entry.key;
-                    Map value = entry.value;
-                    // Each Currency List Tile:
-                    return ListTile(
-                      leading: FaIcon(
-                        value['icon'],
-                        color: Colors.black,
-                      ),
-                      title: Text(
-                        value['name'],
-                        style: TextStyle(
-                          fontFamily: currentThemeFont['fontFamily'],
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      onTap: () {
-                        setCurrentWeeklyChart(index);
-                        // closeAllThePanels();
-                        // Navigator.pop(context);
-                      },
-                      tileColor: _getActiveTileColor(currentWeeklyChart['code'], value['code']),
-                    );
-                  }).toList(),
-                ),
-                isExpanded: expansionPanelListStatus[3]['isOpened'],
-              ),
             ],
           ),
 
           // Switchers:
-          ExpensyDrawerSwitch(
-            switchLabel: 'Show chart',
-            activeColor: accentColor,
-            switchValue: showChart,
-            onToggle: onSwitchShowChart,
-          ),
+          // ExpensyDrawerSwitch(
+          //   switchLabel: 'Show chart',
+          //   activeColor: accentColor,
+          //   switchValue: showChart,
+          //   onToggle: onSwitchShowChart,
+          // ),
           // ExpensyDrawerSwitch(
           //   switchLabel: 'Portrait only',
           //   primaryColor: primaryColor,

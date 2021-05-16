@@ -96,7 +96,7 @@ class _TransactionsScreenState extends State<TransactionsScreen> with WidgetsBin
     TransactionsData transactionsData = Provider.of<TransactionsData>(context, listen: true);
     int amountTotalTransactions = transactionsData.transactions.length;
 
-    ExpensyAppBar appBar = ExpensyAppBar(
+    FeeddyAppBar appBar = FeeddyAppBar(
       title: widget.title,
       showModalNewTransaction: () => _showModalNewTransaction(context),
     );
