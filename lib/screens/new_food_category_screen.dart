@@ -15,31 +15,54 @@ import 'package:flutter/cupertino.dart';
 
 // Utilities:
 
-class NewTransactionScreen extends StatefulWidget {
+class NewFoodCategoryScreen extends StatefulWidget {
   @override
-  _NewTransactionScreenState createState() => _NewTransactionScreenState();
+  _NewFoodCategoryScreenState createState() => _NewFoodCategoryScreenState();
 }
 
-class _NewTransactionScreenState extends State<NewTransactionScreen> {
+class _NewFoodCategoryScreenState extends State<NewFoodCategoryScreen> {
   // Local State Properties:
   String _title = '';
-  double _amount = 0;
-  DateTime _executionDate = DateTime.now();
+  Color _color = Colors.orangeAccent;
 
-  // Run time constants:
-  final _oneHundredYearsAgo = DateHelper.timeAgo(years: 100);
-  final _oneHundredYearsFromNow = DateHelper.timeFromNow(years: 100);
+  void changeColor(Color color) => setState(() => _color = color);
 
   @override
   Widget build(BuildContext context) {
     AppData appData = Provider.of<AppData>(context, listen: true);
-    Map currentCurrency = appData.currentCurrency;
 
-    TransactionsData transactionsData = Provider.of<TransactionsData>(context, listen: true);
-    Function onAddTransactionHandler = (title, amount, executionDate) => transactionsData.addTransaction(title, amount, executionDate);
+    FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
+    Function onAddFoodCategoryHandler = (title, color) => foodCategoriesData.addFoodCategory(title, color);
 
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
+
+    var foregroundColor = _color.computeLuminance() > 0.4 ? Colors.black : Colors.white;
+
+    final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
+      onPrimary: foregroundColor,
+      primary: _color,
+      elevation: 3,
+      textStyle: TextStyle(
+        color: Colors.red,
+      ),
+      minimumSize: Size(double.infinity, 36),
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(2)),
+      ),
+    );
+
+    final ButtonStyle elevatedButtonStyle = ButtonStyle(
+      foregroundColor: MaterialStateProperty.all(foregroundColor),
+      backgroundColor: MaterialStateProperty.all(_color),
+      minimumSize: MaterialStateProperty.all(Size(double.infinity, 36)),
+      padding: MaterialStateProperty.all(EdgeInsets.symmetric(horizontal: 16)),
+      elevation: MaterialStateProperty.all(3),
+      textStyle: MaterialStateProperty.all(TextStyle(
+        color: Colors.red,
+      )),
+    );
 
     return SafeArea(
       bottom: false,
@@ -60,7 +83,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
             child: Column(
               children: [
                 Text(
-                  'Add Transaction',
+                  'Add Food Category',
                   style: TextStyle(
                     color: primaryColor,
                     fontSize: 30,
@@ -99,58 +122,54 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                       _title = newText;
                     });
                   },
-                  onSubmitted: !_hasValidData() ? null : (_) => () => _submitData(context, onAddTransactionHandler),
+                  onSubmitted: !_hasValidData() ? null : (_) => () => _submitData(context, onAddFoodCategoryHandler),
                 ),
 
-                // Amount Input
-                TextField(
-                  decoration: InputDecoration(hintText: '${currentCurrency['code']}(${currentCurrency['symbol']}) '),
-                  inputFormatters: [
-                    CurrencyTextInputFormatter(
-                      // turnOffGrouping: false,
-                      locale: 'en_US',
-                      decimalDigits: 2,
-                      symbol: '${currentCurrency['code']}(${currentCurrency['symbol']}) ', // or to remove symbol set ''.
-                    )
-                  ],
-                  keyboardType: TextInputType.number,
-                  onChanged: (String newAmountText) {
-                    setState(() {
-                      _amount = StringHelper.extractDoubleOrZero(newAmountText);
-                    });
-                  },
-                  onSubmitted: !_hasValidData() ? null : (_) => () => _submitData(context, onAddTransactionHandler),
-                ),
-
-                // DateTime picker
-                DateTimePicker(
-                  // type: DateTimePickerType.dateTimeSeparate,
-                  type: DateTimePickerType.date,
-                  dateMask: 'd MMM, yyyy',
-                  initialValue: DateTime.now().toString(),
-                  firstDate: _oneHundredYearsAgo,
-                  lastDate: _oneHundredYearsFromNow,
-                  icon: Icon(Icons.event),
-                  dateLabelText: 'Date',
-                  timeLabelText: "Hour",
-                  selectableDayPredicate: (date) {
-                    // Disable weekend days to select from the calendar
-                    // if (date.weekday == 6 || date.weekday == 7) {
-                    //   return false;
-                    // }
-
-                    return true;
-                  },
-                  onChanged: (val) {
-                    setState(() {
-                      _executionDate = DateTime.parse(val);
-                    });
-                  },
-                  validator: (val) {
-                    // print(val);
-                    return null;
-                  },
-                  // onSaved: (val) => print(val),
+                // Color Input:
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: ElevatedButton(
+                    // elevation: 3.0,
+                    style: raisedButtonStyle,
+                    // style: elevatedButtonStyle,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            titlePadding: const EdgeInsets.all(0.0),
+                            contentPadding: const EdgeInsets.all(0.0),
+                            content: SingleChildScrollView(
+                              child: ColorPicker(
+                                pickerColor: _color,
+                                onColorChanged: changeColor,
+                                colorPickerWidth: 300.0,
+                                pickerAreaHeightPercent: 0.7,
+                                enableAlpha: true,
+                                displayThumbColor: true,
+                                showLabel: true,
+                                paletteType: PaletteType.hsv,
+                                pickerAreaBorderRadius: const BorderRadius.only(
+                                  topLeft: const Radius.circular(2.0),
+                                  topRight: const Radius.circular(2.0),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Text(
+                      'Color',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                        // color: Colors.white,
+                      ),
+                    ),
+                    // color: _color,
+                    // textColor: useWhiteForeground(currentColor) ? const Color(0xffffffff) : const Color(0xff000000),
+                  ),
                 ),
 
                 // Add button:
@@ -164,7 +183,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                           child: CupertinoButton(
                             color: primaryColor,
                             disabledColor: Colors.grey,
-                            onPressed: !_hasValidData() ? null : () => _submitData(context, onAddTransactionHandler),
+                            onPressed: !_hasValidData() ? null : () => _submitData(context, onAddFoodCategoryHandler),
                             child: Text(
                               'Add',
                               style: TextStyle(
@@ -181,7 +200,7 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
                           elevation: 5,
                           child: MaterialButton(
                             disabledColor: Colors.grey,
-                            onPressed: !_hasValidData() ? null : () => _submitData(context, onAddTransactionHandler),
+                            onPressed: !_hasValidData() ? null : () => _submitData(context, onAddFoodCategoryHandler),
                             // minWidth: 300.0,
                             minWidth: double.infinity,
                             height: 42.0,
@@ -206,15 +225,15 @@ class _NewTransactionScreenState extends State<NewTransactionScreen> {
 
   bool _hasValidData() {
     bool result = false;
-    if (_title.isNotEmpty && _amount != 0) {
+    if (_title.isNotEmpty) {
       result = true;
     }
     return result;
   }
 
-  void _submitData(BuildContext context, Function onAddTransactionHandler) {
-    if (_title.isNotEmpty && _amount != 0) {
-      onAddTransactionHandler(_title, _amount, _executionDate);
+  void _submitData(BuildContext context, Function onAddFoodCategory) {
+    if (_title.isNotEmpty) {
+      onAddFoodCategory(_title, _color);
     }
     Navigator.pop(context);
   }

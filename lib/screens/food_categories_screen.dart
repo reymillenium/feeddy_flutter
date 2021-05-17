@@ -3,7 +3,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
 
 // Screens:
-import 'package:feeddy_flutter/screens/new_transaction_screen.dart';
+import 'package:feeddy_flutter/screens/new_food_category_screen.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
@@ -16,17 +16,17 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 
-class DishCategoriesScreen extends StatefulWidget {
+class FoodCategoriesScreen extends StatefulWidget {
   // Properties:
   final String title;
 
-  const DishCategoriesScreen({Key key, this.title}) : super(key: key);
+  const FoodCategoriesScreen({Key key, this.title}) : super(key: key);
 
   @override
-  _DishCategoriesScreenState createState() => _DishCategoriesScreenState();
+  _FoodCategoriesScreenState createState() => _FoodCategoriesScreenState();
 }
 
-class _DishCategoriesScreenState extends State<DishCategoriesScreen> {
+class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
   // State Properties:
   int touchedIndex;
   bool _showChart = true;
@@ -44,6 +44,7 @@ class _DishCategoriesScreenState extends State<DishCategoriesScreen> {
     Function closeAllThePanels = appData.closeAllThePanels; // Drawer related:
     bool isWeeklyFlChart = appData.isWeeklyFlChart;
     bool deviceIsIOS = DeviceHelper.deviceIsIOS(context);
+    FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
 
     // WidgetsFlutterBinding.ensureInitialized(); // Without this it might not work in some devices:
     SystemChrome.setPreferredOrientations([
@@ -143,7 +144,7 @@ class _DishCategoriesScreenState extends State<DishCategoriesScreen> {
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       context: context,
-      builder: (context) => NewTransactionScreen(),
+      builder: (context) => NewFoodCategoryScreen(),
     );
   }
 }

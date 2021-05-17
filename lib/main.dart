@@ -3,7 +3,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
 
 // Screens:
-import 'package:feeddy_flutter/screens/dish_categories_screen.dart';
+import 'package:feeddy_flutter/screens/food_categories_screen.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
@@ -31,9 +31,9 @@ void main() {
         create: (context) => AppData(),
       ),
 
-      // Data related to the MonetaryTransaction objects: (sqlite)
-      ChangeNotifierProvider<TransactionsData>(
-        create: (context) => TransactionsData(),
+      // Data related to the FoodCategoriesData objects: (sqlite)
+      ChangeNotifierProvider<FoodCategoriesData>(
+        create: (context) => FoodCategoriesData(),
       ),
     ],
     // child: MyApp(),
@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: DishCategoriesScreen(title: appTitle),
+      home: FoodCategoriesScreen(title: appTitle),
     );
   }
 }

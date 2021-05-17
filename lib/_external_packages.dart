@@ -27,3 +27,5 @@ export 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 export 'package:date_time_picker/date_time_picker.dart';
 
 export 'package:empty_widget/empty_widget.dart';
+
+export 'package:flutter_colorpicker/flutter_colorpicker.dart';

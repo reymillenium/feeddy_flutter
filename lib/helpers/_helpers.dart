@@ -5,3 +5,5 @@ export 'package:feeddy_flutter/helpers/numeric_helper.dart';
 export 'package:feeddy_flutter/helpers/sound_helper.dart';
 export 'package:feeddy_flutter/helpers/string_helper.dart';
 export 'package:feeddy_flutter/helpers/list_helper.dart';
+export 'package:feeddy_flutter/helpers/color_helper.dart';
+export 'package:feeddy_flutter/helpers/dialog_helper.dart';

@@ -14,36 +14,33 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 
-class EditTransactionScreen extends StatefulWidget {
+class EditFoodCategoryScreen extends StatefulWidget {
   // Properties:
   final int id;
   final int index;
   final String title;
-  final double amount;
-  final DateTime executionDate;
-  final Function onUpdateTransactionHandler;
+  final Color color;
+  final Function onUpdateFoodCategoryHandler;
 
   // Constructor:
-  EditTransactionScreen({
+  EditFoodCategoryScreen({
     this.id,
     this.index,
     this.title,
-    this.amount,
-    this.executionDate,
-    this.onUpdateTransactionHandler,
+    this.color,
+    this.onUpdateFoodCategoryHandler,
   });
 
   @override
-  _EditTransactionScreenState createState() => _EditTransactionScreenState();
+  _EditFoodCategoryScreenState createState() => _EditFoodCategoryScreenState();
 }
 
-class _EditTransactionScreenState extends State<EditTransactionScreen> {
+class _EditFoodCategoryScreenState extends State<EditFoodCategoryScreen> {
   // State Properties:
   int _id;
   int _index;
   String _title;
-  double _amount;
-  DateTime _executionDate;
+  Color _color;
 
   // Run time constants:
   DateTime now = DateTime.now();
@@ -58,8 +55,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
     _id = widget.id;
     _index = widget.index;
     _title = widget.title;
-    _amount = widget.amount;
-    _executionDate = widget.executionDate;
+    _color = widget.color;
   }
 
   @override
@@ -67,10 +63,9 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
     AppData appData = Provider.of<AppData>(context, listen: true);
     Map currentCurrency = appData.currentCurrency;
 
-    TransactionsData transactionsData = Provider.of<TransactionsData>(context, listen: true);
-    Function onUpdateTransactionHandler = (id, title, amount, executionDate) => transactionsData.updateTransaction(id, title, amount, executionDate);
+    FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
+    Function onUpdateFoodCategoriesHandler = (id, title, color) => foodCategoriesData.updateFoodCategory(id, title, color);
 
-    final String initialAmountLabel = '${currentCurrency['code']}(${currentCurrency['symbol']}) ${_currencyFormat.format(_amount)}';
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
 
@@ -93,7 +88,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
             child: Column(
               children: [
                 Text(
-                  'Update Transaction',
+                  'Update Food Category',
                   style: TextStyle(
                     color: primaryColor,
                     fontSize: 30,
@@ -134,60 +129,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                       _title = newText;
                     });
                   },
-                  onFieldSubmitted: _hasValidData() ? (_) => () => _updateData(context, onUpdateTransactionHandler) : null,
-                ),
-
-                // Amount Input
-                TextFormField(
-                  initialValue: initialAmountLabel,
-                  // decoration: InputDecoration(hintText: 'USD(\$) '),
-                  decoration: InputDecoration(hintText: '${currentCurrency['code']}(${currentCurrency['symbol']}) '),
-                  inputFormatters: [
-                    CurrencyTextInputFormatter(
-                      // turnOffGrouping: false,
-                      locale: 'en_US',
-                      decimalDigits: 2,
-                      symbol: '${currentCurrency['code']}(${currentCurrency['symbol']}) ', // or to remove symbol set ''.
-                      // symbol: '', // or to remove symbol set ''.
-                    )
-                  ],
-                  keyboardType: TextInputType.number,
-                  onChanged: (String amountText) {
-                    setState(() {
-                      _amount = StringHelper.extractDoubleOrZero(amountText);
-                    });
-                  },
-                  onFieldSubmitted: _hasValidData() ? (_) => () => _updateData(context, onUpdateTransactionHandler) : null,
-                ),
-
-                // DateTime picker
-                DateTimePicker(
-                  // type: DateTimePickerType.dateTimeSeparate,
-                  type: DateTimePickerType.date,
-                  dateMask: 'd MMM, yyyy',
-                  initialValue: _executionDate.toString(),
-                  firstDate: _oneHundredYearsAgo,
-                  lastDate: _oneHundredYearsFromNow,
-                  icon: Icon(Icons.event),
-                  dateLabelText: 'Date',
-                  timeLabelText: "Hour",
-                  selectableDayPredicate: (date) {
-                    // Disable weekend days to select from the calendar
-                    // if (date.weekday == 6 || date.weekday == 7) {
-                    //   return false;
-                    // }
-
-                    return true;
-                  },
-                  onChanged: (val) {
-                    setState(() {
-                      _executionDate = DateTime.parse(val);
-                    });
-                  },
-                  validator: (val) {
-                    return null;
-                  },
-                  // onSaved: (val) => print(val),
+                  onFieldSubmitted: _hasValidData() ? (_) => () => _updateData(context, onUpdateFoodCategoriesHandler) : null,
                 ),
 
                 // Update button:
@@ -199,7 +141,7 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
                     elevation: 5.0,
                     child: MaterialButton(
                       disabledColor: Colors.grey,
-                      onPressed: _hasValidData() ? () => _updateData(context, onUpdateTransactionHandler) : null,
+                      onPressed: _hasValidData() ? () => _updateData(context, onUpdateFoodCategoriesHandler) : null,
                       // minWidth: 300.0,
                       minWidth: double.infinity,
                       height: 42.0,
@@ -224,15 +166,15 @@ class _EditTransactionScreenState extends State<EditTransactionScreen> {
 
   bool _hasValidData() {
     bool result = false;
-    if (_title.isNotEmpty && _amount != 0) {
+    if (_title.isNotEmpty) {
       result = true;
     }
     return result;
   }
 
-  void _updateData(BuildContext context, Function onUpdateTransactionHandler) {
-    if (_title.isNotEmpty && _amount != 0) {
-      onUpdateTransactionHandler(_id, _title, _amount, _executionDate);
+  void _updateData(BuildContext context, Function onUpdateFoodCategoriesHandler) {
+    if (_title.isNotEmpty) {
+      onUpdateFoodCategoriesHandler(_id, _title, _color);
     }
     Navigator.pop(context);
   }
