@@ -96,7 +96,7 @@ class FoodCategoriesData with ChangeNotifier {
     if (currentLength < _maxAmountDummyData) {
       for (int i = 0; i < (_maxAmountDummyData - currentLength); i++) {
         String title = faker.food.dish();
-        Color color = Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+        Color color = ColorHelper.randomColor();
         await addFoodCategory(title, color);
       }
     }
