@@ -251,7 +251,7 @@ class FoodCategoriesData with ChangeNotifier {
 
   Future<void> deleteFoodCategoryWithConfirm(int id, BuildContext context) {
     // _showDialogPlus(id, context).then((value) {
-    DialogHelper.showDialogPlus(id, context, (id) => _removeWhere(id)).then((value) {
+    DialogHelper.showDialogPlus(id, context, () => _removeWhere(id)).then((value) {
       (context as Element).reassemble();
       refresh();
     });
