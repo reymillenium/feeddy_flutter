@@ -43,13 +43,11 @@ class FoodCategoriesGrid extends StatelessWidget {
   }
 
   List<FoodCategoryPanel> buildFoodCategoryPanels(List<FoodCategory> foodCategories) {
-    List<FoodCategoryPanel> result = [];
-    foodCategories.forEach((foodCategory) {
-      result.add(FoodCategoryPanel(
-        key: ValueKey(foodCategory.id),
-        foodCategory: foodCategory,
-      ));
-    });
-    return result;
+    return foodCategories
+        .map((foodCategory) => FoodCategoryPanel(
+              key: ValueKey(foodCategory.id),
+              foodCategory: foodCategory,
+            ))
+        .toList();
   }
 }

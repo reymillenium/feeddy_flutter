@@ -42,7 +42,7 @@ class FoodCategoriesData with ChangeNotifier {
       },
     ],
   };
-  final int _maxAmountDummyData = 3;
+  final int _maxAmountDummyData = 12;
   List<FoodCategory> _foodCategories = [];
   DBHelper dbHelper;
 
@@ -96,7 +96,8 @@ class FoodCategoriesData with ChangeNotifier {
     if (currentLength < _maxAmountDummyData) {
       for (int i = 0; i < (_maxAmountDummyData - currentLength); i++) {
         String title = faker.food.dish();
-        Color color = ColorHelper.randomColor();
+        // Color color = ColorHelper.randomColor();
+        Color color = ColorHelper.randomMaterialColor();
         await addFoodCategory(title, color);
       }
     }

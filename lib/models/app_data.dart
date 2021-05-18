@@ -87,6 +87,14 @@ class AppData extends ChangeNotifier {
   int _themeFontIndex = 0;
   List<Map> _availableThemeFonts = [
     {
+      'name': 'RobotoCondensed',
+      'fontFamily': 'RobotoCondensed',
+    },
+    {
+      'name': 'Raleway',
+      'fontFamily': 'Raleway',
+    },
+    {
       'name': 'Roboto',
       'fontFamily': 'Roboto',
     },

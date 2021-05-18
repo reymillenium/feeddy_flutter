@@ -43,7 +43,6 @@ class FoodCategoryPanel extends StatelessWidget {
     var foregroundColor = ColorHelper.contrastingColor(foodCategory.color);
 
     return Container(
-      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
@@ -55,15 +54,49 @@ class FoodCategoryPanel extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Column(
+      child: Stack(
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // FoodCategory Title:
+                Expanded(
+                  flex: 3,
+                  child: Container(
+                    // color: Colors.green,
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        foodCategory.title,
+                        // style: TextStyle(
+                        //   color: foregroundColor,
+                        // ),
+                        style: Theme.of(context).textTheme.headline6.copyWith(
+                              color: foregroundColor,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+
           // Actions Icons:
-          Expanded(
-            flex: 1,
-            child: Container(
+          Container(
+            // alignment: Alignment.topRight,
+            // color: Colors.lightBlue,
+            // width: double.infinity,
+            // padding: const EdgeInsets.all(0),
+            child: Align(
               alignment: Alignment.topRight,
-              color: Colors.lightBlue,
-              // width: double.infinity,
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -74,7 +107,7 @@ class FoodCategoryPanel extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(
                         Icons.delete,
-                        color: Colors.black,
+                        color: foregroundColor,
                         size: 20,
                       ),
                       onPressed: () => onDeleteFoodCategoryHandler(foodCategory.id, context),
@@ -85,7 +118,7 @@ class FoodCategoryPanel extends StatelessWidget {
                     child: IconButton(
                       icon: Icon(
                         Icons.edit,
-                        color: Colors.black,
+                        color: foregroundColor,
                         size: 20,
                       ),
                       onPressed: () {
@@ -103,26 +136,6 @@ class FoodCategoryPanel extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-          ),
-
-          // SizedBox(
-          //   height: 20,
-          // ),
-          // FoodCategory Title:
-          Expanded(
-            flex: 3,
-            child: Container(
-              color: Colors.green,
-              width: double.infinity,
-              child: Center(
-                child: Text(
-                  foodCategory.title,
-                  style: TextStyle(
-                    color: foregroundColor,
-                  ),
-                ),
               ),
             ),
           ),

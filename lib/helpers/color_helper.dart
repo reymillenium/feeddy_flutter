@@ -8,6 +8,30 @@ import './numeric_helper.dart';
 // Utilities:
 
 extension ColorHelper on Color {
+  // static const List<MaterialColor> primaries = <MaterialColor>[
+  //   Colors.red,
+  //   Colors.pink,
+  //   Colors.purple,
+  //   Colors.deepPurple,
+  //   Colors.indigo,
+  //   Colors.blue,
+  //   Colors.lightBlue,
+  //   Colors.cyan,
+  //   Colors.teal,
+  //   Colors.green,
+  //   Colors.lightGreen,
+  //   Colors.lime,
+  //   Colors.yellow,
+  //   Colors.amber,
+  //   Colors.orange,
+  //   Colors.deepOrange,
+  //   Colors.brown,
+  //   // The grey swatch is intentionally omitted because when picking a color
+  //   // randomly from this list to colorize an application, picking grey suddenly
+  //   // makes the app look disabled.
+  //   Colors.blueGrey,
+  // ];
+
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
   static Color fromHex(String hexString) {
     final buffer = StringBuffer();
@@ -30,6 +54,11 @@ extension ColorHelper on Color {
 
   // Returns a contrasting color compared with a given one:
   static Color contrastingColor(Color color) {
-    return color.computeLuminance() > 0.4 ? Colors.black : Colors.white;
+    return color.computeLuminance() > 0.1 ? Colors.black : Colors.white;
+  }
+
+  // Returns a random material color:
+  static Color randomMaterialColor() {
+    return Colors.primaries[Random().nextInt(Colors.primaries.length)];
   }
 }

@@ -98,13 +98,22 @@ class MyApp extends StatelessWidget {
       title: appTitle,
       // theme: currentThemeData,
       theme: currentThemeData.copyWith(
+        canvasColor: Color.fromRGBO(255, 254, 229, 1),
         textTheme: currentThemeData.textTheme.copyWith(
           headline6: TextStyle(
-            fontSize: 18,
+            fontSize: 20,
             color: Colors.black,
             fontFamily: currentThemeFont['fontFamily'],
             // color: currentThemeData.textTheme.headline6.color,
             fontWeight: FontWeight.bold,
+          ),
+          bodyText1: TextStyle(
+            color: Color.fromRGBO(20, 51, 51, 1),
+            fontFamily: currentThemeFont['fontFamily'],
+          ),
+          bodyText2: TextStyle(
+            color: Color.fromRGBO(20, 51, 51, 1),
+            fontFamily: currentThemeFont['fontFamily'],
           ),
         ),
         appBarTheme: currentThemeData.appBarTheme.copyWith(
