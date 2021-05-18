@@ -53,15 +53,19 @@ class FoodCategoriesData with ChangeNotifier {
     _generateDummyData();
   }
 
-  // SQLite Basic
+  // Getters:
+  get foodCategories {
+    return _foodCategories;
+  }
 
-  Future<FoodCategory> save(FoodCategory foodCategory, Map<String, dynamic> table) async {
+  // SQLite DB CRUD:
+  Future<FoodCategory> _save(FoodCategory foodCategory, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     foodCategory.id = await dbClient.insert(table['name'], foodCategory.toMap());
     return foodCategory;
   }
 
-  Future<List<dynamic>> load(Map<String, dynamic> table) async {
+  Future<List<dynamic>> _load(Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     List<Map> fields = table['fields'];
     List<Map> objectMaps = await dbClient.query(table['name'], columns: fields.map<String>((field) => field['name']).toList());
@@ -75,24 +79,19 @@ class FoodCategoriesData with ChangeNotifier {
     return objectsList;
   }
 
-  Future<int> delete(int id, Map<String, dynamic> table) async {
+  Future<int> _delete(int id, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     return await dbClient.delete(table['name'], where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<int> update(FoodCategory foodCategory, Map<String, dynamic> table) async {
+  Future<int> _update(FoodCategory foodCategory, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     return await dbClient.update(table['name'], foodCategory.toMap(), where: 'id = ?', whereArgs: [foodCategory.id]);
   }
 
-  // Getters:
-  get foodCategories {
-    return _foodCategories;
-  }
-
   // Private methods:
   void _generateDummyData() async {
-    final List<FoodCategory> foodCategories = await load(_sqliteTable);
+    final List<FoodCategory> foodCategories = await _load(_sqliteTable);
     final int currentLength = foodCategories.length;
     if (currentLength < _maxAmountDummyData) {
       for (int i = 0; i < (_maxAmountDummyData - currentLength); i++) {
@@ -104,13 +103,13 @@ class FoodCategoriesData with ChangeNotifier {
   }
 
   void _removeWhere(int id) async {
-    await delete(id, _sqliteTable);
+    await _delete(id, _sqliteTable);
     await refresh();
   }
 
   // Public methods:
   Future refresh() async {
-    _foodCategories = await load(_sqliteTable);
+    _foodCategories = await _load(_sqliteTable);
     notifyListeners();
   }
 
@@ -122,7 +121,7 @@ class FoodCategoriesData with ChangeNotifier {
       createdAt: now,
       updatedAt: now,
     );
-    await save(newFoodCategory, _sqliteTable);
+    await _save(newFoodCategory, _sqliteTable);
     refresh();
   }
 
@@ -134,7 +133,7 @@ class FoodCategoriesData with ChangeNotifier {
     updatingFoodCategory.color = color;
     updatingFoodCategory.updatedAt = now;
 
-    await update(updatingFoodCategory, _sqliteTable);
+    await _update(updatingFoodCategory, _sqliteTable);
     refresh();
   }
 
