@@ -49,7 +49,7 @@ class InitialSplashScreen extends StatelessWidget {
 
     return MaterialApp(
       home: SplashScreen(
-        seconds: 4,
+        seconds: 2,
         navigateAfterSeconds: MyApp(),
         gradientBackground: LinearGradient(colors: [
           Color(0xFFFFFEF1),
@@ -118,7 +118,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: FoodCategoriesScreen(title: appTitle),
+      home: FoodCategoriesScreen(appTitle: appTitle),
     );
   }
 }

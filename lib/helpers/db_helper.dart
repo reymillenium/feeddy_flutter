@@ -5,7 +5,6 @@ import 'package:feeddy_flutter/_external_packages.dart';
 import 'package:feeddy_flutter/models/_models.dart';
 
 // Models:
-import 'package:feeddy_flutter/models/transaction.dart';
 
 // Helpers:
 
@@ -64,10 +63,11 @@ class DBHelper {
     List<Map> fields = table['fields'];
     String tableFieldsString = '';
     fields.forEach((field) {
-      tableFieldsString += ', ${field['name']} ${field['type']}';
+      tableFieldsString += "${field['name'] == 'id' ? '' : ', '}${field['name']} ${field['name'] == 'id' ? 'PRIMARY KEY' : ''} ${field['type']}";
     });
 
-    await db.execute("CREATE TABLE IF NOT EXISTS ${table['name']} (id INTEGER PRIMARY KEY$tableFieldsString)");
+    // await db.execute("CREATE TABLE IF NOT EXISTS ${table['name']} (id INTEGER PRIMARY KEY$tableFieldsString)");
+    await db.execute("CREATE TABLE IF NOT EXISTS ${table['name']} ($tableFieldsString)");
   }
 
   Future close() async {
@@ -81,24 +81,24 @@ class DBHelper {
   }
 
   // MonetaryTransaction Model Related:
-  Future<MonetaryTransaction> saveTransaction(MonetaryTransaction transaction) async {
-    var dbClient = await db;
-    // transaction.id = await dbClient.insert(TABLE, transaction.toMap());
-    transaction.id = await dbClient.insert(TABLE, {
-      ID: transaction.id,
-      TITLE: transaction.title,
-      AMOUNT: transaction.amount,
-      EXECUTION_DATE: transaction.executionDate.toString(),
-      CREATED_AT: transaction.createdAt.toString(),
-      UPDATED_AT: transaction.updatedAt.toString(),
-    });
-    return transaction;
-
-    // await dbClient.transaction((txn) async {
-    //   var query = "INSERT INTO $TABLE ($TITLE) VALUES ('" + transaction.title + "')";
-    //   return await txn.rawInsert(query);
-    // });
-  }
+  // Future<MonetaryTransaction> saveTransaction(MonetaryTransaction transaction) async {
+  //   var dbClient = await db;
+  //   // transaction.id = await dbClient.insert(TABLE, transaction.toMap());
+  //   transaction.id = await dbClient.insert(TABLE, {
+  //     ID: transaction.id,
+  //     TITLE: transaction.title,
+  //     AMOUNT: transaction.amount,
+  //     EXECUTION_DATE: transaction.executionDate.toString(),
+  //     CREATED_AT: transaction.createdAt.toString(),
+  //     UPDATED_AT: transaction.updatedAt.toString(),
+  //   });
+  //   return transaction;
+  //
+  //   // await dbClient.transaction((txn) async {
+  //   //   var query = "INSERT INTO $TABLE ($TITLE) VALUES ('" + transaction.title + "')";
+  //   //   return await txn.rawInsert(query);
+  //   // });
+  // }
 
   // MonetaryTransaction Model Related:
   Future<Object> save(dynamic transaction, Map<String, dynamic> table) async {
@@ -120,19 +120,19 @@ class DBHelper {
     // });
   }
 
-  Future<List<MonetaryTransaction>> getMonetaryTransactions() async {
-    var dbClient = await db;
-
-    List<Map> monetaryTransactionMaps = await dbClient.query(TABLE, columns: [ID, TITLE, AMOUNT, EXECUTION_DATE, CREATED_AT, UPDATED_AT]);
-    //List<Map> monetaryTransactionMaps = await dbClient.rawQuery("SELECT * FROM $TABLE");
-    List<MonetaryTransaction> monetaryTransactions = [];
-    if (monetaryTransactionMaps.length > 0) {
-      for (int i = 0; i < monetaryTransactionMaps.length; i++) {
-        monetaryTransactions.add(MonetaryTransaction.fromMap(monetaryTransactionMaps[i]));
-      }
-    }
-    return monetaryTransactions;
-  }
+  // Future<List<MonetaryTransaction>> getMonetaryTransactions() async {
+  //   var dbClient = await db;
+  //
+  //   List<Map> monetaryTransactionMaps = await dbClient.query(TABLE, columns: [ID, TITLE, AMOUNT, EXECUTION_DATE, CREATED_AT, UPDATED_AT]);
+  //   //List<Map> monetaryTransactionMaps = await dbClient.rawQuery("SELECT * FROM $TABLE");
+  //   List<MonetaryTransaction> monetaryTransactions = [];
+  //   if (monetaryTransactionMaps.length > 0) {
+  //     for (int i = 0; i < monetaryTransactionMaps.length; i++) {
+  //       monetaryTransactions.add(MonetaryTransaction.fromMap(monetaryTransactionMaps[i]));
+  //     }
+  //   }
+  //   return monetaryTransactions;
+  // }
 
   Future<List<dynamic>> load(Map<String, dynamic> table) async {
     var dbClient = await dbPlus(table);
@@ -157,13 +157,13 @@ class DBHelper {
     return await dbClient.delete(table['name'], where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<int> updateTransaction(MonetaryTransaction monetaryTransaction) async {
-    var dbClient = await db;
-    return await dbClient.update(TABLE, monetaryTransaction.toMap(), where: '$ID = ?', whereArgs: [monetaryTransaction.id]);
-  }
+  // Future<int> updateTransaction(MonetaryTransaction monetaryTransaction) async {
+  //   var dbClient = await db;
+  //   return await dbClient.update(TABLE, monetaryTransaction.toMap(), where: '$ID = ?', whereArgs: [monetaryTransaction.id]);
+  // }
 
-  Future<int> update(MonetaryTransaction monetaryTransaction, Map<String, dynamic> table) async {
+  Future<int> update(FoodCategory foodCategory, Map<String, dynamic> table) async {
     var dbClient = await dbPlus(table);
-    return await dbClient.update(table['name'], monetaryTransaction.toMap(), where: 'id = ?', whereArgs: [monetaryTransaction.id]);
+    return await dbClient.update(table['name'], foodCategory.toMap(), where: 'id = ?', whereArgs: [foodCategory.id]);
   }
 }

@@ -21,6 +21,10 @@ class FoodCategoriesData with ChangeNotifier {
     'name': 'food_categories',
     'fields': [
       {
+        'name': 'id',
+        'type': 'INTEGER',
+      },
+      {
         'name': 'title',
         'type': 'TEXT',
       },
@@ -58,14 +62,20 @@ class FoodCategoriesData with ChangeNotifier {
   Future<FoodCategory> save(FoodCategory foodCategory, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     foodCategory.id = await dbClient.insert(table['name'], foodCategory.toMap());
+    print(table['name']);
+    print('on save foodCategory.id = ${foodCategory.id}');
+    print(foodCategory.toMap());
     return foodCategory;
   }
 
   Future<List<dynamic>> load(Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
-    List<Map> objectMaps = await dbClient.query(table['name'], columns: table['fields'].map((field) => field['name']).toList());
+    List<Map> fields = table['fields'];
+
+    // List<Map> objectMaps = await dbClient.query(table['name'], columns: table['fields'].map((field) => field['name']).toList());
+    List<Map> objectMaps = await dbClient.query(table['name'], columns: fields.map<String>((field) => field['name']).toList());
     //List<Map> monetaryTransactionMaps = await dbClient.rawQuery("SELECT * FROM $TABLE");
-    List<dynamic> objectsList = [];
+    List<FoodCategory> objectsList = [];
     if (objectMaps.length > 0) {
       for (int i = 0; i < objectMaps.length; i++) {
         objectsList.add(FoodCategory.fromMap(objectMaps[i]));

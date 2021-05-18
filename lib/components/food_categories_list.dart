@@ -1,6 +1,7 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
+import 'package:feeddy_flutter/components/food_category_tile.dart';
 
 // Screens:
 
@@ -14,21 +15,26 @@ import 'package:feeddy_flutter/components/_components.dart';
 
 // Utilities:
 
-class TransactionsList extends StatelessWidget {
+class FoodCategoriesList extends StatelessWidget {
   // Properties:
   final _listViewScrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    TransactionsData transactionsData = Provider.of<TransactionsData>(context, listen: true);
-    List<MonetaryTransaction> transactions = transactionsData.transactions;
+    FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
+    List<FoodCategory> foodCategories = foodCategoriesData.foodCategories;
+    // print('build foodCategories.first.id = ${foodCategories.first.id}');
+    // print('build foodCategories.first.title = ${foodCategories.first.title}');
+    // print('build foodCategories.first.color = ${foodCategories.first.color}');
+    // print('build foodCategories.first.createdAt = ${foodCategories.first.createdAt}');
+    // print('build foodCategories.first.updatedAt = ${foodCategories.first.updatedAt}');
 
     return Container(
-      child: transactions.isEmpty
+      child: foodCategories.isEmpty
           ? FeeddyEmptyWidget(
               packageImage: 1,
               title: 'We are sorry',
-              subTitle: 'There is no transactions',
+              subTitle: 'There is no categories',
             )
 
           // Not preserving the local state after an item removal:
@@ -45,6 +51,7 @@ class TransactionsList extends StatelessWidget {
           //     },
           //     itemCount: transactions.length,
           //   ),
+          //   ),
 
           // Preserving the local state:
           : ListView.custom(
@@ -52,32 +59,35 @@ class TransactionsList extends StatelessWidget {
               controller: _listViewScrollController,
               childrenDelegate: SliverChildBuilderDelegate(
                 (BuildContext context, int index) {
-                  return TransactionTile(
-                    key: ValueKey(transactions[index].id),
-                    id: transactions[index].id,
+                  // print('ListView.custom foodCategories[index].id = ${foodCategories[index].id}');
+                  // print('ListView.custom foodCategories[index].title = ${foodCategories[index].title}');
+                  return FoodCategoryTile(
+                    key: ValueKey(foodCategories[index].id),
+                    id: foodCategories[index].id,
                     index: index,
-                    transaction: transactions[index],
+                    foodCategory: foodCategories[index],
                   );
                 },
-                childCount: transactions.length,
+                childCount: foodCategories.length,
 
                 // This callback method is what allows to preserve the state:
-                findChildIndexCallback: (Key key) => findChildIndexCallback(key, transactions),
+                findChildIndexCallback: (Key key) => findChildIndexCallback(key, foodCategories),
               ),
             ),
     );
   }
 
   // This callback method is what allows to preserve the state:
-  int findChildIndexCallback(Key key, List<MonetaryTransaction> transactions) {
+  int findChildIndexCallback(Key key, List<FoodCategory> foodCategories) {
     final ValueKey valueKey = key as ValueKey;
     final int id = valueKey.value;
-    MonetaryTransaction monetaryTransaction;
+    // final int id = int.parse(foodCategoryWidgetID.substring(0, 12));
+    FoodCategory foodCategory;
     try {
-      monetaryTransaction = transactions.firstWhere((transaction) => id == transaction.id);
+      foodCategory = foodCategories.firstWhere((foodCategory) => id == foodCategory.id);
     } catch (e) {
       return null;
     }
-    return transactions.indexOf(monetaryTransaction);
+    return foodCategories.indexOf(foodCategory);
   }
 }

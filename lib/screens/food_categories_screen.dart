@@ -1,6 +1,7 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
+import 'package:feeddy_flutter/components/food_categories_list.dart';
 
 // Screens:
 import 'package:feeddy_flutter/screens/new_food_category_screen.dart';
@@ -18,9 +19,9 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 class FoodCategoriesScreen extends StatefulWidget {
   // Properties:
-  final String title;
+  final String appTitle;
 
-  const FoodCategoriesScreen({Key key, this.title}) : super(key: key);
+  const FoodCategoriesScreen({Key key, this.appTitle}) : super(key: key);
 
   @override
   _FoodCategoriesScreenState createState() => _FoodCategoriesScreenState();
@@ -29,7 +30,7 @@ class FoodCategoriesScreen extends StatefulWidget {
 class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
   // State Properties:
   int touchedIndex;
-  bool _showChart = true;
+  bool _showChart = false;
   bool _showPortraitOnly = false;
 
   void onSwitchPortraitOnLy(bool choice) {
@@ -57,8 +58,8 @@ class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
     ]);
 
     FeeddyAppBar appBar = FeeddyAppBar(
-      title: widget.title,
-      showModalNewDishCategory: () => _showModalNewDishCategory(context),
+      title: widget.appTitle,
+      showModalNewDishCategory: () => _showModalNewFoodCategory(context),
     );
 
     return Scaffold(
@@ -90,11 +91,11 @@ class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                // Transaction List:
-                // Expanded(
-                //   flex: 5,
-                //   child: TransactionsList(),
-                // ),
+                // Food Categories List:
+                Expanded(
+                  flex: 5,
+                  child: FoodCategoriesList(),
+                ),
               ],
             ),
           );
@@ -107,7 +108,7 @@ class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
           children: [
             IconButton(icon: Icon(null), onPressed: () {}),
             Text(
-              'Total: 0 dishes',
+              'Total: 0 categories',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic,
@@ -128,9 +129,9 @@ class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
       floatingActionButton: deviceIsIOS
           ? null
           : FloatingActionButton(
-              tooltip: 'Add Dish',
+              tooltip: 'Add Category',
               child: Icon(Icons.add),
-              onPressed: () => _showModalNewDishCategory(context),
+              onPressed: () => _showModalNewFoodCategory(context),
             ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButtonLocation: deviceIsIOS ? null : FloatingActionButtonLocation.endDocked,
@@ -138,7 +139,7 @@ class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
   }
 
   // It shows the AddTransactionScreen widget as a modal:
-  void _showModalNewDishCategory(BuildContext context) {
+  void _showModalNewFoodCategory(BuildContext context) {
     SoundHelper().playSmallButtonClick();
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
