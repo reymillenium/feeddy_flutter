@@ -45,7 +45,9 @@ class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
     Function closeAllThePanels = appData.closeAllThePanels; // Drawer related:
     bool isWeeklyFlChart = appData.isWeeklyFlChart;
     bool deviceIsIOS = DeviceHelper.deviceIsIOS(context);
+
     FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
+    int amountTotalFoodCategories = foodCategoriesData.foodCategories.length;
 
     // WidgetsFlutterBinding.ensureInitialized(); // Without this it might not work in some devices:
     SystemChrome.setPreferredOrientations([
@@ -108,7 +110,7 @@ class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
           children: [
             IconButton(icon: Icon(null), onPressed: () {}),
             Text(
-              'Total: 0 categories',
+              'Total: $amountTotalFoodCategories categories',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic,
