@@ -27,4 +27,9 @@ extension ColorHelper on Color {
   static Color randomColor() {
     return Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
   }
+
+  // Returns a contrasting color compared with a given one:
+  static Color contrastingColor(Color color) {
+    return color.computeLuminance() > 0.4 ? Colors.black : Colors.white;
+  }
 }

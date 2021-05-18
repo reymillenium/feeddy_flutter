@@ -21,14 +21,35 @@ class FoodCategoriesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView(
-      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 200,
-        childAspectRatio: 3 / 2,
-        crossAxisSpacing: 20,
-        mainAxisSpacing: 20,
-      ),
-      children: [],
-    );
+    FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
+    List<FoodCategory> foodCategories = foodCategoriesData.foodCategories;
+
+    return foodCategories.isEmpty
+        ? FeeddyEmptyWidget(
+            packageImage: 1,
+            title: 'We are sorry',
+            subTitle: 'There is no categories',
+          )
+        : GridView(
+            gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200,
+              childAspectRatio: 3 / 2,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            padding: EdgeInsets.all(10),
+            children: buildFoodCategoryPanels(foodCategories),
+          );
+  }
+
+  List<FoodCategoryPanel> buildFoodCategoryPanels(List<FoodCategory> foodCategories) {
+    List<FoodCategoryPanel> result = [];
+    foodCategories.forEach((foodCategory) {
+      result.add(FoodCategoryPanel(
+        key: ValueKey(foodCategory.id),
+        foodCategory: foodCategory,
+      ));
+    });
+    return result;
   }
 }

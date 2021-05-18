@@ -17,7 +17,7 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 class EditFoodCategoryScreen extends StatefulWidget {
   // Properties:
   final int id;
-  final int index;
+  // final int index;
   final String title;
   final Color color;
   final Function onUpdateFoodCategoryHandler;
@@ -25,7 +25,7 @@ class EditFoodCategoryScreen extends StatefulWidget {
   // Constructor:
   EditFoodCategoryScreen({
     this.id,
-    this.index,
+    // this.index,
     this.title,
     this.color,
     this.onUpdateFoodCategoryHandler,
@@ -38,7 +38,7 @@ class EditFoodCategoryScreen extends StatefulWidget {
 class _EditFoodCategoryScreenState extends State<EditFoodCategoryScreen> {
   // State Properties:
   int _id;
-  int _index;
+  // int _index;
   String _title;
   Color _color;
 
@@ -53,7 +53,7 @@ class _EditFoodCategoryScreenState extends State<EditFoodCategoryScreen> {
     // TODO: implement initState
     super.initState();
     _id = widget.id;
-    _index = widget.index;
+    // _index = widget.index;
     _title = widget.title;
     _color = widget.color;
   }
@@ -71,7 +71,7 @@ class _EditFoodCategoryScreenState extends State<EditFoodCategoryScreen> {
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
 
-    var foregroundColor = _color.computeLuminance() > 0.4 ? Colors.black : Colors.white;
+    var foregroundColor = ColorHelper.contrastingColor(_color);
     final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
       onPrimary: foregroundColor,
       primary: _color,

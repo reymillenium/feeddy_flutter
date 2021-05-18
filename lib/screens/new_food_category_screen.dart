@@ -37,7 +37,7 @@ class _NewFoodCategoryScreenState extends State<NewFoodCategoryScreen> {
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
 
-    var foregroundColor = _color.computeLuminance() > 0.4 ? Colors.black : Colors.white;
+    var foregroundColor = ColorHelper.contrastingColor(_color);
 
     final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
       onPrimary: foregroundColor,

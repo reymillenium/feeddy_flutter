@@ -1,7 +1,6 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
-import 'package:feeddy_flutter/components/food_categories_list.dart';
 
 // Screens:
 import 'package:feeddy_flutter/screens/new_food_category_screen.dart';
@@ -94,9 +93,14 @@ class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 // Food Categories List:
+                // Expanded(
+                //   flex: 5,
+                //   child: FoodCategoriesList(),
+                // ),
+                // Food Categories Grid:
                 Expanded(
                   flex: 5,
-                  child: FoodCategoriesList(),
+                  child: FoodCategoriesGrid(),
                 ),
               ],
             ),

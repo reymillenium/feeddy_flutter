@@ -1,7 +1,6 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
-import 'package:feeddy_flutter/components/food_category_tile.dart';
 
 // Screens:
 
@@ -12,6 +11,7 @@ import 'package:feeddy_flutter/models/_models.dart';
 import 'package:feeddy_flutter/components/_components.dart';
 
 // Helpers:
+import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 

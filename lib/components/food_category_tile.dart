@@ -3,15 +3,16 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
 
 // Screens:
+import 'package:feeddy_flutter/screens/edit_food_category_screen.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
 
 // Components:
 import 'package:feeddy_flutter/components/_components.dart';
-import 'package:feeddy_flutter/screens/edit_food_category_screen.dart';
 
 // Helpers:
+import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 
@@ -130,7 +131,7 @@ class FoodCategoryTile extends StatelessWidget {
                       context: context,
                       builder: (context) => EditFoodCategoryScreen(
                         id: id,
-                        index: index,
+                        // index: index,
                         title: foodCategory.title,
                         color: foodCategory.color,
                       ),
