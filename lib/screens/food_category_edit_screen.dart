@@ -14,7 +14,7 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 
-class EditFoodCategoryScreen extends StatefulWidget {
+class FoodCategoryEditScreen extends StatefulWidget {
   // Properties:
   final int id;
   // final int index;
@@ -23,7 +23,7 @@ class EditFoodCategoryScreen extends StatefulWidget {
   final Function onUpdateFoodCategoryHandler;
 
   // Constructor:
-  EditFoodCategoryScreen({
+  FoodCategoryEditScreen({
     this.id,
     // this.index,
     this.title,
@@ -32,10 +32,10 @@ class EditFoodCategoryScreen extends StatefulWidget {
   });
 
   @override
-  _EditFoodCategoryScreenState createState() => _EditFoodCategoryScreenState();
+  _FoodCategoryEditScreenState createState() => _FoodCategoryEditScreenState();
 }
 
-class _EditFoodCategoryScreenState extends State<EditFoodCategoryScreen> {
+class _FoodCategoryEditScreenState extends State<FoodCategoryEditScreen> {
   // State Properties:
   int _id;
   // int _index;

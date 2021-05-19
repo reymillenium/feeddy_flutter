@@ -3,7 +3,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
 
 // Screens:
-import 'package:feeddy_flutter/screens/edit_food_category_screen.dart';
+import 'package:feeddy_flutter/screens/food_category_edit_screen.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
@@ -63,16 +63,17 @@ class FoodCategoryPanel extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                // SizedBox(
-                //   height: 20,
-                // ),
+                SizedBox(
+                  height: 24,
+                ),
                 // FoodCategory Title:
                 Expanded(
                   flex: 3,
                   child: Container(
                     // color: Colors.green,
                     width: double.infinity,
-                    child: Center(
+                    child: Align(
+                      alignment: Alignment.topLeft,
                       child: Text(
                         foodCategory.title,
                         // style: TextStyle(
@@ -126,7 +127,7 @@ class FoodCategoryPanel extends StatelessWidget {
                           backgroundColor: Colors.transparent,
                           isScrollControlled: true,
                           context: context,
-                          builder: (context) => EditFoodCategoryScreen(
+                          builder: (context) => FoodCategoryEditScreen(
                             id: foodCategory.id,
                             title: foodCategory.title,
                             color: foodCategory.color,

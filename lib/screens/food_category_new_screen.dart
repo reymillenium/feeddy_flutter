@@ -15,12 +15,12 @@ import 'package:flutter/cupertino.dart';
 
 // Utilities:
 
-class NewFoodCategoryScreen extends StatefulWidget {
+class FoodCategoryNewScreen extends StatefulWidget {
   @override
-  _NewFoodCategoryScreenState createState() => _NewFoodCategoryScreenState();
+  _FoodCategoryNewScreenState createState() => _FoodCategoryNewScreenState();
 }
 
-class _NewFoodCategoryScreenState extends State<NewFoodCategoryScreen> {
+class _FoodCategoryNewScreenState extends State<FoodCategoryNewScreen> {
   // Local State Properties:
   String _title = '';
   Color _color = Colors.orangeAccent;
