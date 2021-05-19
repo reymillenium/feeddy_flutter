@@ -3,7 +3,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
 
 // Screens:
-import 'package:feeddy_flutter/screens/food_category_new_screen.dart';
+import 'package:feeddy_flutter/screens/_screens.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';

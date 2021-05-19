@@ -3,7 +3,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
 
 // Screens:
-import 'package:feeddy_flutter/screens/food_categories_screen.dart';
+import 'package:feeddy_flutter/screens/_screens.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
@@ -127,7 +127,7 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: FoodCategoriesScreen(appTitle: appTitle),
+      home: FoodCategoryIndexScreen(appTitle: appTitle),
     );
   }
 }

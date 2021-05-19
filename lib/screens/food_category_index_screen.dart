@@ -3,7 +3,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
 
 // Screens:
-import 'package:feeddy_flutter/screens/food_category_new_screen.dart';
+import 'package:feeddy_flutter/screens/_screens.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
@@ -16,17 +16,17 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 
-class FoodCategoriesScreen extends StatefulWidget {
+class FoodCategoryIndexScreen extends StatefulWidget {
   // Properties:
   final String appTitle;
 
-  const FoodCategoriesScreen({Key key, this.appTitle}) : super(key: key);
+  const FoodCategoryIndexScreen({Key key, this.appTitle}) : super(key: key);
 
   @override
-  _FoodCategoriesScreenState createState() => _FoodCategoriesScreenState();
+  _FoodCategoryIndexScreenState createState() => _FoodCategoryIndexScreenState();
 }
 
-class _FoodCategoriesScreenState extends State<FoodCategoriesScreen> {
+class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> {
   // State Properties:
   int touchedIndex;
   bool _showChart = false;
