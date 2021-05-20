@@ -151,7 +151,7 @@ class MyApp extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) {
               return FoodCategoryShowScreen(
-                appTitle: args.appTitle,
+                appTitle: appTitle,
                 foodCategory: args.foodCategory,
               );
             },

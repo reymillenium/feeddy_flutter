@@ -169,11 +169,9 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
 
 // Argument class to receive the arguments sent on the route settings arguments parameter:
 class FoodCategoryShowScreenArguments {
-  final String appTitle;
   final FoodCategory foodCategory;
 
   FoodCategoryShowScreenArguments(
-    this.appTitle,
     this.foodCategory,
   );
 }
