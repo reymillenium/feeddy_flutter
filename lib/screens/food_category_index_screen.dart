@@ -1,19 +1,14 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
-
 // Screens:
 import 'package:feeddy_flutter/screens/_screens.dart';
-
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
-
 // Components:
 import 'package:feeddy_flutter/components/_components.dart';
-
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
-
 // Utilities:
 
 class FoodCategoryIndexScreen extends StatefulWidget {
@@ -28,7 +23,7 @@ class FoodCategoryIndexScreen extends StatefulWidget {
 
 class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> {
   // State Properties:
-  int touchedIndex;
+  // int touchedIndex;
   bool _showChart = false;
   bool _showPortraitOnly = false;
 
@@ -72,11 +67,11 @@ class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> {
       },
 
       drawer: FeeddyDrawer(
-        showChart: _showChart,
-        // showPortraitOnly: _showPortraitOnly,
-        // onSwitchShowChart: onSwitchShowChart,
-        // onSwitchPortraitOnLy: onSwitchPortraitOnLy,
-      ),
+          // showChart: _showChart,
+          // showPortraitOnly: _showPortraitOnly,
+          // onSwitchShowChart: onSwitchShowChart,
+          // onSwitchPortraitOnLy: onSwitchPortraitOnLy,
+          ),
 
       body: NativeDeviceOrientationReader(
         builder: (context) {

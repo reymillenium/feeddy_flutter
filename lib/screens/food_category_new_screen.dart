@@ -1,18 +1,15 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
-
 // Screens:
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
-
 // Components:
 
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
 import 'package:flutter/cupertino.dart';
-
 // Utilities:
 
 class FoodCategoryNewScreen extends StatefulWidget {

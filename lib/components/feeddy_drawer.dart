@@ -16,19 +16,19 @@ import 'package:feeddy_flutter/components/_components.dart';
 
 class FeeddyDrawer extends StatelessWidget {
   // Properties:
-  final bool showChart;
+  // final bool showChart;
 
   // final bool showPortraitOnly;
-  final Function onSwitchShowChart;
+  // final Function onSwitchShowChart;
 
   // final Function onSwitchPortraitOnLy;
 
   // Constructor:
   FeeddyDrawer({
     Key key,
-    this.showChart,
+    // this.showChart,
     // this.showPortraitOnly,
-    this.onSwitchShowChart,
+    // this.onSwitchShowChart,
     // this.onSwitchPortraitOnLy,
   }) : super(key: key);
 

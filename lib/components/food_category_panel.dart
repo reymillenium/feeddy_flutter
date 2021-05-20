@@ -13,7 +13,6 @@ import 'package:feeddy_flutter/components/_components.dart';
 
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
-
 // Utilities:
 
 class FoodCategoryPanel extends StatelessWidget {
@@ -28,6 +27,18 @@ class FoodCategoryPanel extends StatelessWidget {
   // Runtime constants:
   final DateFormat formatter = DateFormat().add_yMMMMd();
   final currencyFormat = new NumberFormat("#,##0.00", "en_US");
+
+  void selectCategory(BuildContext context) {
+    print('onTap event');
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => FoodCategoryShowScreen(
+          appTitle: 'Feeddy',
+          foodCategory: foodCategory,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,92 +63,170 @@ class FoodCategoryPanel extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(8),
       ),
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: [
-                SizedBox(
-                  height: 24,
+                // SizedBox(
+                //   height: 24,
+                // ),
+
+                // Actions Icons:
+                Container(
+                  height: 30,
+                  // alignment: Alignment.topRight,
+                  // color: Colors.grey,
+                  // width: double.infinity,
+                  // padding: const EdgeInsets.all(0),
+                  decoration: BoxDecoration(
+                    // border: Border.all(
+                    //   color: Colors.red[500],
+                    // ),
+                    // color: TinyColor(foodCategory.color).lighten(20).color,
+                    color: TinyColor(foodCategory.color).darken(6).color,
+                    // color: Colors.blueGrey,
+                    // color: Colors.transparent,
+                    // border: Border(
+                    //   bottom: BorderSide(
+                    //     width: 16.0,
+                    //     color: Colors.lightBlue.shade900,
+                    //   ),
+                    // ),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(8),
+                      // bottomLeft: Radius.circular(20),
+                      // bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.blueGrey,
+                      color: Colors.transparent,
+                      border: Border(
+                        bottom: BorderSide(
+                          width: 1.0,
+                          color: Colors.black45,
+                        ),
+                      ),
+                    ),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Tooltip(
+                            message: 'Delete',
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.delete,
+                                color: foregroundColor,
+                                size: 20,
+                              ),
+                              onPressed: () => onDeleteFoodCategoryHandler(foodCategory.id, context),
+                            ),
+                          ),
+                          Tooltip(
+                            message: 'Edit',
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.edit,
+                                color: foregroundColor,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                showModalBottomSheet(
+                                  backgroundColor: Colors.transparent,
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) => FoodCategoryEditScreen(
+                                    id: foodCategory.id,
+                                    title: foodCategory.title,
+                                    color: foodCategory.color,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+
+                          // Another way:
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: 2),
+                          //   child: Tooltip(
+                          //     message: 'Delete',
+                          //     child: GestureDetector(
+                          //       onTap: () => onDeleteFoodCategoryHandler(foodCategory.id, context),
+                          //       child: Icon(Icons.delete),
+                          //     ),
+                          //   ),
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(top: 2, right: 4),
+                          //   child: Tooltip(
+                          //       message: 'Edit',
+                          //       child: GestureDetector(
+                          //         onTap: () {
+                          //           showModalBottomSheet(
+                          //             backgroundColor: Colors.transparent,
+                          //             isScrollControlled: true,
+                          //             context: context,
+                          //             builder: (context) => FoodCategoryEditScreen(
+                          //               id: foodCategory.id,
+                          //               title: foodCategory.title,
+                          //               color: foodCategory.color,
+                          //             ),
+                          //           );
+                          //         },
+                          //         child: Icon(Icons.edit),
+                          //       )),
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
+
                 // FoodCategory Title:
                 Expanded(
                   flex: 3,
-                  child: Container(
-                    // color: Colors.green,
-                    width: double.infinity,
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        foodCategory.title,
-                        // style: TextStyle(
-                        //   color: foregroundColor,
-                        // ),
-                        style: Theme.of(context).textTheme.headline6.copyWith(
-                              color: foregroundColor,
-                            ),
+                  child: InkWell(
+                    splashColor: Theme.of(context).primaryColor,
+                    onTap: () => selectCategory(context),
+                    borderRadius: BorderRadius.only(
+                      // topLeft: Radius.circular(8),
+                      // topRight: Radius.circular(8),
+                      bottomLeft: Radius.circular(8),
+                      bottomRight: Radius.circular(8),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+                      color: Colors.transparent,
+                      width: double.infinity,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          foodCategory.title,
+                          // style: TextStyle(
+                          //   color: foregroundColor,
+                          // ),
+                          style: Theme.of(context).textTheme.headline6.copyWith(
+                                color: foregroundColor,
+                              ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ],
-            ),
-          ),
-
-          // Actions Icons:
-          Container(
-            // alignment: Alignment.topRight,
-            // color: Colors.lightBlue,
-            // width: double.infinity,
-            // padding: const EdgeInsets.all(0),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Tooltip(
-                    message: 'Delete',
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.delete,
-                        color: foregroundColor,
-                        size: 20,
-                      ),
-                      onPressed: () => onDeleteFoodCategoryHandler(foodCategory.id, context),
-                    ),
-                  ),
-                  Tooltip(
-                    message: 'Edit',
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.edit,
-                        color: foregroundColor,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        showModalBottomSheet(
-                          backgroundColor: Colors.transparent,
-                          isScrollControlled: true,
-                          context: context,
-                          builder: (context) => FoodCategoryEditScreen(
-                            id: foodCategory.id,
-                            title: foodCategory.title,
-                            color: foodCategory.color,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
         ],
