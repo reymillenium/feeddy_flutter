@@ -145,14 +145,17 @@ class MyApp extends StatelessWidget {
         // If you push the PassArguments route
         if (settings.name == FoodCategoryShowScreen.screenId) {
           // Cast the arguments to the correct type: FoodCategoryShowScreenArguments.
-          final args = settings.arguments as FoodCategoryShowScreenArguments;
+          // final args = settings.arguments as FoodCategoryShowScreenArguments;
+          final args = settings.arguments as Map;
 
           // Then, extract the required data from the arguments and pass the data to the correct screen.
           return MaterialPageRoute(
             builder: (context) {
               return FoodCategoryShowScreen(
                 appTitle: appTitle,
-                foodCategory: args.foodCategory,
+                // foodCategory: args.foodCategory,
+                // It can even use a Map instead:
+                foodCategory: args['foodCategory'],
               );
             },
           );

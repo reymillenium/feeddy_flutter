@@ -41,7 +41,9 @@ class FoodCategoryPanel extends StatelessWidget {
     // );
 
     //  Named route:
-    Navigator.pushNamed(context, FoodCategoryShowScreen.screenId, arguments: FoodCategoryShowScreenArguments(foodCategory));
+    // Navigator.pushNamed(context, FoodCategoryShowScreen.screenId, arguments: FoodCategoryShowScreenArguments(foodCategory));
+    // It can even use a Map instead:
+    Navigator.pushNamed(context, FoodCategoryShowScreen.screenId, arguments: {'foodCategory': foodCategory});
   }
 
   @override
