@@ -12,8 +12,11 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 // Utilities:
 
 class FoodCategoryEditScreen extends StatefulWidget {
+  static const String screenId = 'food_category_edit_screen';
+
   // Properties:
   final int id;
+
   // final int index;
   final String title;
   final Color color;
@@ -35,6 +38,7 @@ class FoodCategoryEditScreen extends StatefulWidget {
 class _FoodCategoryEditScreenState extends State<FoodCategoryEditScreen> {
   // State Properties:
   int _id;
+
   // int _index;
   String _title;
   Color _color;

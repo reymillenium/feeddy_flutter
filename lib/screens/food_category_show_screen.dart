@@ -1,17 +1,23 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
+
 // Screens:
 import 'package:feeddy_flutter/screens/_screens.dart';
+
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
+
 // Components:
 import 'package:feeddy_flutter/components/_components.dart';
+
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
 // Utilities:
 
 class FoodCategoryShowScreen extends StatefulWidget {
+  static const String screenId = 'food_category_show_screen';
+
   // Properties:
   final String appTitle;
   final FoodCategory foodCategory;
@@ -31,12 +37,14 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
   // int touchedIndex;
   bool _showChart = false;
   bool _showPortraitOnly = false;
+  String _appTitle;
   FoodCategory _foodCategory;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    _appTitle = widget.appTitle;
     _foodCategory = widget.foodCategory;
   }
 
@@ -62,7 +70,8 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
 
     FeeddyAppBar appBar = FeeddyAppBar(
       // title: widget.appTitle,
-      title: _foodCategory.title,
+      // title: _foodCategory.title,
+      title: '$_appTitle: ${_foodCategory.title}',
       showModalNewDishCategory: () => _showModalNewFoodCategory(context),
     );
 
@@ -156,4 +165,15 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
       builder: (context) => FoodCategoryNewScreen(),
     );
   }
+}
+
+// Argument class to receive the arguments sent on the route settings arguments parameter:
+class FoodCategoryShowScreenArguments {
+  final String appTitle;
+  final FoodCategory foodCategory;
+
+  FoodCategoryShowScreenArguments(
+    this.appTitle,
+    this.foodCategory,
+  );
 }

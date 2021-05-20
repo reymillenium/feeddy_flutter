@@ -13,6 +13,7 @@ import 'package:feeddy_flutter/components/_components.dart';
 
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
+import 'package:feeddy_flutter/screens/food_category_show_screen.dart';
 // Utilities:
 
 class FoodCategoryPanel extends StatelessWidget {
@@ -30,14 +31,18 @@ class FoodCategoryPanel extends StatelessWidget {
 
   void selectCategory(BuildContext context) {
     print('onTap event');
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => FoodCategoryShowScreen(
-          appTitle: 'Feeddy',
-          foodCategory: foodCategory,
-        ),
-      ),
-    );
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(
+    //     builder: (context) => FoodCategoryShowScreen(
+    //       appTitle: 'Feeddy',
+    //       foodCategory: foodCategory,
+    //     ),
+    //   ),
+    // );
+
+    //  Named route:
+    // Navigator.pushNamed(context, FoodCategoryShowScreen.screenId, arguments: FoodCategoryShowScreenArguments(appTitle: 'Feeddy', foodCategory: foodCategory));
+    Navigator.pushNamed(context, FoodCategoryShowScreen.screenId, arguments: FoodCategoryShowScreenArguments('Feeddy', foodCategory));
   }
 
   @override

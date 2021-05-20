@@ -13,6 +13,8 @@ import 'package:flutter/cupertino.dart';
 // Utilities:
 
 class FoodCategoryNewScreen extends StatefulWidget {
+  static const String screenId = 'food_category_new_screen';
+
   @override
   _FoodCategoryNewScreenState createState() => _FoodCategoryNewScreenState();
 }

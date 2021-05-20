@@ -127,7 +127,46 @@ class MyApp extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: FoodCategoryIndexScreen(appTitle: appTitle),
+      // home: FoodCategoryIndexScreen(appTitle: appTitle),
+      initialRoute: FoodCategoryIndexScreen.screenId,
+
+      // Named Routes with none or few arguments:
+      routes: {
+        FoodCategoryIndexScreen.screenId: (context) => FoodCategoryIndexScreen(appTitle: appTitle),
+        FoodCategoryNewScreen.screenId: (context) => FoodCategoryNewScreen(),
+        FoodCategoryEditScreen.screenId: (context) => FoodCategoryEditScreen(),
+
+        // It needs a FoodCategory objects besides the appTitle (so it goes in the 'Named Routes with extra arguments' section)
+        // FoodCategoryShowScreen.screenId: (context) => FoodCategoryShowScreen(),
+      },
+
+      // Named Routes with extra arguments:
+      onGenerateRoute: (settings) {
+        // If you push the PassArguments route
+        if (settings.name == FoodCategoryShowScreen.screenId) {
+          // Cast the arguments to the correct type: FoodCategoryShowScreenArguments.
+          final args = settings.arguments as FoodCategoryShowScreenArguments;
+
+          // Then, extract the required data from the arguments and pass the data to the correct screen.
+          return MaterialPageRoute(
+            builder: (context) {
+              return FoodCategoryShowScreen(
+                appTitle: args.appTitle,
+                foodCategory: args.foodCategory,
+              );
+            },
+          );
+        }
+        // The code only supports
+        // PassArgumentsScreen.screenId right now.
+        // Other values need to be implemented if we
+        // add them. The assertion here will help remind
+        // us of that higher up in the call stack, since
+        // this assertion would otherwise fire somewhere
+        // in the framework.
+        assert(false, 'Need to implement ${settings.name}');
+        return null;
+      },
     );
   }
 }
