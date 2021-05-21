@@ -35,6 +35,16 @@ void main() {
       ChangeNotifierProvider<FoodCategoriesData>(
         create: (context) => FoodCategoriesData(),
       ),
+
+      // Data related to the FoodCategoriesFoodRecipesData objects: (sqlite)
+      ChangeNotifierProvider<FoodCategoriesFoodRecipesData>(
+        create: (context) => FoodCategoriesFoodRecipesData(),
+      ),
+
+      // Data related to the FoodRecipesData objects: (sqlite)
+      ChangeNotifierProvider<FoodRecipesData>(
+        create: (context) => FoodRecipesData(),
+      ),
     ],
     // child: MyApp(),
     child: InitialSplashScreen(),

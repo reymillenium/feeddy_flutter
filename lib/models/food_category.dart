@@ -1,12 +1,16 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
+
 // Screens:
 import 'package:feeddy_flutter/screens/_screens.dart';
+
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
+
 // Components:
 import 'package:feeddy_flutter/components/_components.dart';
+
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
 
@@ -17,6 +21,7 @@ class FoodCategory {
   int id;
   String title;
   Color color;
+  List<FoodRecipe> foodRecipes;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -25,6 +30,7 @@ class FoodCategory {
     this.id,
     @required this.title,
     this.color = Colors.orangeAccent,
+    this.foodRecipes,
     @required this.createdAt,
     @required this.updatedAt,
   });
@@ -48,11 +54,11 @@ class FoodCategory {
     return foodCategoryMap;
   }
 
-  // Map<String, dynamic> toMap() => {
-  //       'id': id,
-  //       'title': title,
-  //       'color': color.toHex(leadingHashSign: true),
-  //       'createdAt': createdAt.toString(),
-  //       'updatedAt': updatedAt.toString(),
-  //     };
+// Map<String, dynamic> toMap() => {
+//       'id': id,
+//       'title': title,
+//       'color': color.toHex(leadingHashSign: true),
+//       'createdAt': createdAt.toString(),
+//       'updatedAt': updatedAt.toString(),
+//     };
 }

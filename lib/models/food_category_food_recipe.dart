@@ -16,26 +16,26 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 
-class RecipeStep {
+class FoodCategoryFoodRecipe {
   // Properties:
   int id;
-  String description;
+  int foodCategoryId;
   int foodRecipeId;
   DateTime createdAt;
   DateTime updatedAt;
 
   // Constructors:
-  RecipeStep({
+  FoodCategoryFoodRecipe({
     this.id,
-    @required this.description,
+    @required this.foodCategoryId,
     @required this.foodRecipeId,
     @required this.createdAt,
     @required this.updatedAt,
   });
 
-  RecipeStep.fromMap(Map<String, dynamic> recipeStepMap) {
+  FoodCategoryFoodRecipe.fromMap(Map<String, dynamic> recipeStepMap) {
     id = recipeStepMap['id'];
-    description = recipeStepMap['description'];
+    foodCategoryId = recipeStepMap['foodCategoryId'];
     foodRecipeId = recipeStepMap['foodRecipeId'];
 
     createdAt = DateTime.parse(recipeStepMap['createdAt']);
@@ -45,7 +45,7 @@ class RecipeStep {
   Map<String, dynamic> toMap() {
     var recipeStepMap = <String, dynamic>{
       'id': id,
-      'description': description,
+      'foodCategoryId': foodCategoryId,
       'foodRecipeId': foodRecipeId,
       'createdAt': createdAt.toString(),
       'updatedAt': updatedAt.toString(),

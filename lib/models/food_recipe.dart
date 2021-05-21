@@ -37,10 +37,10 @@ class FoodRecipe {
   // Properties:
   int id;
   String title;
-  List<FoodCategory> foodCategories;
+  List<FoodCategory> foodCategories; // Has many relationship
   String imageUrl;
-  List<FoodIngredient> foodIngredients;
-  List<RecipeStep> recipeSteps;
+  List<FoodIngredient> foodIngredients; // Has many relationship
+  List<RecipeStep> recipeSteps; // Has many relationship
   int duration;
   Complexity complexity;
   Affordability affordability;
@@ -55,10 +55,10 @@ class FoodRecipe {
   FoodRecipe({
     this.id,
     @required this.title,
-    @required this.foodCategories,
+    this.foodCategories,
     @required this.imageUrl,
-    @required this.foodIngredients,
-    @required this.recipeSteps,
+    this.foodIngredients,
+    this.recipeSteps,
     @required this.duration,
     @required this.complexity,
     @required this.affordability,
@@ -73,10 +73,10 @@ class FoodRecipe {
   FoodRecipe.fromMap(Map<String, dynamic> foodRecipeMap) {
     id = foodRecipeMap['id'];
     title = foodRecipeMap['title'];
-    foodCategories = foodRecipeMap['foodCategories'];
+    // foodCategories = foodRecipeMap['foodCategories']; // TODO: Implement the loading of the foodCategories
     imageUrl = foodRecipeMap['imageUrl'];
-    foodIngredients = foodRecipeMap['foodIngredients'];
-    recipeSteps = foodRecipeMap['recipeSteps'];
+    // foodIngredients = foodRecipeMap['foodIngredients']; // TODO: Implement the loading of the foodIngredients from the DB into a FoodRecipe object
+    // recipeSteps = foodRecipeMap['recipeSteps']; // TODO: Implement the loading of the recipeSteps from the DB into a FoodRecipe object
     duration = foodRecipeMap['duration'];
     complexity = foodRecipeMap['complexity'];
     affordability = foodRecipeMap['affordability'];
@@ -93,10 +93,10 @@ class FoodRecipe {
     var foodRecipeMap = <String, dynamic>{
       'id': id,
       'title': title,
-      'foodCategories': foodCategories,
+      // 'foodCategories': foodCategories,
       'imageUrl': imageUrl,
-      'ingredients': foodIngredients,
-      'recipeSteps': recipeSteps,
+      // 'ingredients': foodIngredients,
+      // 'recipeSteps': recipeSteps,
       'duration': duration,
       'complexity': complexity,
       'affordability': affordability,
