@@ -18,27 +18,28 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 class FoodCategoriesData with ChangeNotifier {
   // Properties:
   final _sqliteTable = {
-    'name': 'food_categories',
+    'table_plural_name': 'food_categories',
+    'table_singular_name': 'food_category',
     'fields': [
       {
-        'name': 'id',
-        'type': 'INTEGER',
+        'field_name': 'id',
+        'field_type': 'INTEGER',
       },
       {
-        'name': 'title',
-        'type': 'TEXT',
+        'field_name': 'title',
+        'field_type': 'TEXT',
       },
       {
-        'name': 'color',
-        'type': 'TEXT',
+        'field_name': 'color',
+        'field_type': 'TEXT',
       },
       {
-        'name': 'createdAt',
-        'type': 'TEXT',
+        'field_name': 'createdAt',
+        'field_type': 'TEXT',
       },
       {
-        'name': 'updatedAt',
-        'type': 'TEXT',
+        'field_name': 'updatedAt',
+        'field_type': 'TEXT',
       },
     ],
   };
@@ -54,6 +55,10 @@ class FoodCategoriesData with ChangeNotifier {
   }
 
   // Getters:
+  get sqliteTable {
+    return _sqliteTable;
+  }
+
   get foodCategories {
     return _foodCategories;
   }
@@ -61,14 +66,14 @@ class FoodCategoriesData with ChangeNotifier {
   // SQLite DB CRUD:
   Future<FoodCategory> _save(FoodCategory foodCategory, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
-    foodCategory.id = await dbClient.insert(table['name'], foodCategory.toMap());
+    foodCategory.id = await dbClient.insert(table['table_plural_name'], foodCategory.toMap());
     return foodCategory;
   }
 
   Future<List<dynamic>> _load(Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     List<Map> fields = table['fields'];
-    List<Map> objectMaps = await dbClient.query(table['name'], columns: fields.map<String>((field) => field['name']).toList());
+    List<Map> objectMaps = await dbClient.query(table['table_plural_name'], columns: fields.map<String>((field) => field['field_name']).toList());
     //List<Map> objectMaps = await dbClient.rawQuery("SELECT * FROM $TABLE");
     List<FoodCategory> objectsList = [];
     if (objectMaps.length > 0) {
@@ -81,12 +86,12 @@ class FoodCategoriesData with ChangeNotifier {
 
   Future<int> _delete(int id, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
-    return await dbClient.delete(table['name'], where: 'id = ?', whereArgs: [id]);
+    return await dbClient.delete(table['table_plural_name'], where: 'id = ?', whereArgs: [id]);
   }
 
   Future<int> _update(FoodCategory foodCategory, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
-    return await dbClient.update(table['name'], foodCategory.toMap(), where: 'id = ?', whereArgs: [foodCategory.id]);
+    return await dbClient.update(table['table_plural_name'], foodCategory.toMap(), where: 'id = ?', whereArgs: [foodCategory.id]);
   }
 
   // Private methods:
