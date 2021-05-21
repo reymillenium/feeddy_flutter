@@ -64,13 +64,13 @@ class FoodCategoriesData with ChangeNotifier {
   }
 
   // SQLite DB CRUD:
-  Future<FoodCategory> _save(FoodCategory foodCategory, Map<String, dynamic> table) async {
+  Future<FoodCategory> _create(FoodCategory foodCategory, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     foodCategory.id = await dbClient.insert(table['table_plural_name'], foodCategory.toMap());
     return foodCategory;
   }
 
-  Future<List<dynamic>> _load(Map<String, dynamic> table) async {
+  Future<List<dynamic>> _index(Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     List<Map> fields = table['fields'];
     List<Map> objectMaps = await dbClient.query(table['table_plural_name'], columns: fields.map<String>((field) => field['field_name']).toList());
@@ -84,7 +84,7 @@ class FoodCategoriesData with ChangeNotifier {
     return objectsList;
   }
 
-  Future<int> _delete(int id, Map<String, dynamic> table) async {
+  Future<int> _destroy(int id, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus(table);
     return await dbClient.delete(table['table_plural_name'], where: 'id = ?', whereArgs: [id]);
   }
@@ -96,7 +96,7 @@ class FoodCategoriesData with ChangeNotifier {
 
   // Private methods:
   void _generateDummyData() async {
-    final List<FoodCategory> foodCategories = await _load(_sqliteTable);
+    final List<FoodCategory> foodCategories = await _index(_sqliteTable);
     final int currentLength = foodCategories.length;
     if (currentLength < _maxAmountDummyData) {
       for (int i = 0; i < (_maxAmountDummyData - currentLength); i++) {
@@ -109,13 +109,13 @@ class FoodCategoriesData with ChangeNotifier {
   }
 
   void _removeWhere(int id) async {
-    await _delete(id, _sqliteTable);
+    await _destroy(id, _sqliteTable);
     await refresh();
   }
 
   // Public methods:
   Future refresh() async {
-    _foodCategories = await _load(_sqliteTable);
+    _foodCategories = await _index(_sqliteTable);
     notifyListeners();
   }
 
@@ -127,7 +127,7 @@ class FoodCategoriesData with ChangeNotifier {
       createdAt: now,
       updatedAt: now,
     );
-    await _save(newFoodCategory, _sqliteTable);
+    await _create(newFoodCategory, _sqliteTable);
     refresh();
   }
 

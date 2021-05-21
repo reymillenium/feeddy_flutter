@@ -37,9 +37,9 @@ class FoodRecipe {
   // Properties:
   int id;
   String title;
-  List<int> categoriesIds;
+  List<FoodCategory> foodCategories;
   String imageUrl;
-  List<String> ingredients;
+  List<FoodIngredient> foodIngredients;
   List<String> steps;
   int duration;
   Complexity complexity;
@@ -55,9 +55,9 @@ class FoodRecipe {
   FoodRecipe({
     this.id,
     @required this.title,
-    @required this.categoriesIds,
+    @required this.foodCategories,
     @required this.imageUrl,
-    @required this.ingredients,
+    @required this.foodIngredients,
     @required this.steps,
     @required this.duration,
     @required this.complexity,
@@ -73,9 +73,9 @@ class FoodRecipe {
   FoodRecipe.fromMap(Map<String, dynamic> foodRecipeMap) {
     id = foodRecipeMap['id'];
     title = foodRecipeMap['title'];
-    categoriesIds = foodRecipeMap['categoriesIds'];
+    foodCategories = foodRecipeMap['foodCategories'];
     imageUrl = foodRecipeMap['imageUrl'];
-    ingredients = foodRecipeMap['ingredients'];
+    foodIngredients = foodRecipeMap['ingredients'];
     steps = foodRecipeMap['steps'];
     duration = foodRecipeMap['duration'];
     complexity = foodRecipeMap['complexity'];
@@ -93,9 +93,9 @@ class FoodRecipe {
     var foodRecipeMap = <String, dynamic>{
       'id': id,
       'title': title,
-      'categoriesIds': categoriesIds,
+      'foodCategories': foodCategories,
       'imageUrl': imageUrl,
-      'ingredients': ingredients,
+      'ingredients': foodIngredients,
       'steps': steps,
       'duration': duration,
       'complexity': complexity,
