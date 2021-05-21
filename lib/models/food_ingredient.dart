@@ -16,14 +16,6 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 
-// enum Complexity {
-//   verySimple,
-//   simple,
-//   medium,
-//   challenging,
-//   hard,
-//   veryHard,
-// }
 enum MeasurementUnit {
   gram,
   tea_spoon,
@@ -43,6 +35,7 @@ class FoodIngredient {
   String name;
   double amount;
   MeasurementUnit measurementUnit;
+  int foodRecipeId;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -52,6 +45,7 @@ class FoodIngredient {
     @required this.name,
     @required this.amount,
     @required this.measurementUnit,
+    @required this.foodRecipeId,
     @required this.createdAt,
     @required this.updatedAt,
   });

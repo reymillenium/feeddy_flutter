@@ -40,7 +40,7 @@ class FoodRecipe {
   List<FoodCategory> foodCategories;
   String imageUrl;
   List<FoodIngredient> foodIngredients;
-  List<String> steps;
+  List<RecipeStep> recipeSteps;
   int duration;
   Complexity complexity;
   Affordability affordability;
@@ -58,7 +58,7 @@ class FoodRecipe {
     @required this.foodCategories,
     @required this.imageUrl,
     @required this.foodIngredients,
-    @required this.steps,
+    @required this.recipeSteps,
     @required this.duration,
     @required this.complexity,
     @required this.affordability,
@@ -75,8 +75,8 @@ class FoodRecipe {
     title = foodRecipeMap['title'];
     foodCategories = foodRecipeMap['foodCategories'];
     imageUrl = foodRecipeMap['imageUrl'];
-    foodIngredients = foodRecipeMap['ingredients'];
-    steps = foodRecipeMap['steps'];
+    foodIngredients = foodRecipeMap['foodIngredients'];
+    recipeSteps = foodRecipeMap['recipeSteps'];
     duration = foodRecipeMap['duration'];
     complexity = foodRecipeMap['complexity'];
     affordability = foodRecipeMap['affordability'];
@@ -96,7 +96,7 @@ class FoodRecipe {
       'foodCategories': foodCategories,
       'imageUrl': imageUrl,
       'ingredients': foodIngredients,
-      'steps': steps,
+      'recipeSteps': recipeSteps,
       'duration': duration,
       'complexity': complexity,
       'affordability': affordability,
