@@ -33,6 +33,12 @@ class DBHelper {
     return db;
   }
 
+  deleteDb() async {
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
+    String path = join(documentsDirectory.path, DB_NAME);
+    deleteDatabase(path);
+  }
+
   _onCreatePlus(Database db, int version) async {
     // food_categories table:
     Map<String, Object> foodCategoriesTable = FoodCategoriesData.sqliteTable;

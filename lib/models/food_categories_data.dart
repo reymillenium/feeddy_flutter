@@ -51,7 +51,8 @@ class FoodCategoriesData with ChangeNotifier {
   FoodCategoriesData() {
     dbHelper = DBHelper();
     refresh();
-    print(Complexity.challenging.toString());
+
+    // dbHelper.deleteDb();
     _generateDummyData();
   }
 
@@ -105,7 +106,8 @@ class FoodCategoriesData with ChangeNotifier {
             List<int> foodRecipesIdsList = foodCategoriesFoodRecipesList.map((foodCategoryFoodRecipe) => foodCategoryFoodRecipe.foodRecipeId).toList();
             // Gathering of its FoodRecipe objects based on then possibly gathered FoodCategoryFoodRecipe objects:
             List<Map> foodRecipesTableFields = FoodRecipesData.sqliteTable['fields'];
-            List<Map> foodRecipesMaps = await dbClient.query(FoodRecipesData.sqliteTable['table_plural_name'], columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id = ?', whereArgs: foodRecipesIdsList);
+            // List<Map> foodRecipesMaps = await dbClient.query(FoodRecipesData.sqliteTable['table_plural_name'], columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id = ?', whereArgs: foodRecipesIdsList);
+            List<Map> foodRecipesMaps = await dbClient.query(FoodRecipesData.sqliteTable['table_plural_name'], columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})');
 
             for (int k = 0; k < foodRecipesMaps.length; k++) {
               FoodRecipe foodRecipe;
