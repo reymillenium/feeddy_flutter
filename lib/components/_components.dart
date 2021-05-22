@@ -14,3 +14,6 @@ export 'package:feeddy_flutter/components/food_categories_list.dart';
 export 'package:feeddy_flutter/components/food_category_tile.dart'; // First attempt to list using a ListView:
 export 'package:feeddy_flutter/components/food_categories_grid.dart'; // First attempt to list inside a ListView using ListTile
 export 'package:feeddy_flutter/components/food_category_panel.dart'; // Second attempt using a ListGrid instead of a ListView:
+// FoodRecipe related:
+export 'package:feeddy_flutter/components/food_recipes_list.dart';
+export 'package:feeddy_flutter/components/food_recipe_tile.dart';

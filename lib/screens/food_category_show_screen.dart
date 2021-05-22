@@ -114,6 +114,13 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                 //   flex: 5,
                 //   child: FoodCategoriesGrid(),
                 // ),
+                // Food Recipes List:
+                Expanded(
+                  flex: 5,
+                  child: FoodRecipesList(
+                    foodCategory: _foodCategory,
+                  ),
+                ),
               ],
             ),
           );

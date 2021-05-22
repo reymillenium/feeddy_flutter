@@ -93,16 +93,18 @@ class FoodRecipesData with ChangeNotifier {
 
   // SQLite DB CRUD:
   Future<FoodRecipe> _create(FoodRecipe foodRecipe, Map<String, dynamic> table) async {
-    var dbClient = await dbHelper.dbPlus(table);
+    print('Inside FoodRecipesData._create');
+    print('table: ${table['table_plural_name']}');
+
+    var dbClient = await dbHelper.dbPlus();
     foodRecipe.id = await dbClient.insert(table['table_plural_name'], foodRecipe.toMap());
     return foodRecipe;
   }
 
   Future<List<dynamic>> _index(Map<String, dynamic> table) async {
-    var dbClient = await dbHelper.dbPlus(table);
+    var dbClient = await dbHelper.dbPlus();
     List<Map> tableFields = table['fields'];
     List<Map> foodRecipesMaps = await dbClient.query(table['table_plural_name'], columns: tableFields.map<String>((field) => field['field_name']).toList());
-    //List<Map> objectMaps = await dbClient.rawQuery("SELECT * FROM $TABLE");
 
     List<FoodRecipe> foodRecipesList = [];
     if (foodRecipesMaps.length > 0) {
@@ -111,6 +113,42 @@ class FoodRecipesData with ChangeNotifier {
         foodRecipe = FoodRecipe.fromMap(foodRecipesMaps[i]);
         // List<Map> foodCategoriesMaps = await dbClient.query(table['table_plural_name'], columns: tableFields.map<String>((field) => field['field_name']).toList());
 
+        // Declaration of temporal empty lists:
+        List<FoodCategoryFoodRecipe> foodCategoriesFoodRecipesList = [];
+        List<FoodCategory> foodCategoriesList = [];
+
+        try {
+          // Gathering on the join table (food_categories_food_recipes) by the foodCategoryId:
+          List<Map> foodCategoriesFoodRecipesTableFields = FoodCategoriesFoodRecipesData.sqliteTable['fields'];
+
+          List<Map> foodCategoriesFoodRecipesMaps = await dbClient.query(FoodCategoriesFoodRecipesData.sqliteTable['table_plural_name'], columns: foodCategoriesFoodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'foodRecipeId = ?', whereArgs: [foodRecipe.id]);
+          if (foodCategoriesFoodRecipesMaps.length > 0) {
+            // If the FoodRecipe object belongs to at least one associated FoodCategory...
+            for (int j = 0; j < foodCategoriesFoodRecipesMaps.length; j++) {
+              FoodCategoryFoodRecipe foodCategoryFoodRecipe;
+              foodCategoryFoodRecipe = FoodCategoryFoodRecipe.fromMap(foodCategoriesFoodRecipesMaps[j]);
+              // Adding the FoodCategoryFoodRecipe object to the temporal list:
+              foodCategoriesFoodRecipesList.add(foodCategoryFoodRecipe);
+            }
+
+            List<int> foodCategoriesIdsList = foodCategoriesFoodRecipesList.map((foodCategoryFoodRecipe) => foodCategoryFoodRecipe.foodCategoryId).toList();
+            // Gathering of its FoodCategory objects based on the possibly gathered FoodCategoryFoodRecipe objects:
+            List<Map> foodCategoriesTableFields = FoodCategoriesData.sqliteTable['fields'];
+            List<Map> foodCategoriesMaps = await dbClient.query(FoodCategoriesData.sqliteTable['table_plural_name'], columns: foodCategoriesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id = ?', whereArgs: foodCategoriesIdsList);
+
+            for (int k = 0; k < foodRecipesMaps.length; k++) {
+              FoodCategory foodCategory;
+              foodCategory = FoodCategory.fromMap(foodCategoriesMaps[k]);
+              // Adding the FoodCategoryFoodRecipe object to the temporal list:
+              foodCategoriesList.add(foodCategory);
+            }
+          }
+        } catch (error) {
+          // No rows on the join table or there is any other error there.
+        }
+
+        foodRecipe.foodCategories = foodCategoriesList;
+        // Adding the FoodRecipe object with everything inside to the list:
         foodRecipesList.add(foodRecipe);
       }
     }
@@ -118,12 +156,12 @@ class FoodRecipesData with ChangeNotifier {
   }
 
   Future<int> _destroy(int id, Map<String, dynamic> table) async {
-    var dbClient = await dbHelper.dbPlus(table);
+    var dbClient = await dbHelper.dbPlus();
     return await dbClient.delete(table['table_plural_name'], where: 'id = ?', whereArgs: [id]);
   }
 
   Future<int> _update(FoodRecipe foodCategory, Map<String, dynamic> table) async {
-    var dbClient = await dbHelper.dbPlus(table);
+    var dbClient = await dbHelper.dbPlus();
     return await dbClient.update(table['table_plural_name'], foodCategory.toMap(), where: 'id = ?', whereArgs: [foodCategory.id]);
   }
 
@@ -148,11 +186,13 @@ class FoodRecipesData with ChangeNotifier {
 
   // Public methods:
   Future refresh() async {
-    _foodRecipes = await _index(sqliteTable);
+    try {
+      _foodRecipes = await _index(sqliteTable);
+    } catch (error) {}
     notifyListeners();
   }
 
-  Future<void> addFoodRecipe({
+  Future<FoodRecipe> addFoodRecipe({
     String title,
     List<FoodCategory> foodCategories,
     String imageUrl,
@@ -167,6 +207,8 @@ class FoodRecipesData with ChangeNotifier {
     bool isVegetarian,
   }) async {
     DateTime now = DateTime.now();
+    print('Inside addFoodRecipe');
+
     // TODO: Check that this is fine
     FoodRecipe newRecipe = FoodRecipe(
       title: title,
@@ -181,8 +223,9 @@ class FoodRecipesData with ChangeNotifier {
       createdAt: now,
       updatedAt: now,
     );
-    await _create(newRecipe, sqliteTable);
+    FoodRecipe foodRecipe = await _create(newRecipe, sqliteTable);
     refresh();
+    return foodRecipe;
   }
 
   Future<void> updateFoodRecipe(
@@ -210,14 +253,14 @@ class FoodRecipesData with ChangeNotifier {
     refresh();
   }
 
-  Future<void> deleteFoodCategoryWithConfirm(int id, BuildContext context) {
+  Future<void> deleteFoodRecipeWithConfirm(int id, BuildContext context) {
     DialogHelper.showDialogPlus(id, context, () => _removeWhere(id)).then((value) {
       (context as Element).reassemble();
       refresh();
     });
   }
 
-  void deleteFoodCategoryWithoutConfirm(int id) {
+  void deleteFoodRecipeWithoutConfirm(int id) {
     _removeWhere(id);
     // refresh();
   }

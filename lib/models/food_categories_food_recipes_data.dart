@@ -65,13 +65,14 @@ class FoodCategoriesFoodRecipesData with ChangeNotifier {
 
   // SQLite DB CRUD:
   Future<FoodCategoryFoodRecipe> _create(FoodCategoryFoodRecipe foodCategoryFoodRecipe, Map<String, dynamic> tableC, Map<String, dynamic> tableA, Map<String, dynamic> tableB) async {
-    var dbClient = await dbHelper.dbManyToManyTablePlus(tableC, tableA, tableB);
+    // var dbClient = await dbHelper.dbManyToManyTablePlus(tableC, tableA, tableB);
+    var dbClient = await dbHelper.dbPlus();
     foodCategoryFoodRecipe.id = await dbClient.insert(tableC['table_plural_name'], foodCategoryFoodRecipe.toMap());
     return foodCategoryFoodRecipe;
   }
 
   Future<List<dynamic>> _index(Map<String, dynamic> tableC, Map<String, dynamic> tableA, Map<String, dynamic> tableB) async {
-    var dbClient = await dbHelper.dbManyToManyTablePlus(tableC, tableA, tableB);
+    var dbClient = await dbHelper.dbPlus();
     List<Map> tableFields = tableC['fields'];
     List<Map> foodCategoryFoodRecipeMaps = await dbClient.query(tableC['table_plural_name'], columns: tableFields.map<String>((field) => field['field_name']).toList());
     //List<Map> objectMaps = await dbClient.rawQuery("SELECT * FROM $TABLE");
@@ -88,12 +89,12 @@ class FoodCategoriesFoodRecipesData with ChangeNotifier {
   }
 
   Future<int> _destroy(int id, Map<String, dynamic> tableC, Map<String, dynamic> tableA, Map<String, dynamic> tableB) async {
-    var dbClient = await dbHelper.dbManyToManyTablePlus(tableC, tableA, tableB);
+    var dbClient = await dbHelper.dbPlus();
     return await dbClient.delete(tableC['table_plural_name'], where: 'id = ?', whereArgs: [id]);
   }
 
   Future<int> _update(FoodCategoryFoodRecipe foodCategoryFoodRecipe, Map<String, dynamic> tableC, Map<String, dynamic> tableA, Map<String, dynamic> tableB) async {
-    var dbClient = await dbHelper.dbManyToManyTablePlus(tableC, tableA, tableB);
+    var dbClient = await dbHelper.dbPlus();
     return await dbClient.update(tableC['table_plural_name'], foodCategoryFoodRecipe.toMap(), where: 'id = ?', whereArgs: [foodCategoryFoodRecipe.id]);
   }
 
@@ -124,6 +125,8 @@ class FoodCategoriesFoodRecipesData with ChangeNotifier {
 
   Future<void> addFoodCategoryFoodRecipe(int foodCategoryId, int foodRecipeId) async {
     DateTime now = DateTime.now();
+    print('Inside addFoodCategoryFoodRecipe');
+
     FoodCategoryFoodRecipe newFoodCategoryFoodRecipe = FoodCategoryFoodRecipe(
       foodCategoryId: foodCategoryId,
       foodRecipeId: foodRecipeId,
