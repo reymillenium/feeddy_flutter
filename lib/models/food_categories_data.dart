@@ -142,24 +142,17 @@ class FoodCategoriesData with ChangeNotifier {
     final List<FoodCategory> foodCategories = await _index(sqliteTable);
     final int currentLength = foodCategories.length;
     if (currentLength < _maxAmountDummyData) {
+      FoodRecipesData foodRecipesData = FoodRecipesData();
+      FoodCategoriesFoodRecipesData foodCategoriesFoodRecipesData = FoodCategoriesFoodRecipesData();
       for (int i = 0; i < (_maxAmountDummyData - currentLength); i++) {
-        String title = faker.food.dish();
-        // Color color = ColorHelper.randomColor();
+        String title = faker.food.cuisine();
         Color color = ColorHelper.randomMaterialColor();
         FoodCategory foodCategory = await addFoodCategory(title, color);
 
         for (int j = 0; j < 5; j++) {
-          String title = faker.food.dish();
-
-          // FoodRecipe foodRecipe = FoodRecipe();
-
-          // createdAt = DateTime.parse(foodRecipeMap['createdAt']);
-          // updatedAt = DateTime.parse(foodRecipeMap['updatedAt']);
-          // print('trying');
-
           try {
             print('trying beginning');
-            FoodRecipe foodRecipe = await FoodRecipesData().addFoodRecipe(
+            FoodRecipe foodRecipe = await foodRecipesData.addFoodRecipe(
               title: faker.food.dish(),
               imageUrl: 'dfvdfvdf',
               duration: 2,
@@ -170,8 +163,8 @@ class FoodCategoriesData with ChangeNotifier {
               isVegan: false,
               isVegetarian: false,
             );
-            print(foodRecipe.id);
-            await FoodCategoriesFoodRecipesData().addFoodCategoryFoodRecipe(foodCategory.id, foodRecipe.id);
+            print('foodRecipe.id: ${foodRecipe.id}');
+            await foodCategoriesFoodRecipesData.addFoodCategoryFoodRecipe(foodCategory.id, foodRecipe.id);
           } catch (error) {
             print(error);
           }

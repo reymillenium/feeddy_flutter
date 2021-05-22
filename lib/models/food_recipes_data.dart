@@ -117,35 +117,35 @@ class FoodRecipesData with ChangeNotifier {
         List<FoodCategoryFoodRecipe> foodCategoriesFoodRecipesList = [];
         List<FoodCategory> foodCategoriesList = [];
 
-        try {
-          // Gathering on the join table (food_categories_food_recipes) by the foodCategoryId:
-          List<Map> foodCategoriesFoodRecipesTableFields = FoodCategoriesFoodRecipesData.sqliteTable['fields'];
-
-          List<Map> foodCategoriesFoodRecipesMaps = await dbClient.query(FoodCategoriesFoodRecipesData.sqliteTable['table_plural_name'], columns: foodCategoriesFoodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'foodRecipeId = ?', whereArgs: [foodRecipe.id]);
-          if (foodCategoriesFoodRecipesMaps.length > 0) {
-            // If the FoodRecipe object belongs to at least one associated FoodCategory...
-            for (int j = 0; j < foodCategoriesFoodRecipesMaps.length; j++) {
-              FoodCategoryFoodRecipe foodCategoryFoodRecipe;
-              foodCategoryFoodRecipe = FoodCategoryFoodRecipe.fromMap(foodCategoriesFoodRecipesMaps[j]);
-              // Adding the FoodCategoryFoodRecipe object to the temporal list:
-              foodCategoriesFoodRecipesList.add(foodCategoryFoodRecipe);
-            }
-
-            List<int> foodCategoriesIdsList = foodCategoriesFoodRecipesList.map((foodCategoryFoodRecipe) => foodCategoryFoodRecipe.foodCategoryId).toList();
-            // Gathering of its FoodCategory objects based on the possibly gathered FoodCategoryFoodRecipe objects:
-            List<Map> foodCategoriesTableFields = FoodCategoriesData.sqliteTable['fields'];
-            List<Map> foodCategoriesMaps = await dbClient.query(FoodCategoriesData.sqliteTable['table_plural_name'], columns: foodCategoriesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id = ?', whereArgs: foodCategoriesIdsList);
-
-            for (int k = 0; k < foodRecipesMaps.length; k++) {
-              FoodCategory foodCategory;
-              foodCategory = FoodCategory.fromMap(foodCategoriesMaps[k]);
-              // Adding the FoodCategoryFoodRecipe object to the temporal list:
-              foodCategoriesList.add(foodCategory);
-            }
-          }
-        } catch (error) {
-          // No rows on the join table or there is any other error there.
-        }
+        // try {
+        //   // Gathering on the join table (food_categories_food_recipes) by the foodCategoryId:
+        //   List<Map> foodCategoriesFoodRecipesTableFields = FoodCategoriesFoodRecipesData.sqliteTable['fields'];
+        //
+        //   List<Map> foodCategoriesFoodRecipesMaps = await dbClient.query(FoodCategoriesFoodRecipesData.sqliteTable['table_plural_name'], columns: foodCategoriesFoodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'foodRecipeId = ?', whereArgs: [foodRecipe.id]);
+        //   if (foodCategoriesFoodRecipesMaps.length > 0) {
+        //     // If the FoodRecipe object belongs to at least one associated FoodCategory...
+        //     for (int j = 0; j < foodCategoriesFoodRecipesMaps.length; j++) {
+        //       FoodCategoryFoodRecipe foodCategoryFoodRecipe;
+        //       foodCategoryFoodRecipe = FoodCategoryFoodRecipe.fromMap(foodCategoriesFoodRecipesMaps[j]);
+        //       // Adding the FoodCategoryFoodRecipe object to the temporal list:
+        //       foodCategoriesFoodRecipesList.add(foodCategoryFoodRecipe);
+        //     }
+        //
+        //     List<int> foodCategoriesIdsList = foodCategoriesFoodRecipesList.map((foodCategoryFoodRecipe) => foodCategoryFoodRecipe.foodCategoryId).toList();
+        //     // Gathering of its FoodCategory objects based on the possibly gathered FoodCategoryFoodRecipe objects:
+        //     List<Map> foodCategoriesTableFields = FoodCategoriesData.sqliteTable['fields'];
+        //     List<Map> foodCategoriesMaps = await dbClient.query(FoodCategoriesData.sqliteTable['table_plural_name'], columns: foodCategoriesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id = ?', whereArgs: foodCategoriesIdsList);
+        //
+        //     for (int k = 0; k < foodRecipesMaps.length; k++) {
+        //       FoodCategory foodCategory;
+        //       foodCategory = FoodCategory.fromMap(foodCategoriesMaps[k]);
+        //       // Adding the FoodCategoryFoodRecipe object to the temporal list:
+        //       foodCategoriesList.add(foodCategory);
+        //     }
+        //   }
+        // } catch (error) {
+        //   // No rows on the join table or there is any other error there.
+        // }
 
         foodRecipe.foodCategories = foodCategoriesList;
         // Adding the FoodRecipe object with everything inside to the list:

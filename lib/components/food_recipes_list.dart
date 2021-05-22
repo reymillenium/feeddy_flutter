@@ -27,8 +27,8 @@ class FoodRecipesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
-    List<FoodRecipe> foodRecipes = foodRecipesData.foodRecipes;
-    // List<FoodRecipe> foodRecipes = foodCategory.foodRecipes;
+    // List<FoodRecipe> foodRecipes = foodRecipesData.foodRecipes;
+    List<FoodRecipe> foodRecipes = foodCategory.foodRecipes;
     // print(foodRecipes.first.id);
 
     return Container(
