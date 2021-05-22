@@ -26,11 +26,11 @@ class FoodCategoriesFoodRecipesData with ChangeNotifier {
         'field_type': 'INTEGER',
       },
       {
-        'field_name': 'foodCategoryId',
+        'field_name': 'food_category_id',
         'field_type': 'INTEGER',
       },
       {
-        'field_name': 'foodRecipeId',
+        'field_name': 'food_recipe_id',
         'field_type': 'INTEGER',
       },
       {

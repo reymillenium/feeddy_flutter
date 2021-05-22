@@ -51,6 +51,7 @@ class FoodCategoriesData with ChangeNotifier {
   FoodCategoriesData() {
     dbHelper = DBHelper();
     refresh();
+    print(Complexity.challenging.toString());
     _generateDummyData();
   }
 
@@ -91,7 +92,7 @@ class FoodCategoriesData with ChangeNotifier {
           List<Map> foodCategoriesFoodRecipesTableFields = FoodCategoriesFoodRecipesData.sqliteTable['fields'];
           String foodCategoriesFoodRecipesTableName = FoodCategoriesFoodRecipesData.sqliteTable['table_plural_name'];
 
-          List<Map> foodCategoriesFoodRecipesMaps = await dbClient.query(foodCategoriesFoodRecipesTableName, columns: foodCategoriesFoodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'foodCategoryId = ?', whereArgs: [foodCategory.id]);
+          List<Map> foodCategoriesFoodRecipesMaps = await dbClient.query(foodCategoriesFoodRecipesTableName, columns: foodCategoriesFoodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'food_category_id = ?', whereArgs: [foodCategory.id]);
           if (foodCategoriesFoodRecipesMaps.length > 0) {
             // If the FoodCategory object has at least one associated FoodRecipe...
             for (int j = 0; j < foodCategoriesFoodRecipesMaps.length; j++) {
@@ -115,6 +116,7 @@ class FoodCategoriesData with ChangeNotifier {
           }
         } catch (error) {
           // No rows on the join table or there is any other error there.
+          print(error);
         }
 
         foodCategory.foodRecipes = foodRecipesList;

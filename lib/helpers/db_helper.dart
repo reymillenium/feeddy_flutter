@@ -68,6 +68,8 @@ class DBHelper {
               id INTEGER PRIMARY KEY, 
               ${tableA['table_singular_name']}_id INTEGER NOT NULL,
               ${tableB['table_singular_name']}_id INTEGER NOT NULL,
+              createdAt TEXT,
+              updatedAt TEXT,
               FOREIGN KEY (${tableA['table_singular_name']}_id) REFERENCES ${tableA['table_plural_name']} (id) 
                 ON DELETE NO ACTION ON UPDATE NO ACTION,
               FOREIGN KEY (${tableB['table_singular_name']}_id) REFERENCES ${tableB['table_plural_name']} (id) 

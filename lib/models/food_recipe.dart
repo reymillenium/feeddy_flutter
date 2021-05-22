@@ -78,8 +78,8 @@ class FoodRecipe {
     // foodIngredients = foodRecipeMap['foodIngredients']; // TODO: Implement the loading of the foodIngredients from the DB into a FoodRecipe object
     // recipeSteps = foodRecipeMap['recipeSteps']; // TODO: Implement the loading of the recipeSteps from the DB into a FoodRecipe object
     duration = foodRecipeMap['duration'];
-    complexity = foodRecipeMap['complexity'];
-    affordability = foodRecipeMap['affordability'];
+    complexity = EnumToString.fromString(Complexity.values, foodRecipeMap['complexity']);
+    affordability = EnumToString.fromString(Affordability.values, foodRecipeMap['affordability']);
     isGlutenFree = foodRecipeMap['isGlutenFree'] == 1 ? true : false;
     isLactoseFree = foodRecipeMap['isLactoseFree'] == 1 ? true : false;
     isVegan = foodRecipeMap['isVegan'] == 1 ? true : false;
@@ -98,8 +98,8 @@ class FoodRecipe {
       // 'ingredients': foodIngredients,
       // 'recipeSteps': recipeSteps,
       'duration': duration,
-      'complexity': complexity.toString(),
-      'affordability': affordability.toString(),
+      'complexity': EnumToString.convertToString(complexity),
+      'affordability': EnumToString.convertToString(affordability),
       'isGlutenFree': isGlutenFree ? 1 : 0,
       'isLactoseFree': isLactoseFree ? 1 : 0,
       'isVegan': isVegan ? 1 : 0,

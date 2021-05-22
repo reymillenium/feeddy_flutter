@@ -29,3 +29,5 @@ export 'package:date_time_picker/date_time_picker.dart';
 export 'package:empty_widget/empty_widget.dart';
 
 export 'package:flutter_colorpicker/flutter_colorpicker.dart';
+
+export 'package:enum_to_string/enum_to_string.dart'; // Allows to convert from and into enum and String objects

@@ -35,8 +35,10 @@ class FoodCategoryFoodRecipe {
 
   FoodCategoryFoodRecipe.fromMap(Map<String, dynamic> recipeStepMap) {
     id = recipeStepMap['id'];
-    foodCategoryId = recipeStepMap['foodCategoryId'];
-    foodRecipeId = recipeStepMap['foodRecipeId'];
+    // foodCategoryId = recipeStepMap['foodCategoryId'];
+    foodCategoryId = recipeStepMap['food_category_id'];
+    // foodRecipeId = recipeStepMap['foodRecipeId'];
+    foodRecipeId = recipeStepMap['food_recipe_id'];
 
     createdAt = DateTime.parse(recipeStepMap['createdAt']);
     updatedAt = DateTime.parse(recipeStepMap['updatedAt']);
@@ -45,8 +47,10 @@ class FoodCategoryFoodRecipe {
   Map<String, dynamic> toMap() {
     var recipeStepMap = <String, dynamic>{
       'id': id,
-      'foodCategoryId': foodCategoryId,
-      'foodRecipeId': foodRecipeId,
+      // 'foodCategoryId': foodCategoryId,
+      'food_category_id': foodCategoryId,
+      // 'foodRecipeId': foodRecipeId,
+      'food_recipe_id': foodRecipeId,
       'createdAt': createdAt.toString(),
       'updatedAt': updatedAt.toString(),
     };
