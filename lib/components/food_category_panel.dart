@@ -30,7 +30,6 @@ class FoodCategoryPanel extends StatelessWidget {
   final currencyFormat = new NumberFormat("#,##0.00", "en_US");
 
   void selectCategory(BuildContext context) {
-    print('onTap event');
     // Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (context) => FoodCategoryShowScreen(

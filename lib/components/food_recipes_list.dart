@@ -27,35 +27,46 @@ class FoodRecipesList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
-    // List<FoodRecipe> foodRecipes = foodRecipesData.foodRecipes;
-    List<FoodRecipe> foodRecipes = foodCategory.foodRecipes;
-    // print(foodRecipes.first.id);
 
-    return Container(
-      child: foodRecipes.isEmpty
-          ? FeeddyEmptyWidget(
-              packageImage: 1,
-              title: 'We are sorry',
-              subTitle: 'There is no recipes',
-            )
-          : ListView.custom(
-              padding: const EdgeInsets.only(left: 0, top: 0, right: 0),
-              controller: _listViewScrollController,
-              childrenDelegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return FoodRecipeTile(
-                    key: ValueKey(foodRecipes[index].id),
-                    id: foodRecipes[index].id,
-                    index: index,
-                    foodRecipe: foodRecipes[index],
+    return FutureBuilder<List<FoodRecipe>>(
+      future: foodRecipesData.byFoodCategory(foodCategory),
+      builder: (ctx, snapshot) {
+        List<FoodRecipe> foodRecipes = snapshot.data;
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            return foodRecipes.isEmpty
+                ? FeeddyEmptyWidget(
+                    packageImage: 1,
+                    title: 'We are sorry',
+                    subTitle: 'There is no recipes',
+                  )
+                : ListView.custom(
+                    padding: const EdgeInsets.only(left: 0, top: 0, right: 0),
+                    controller: _listViewScrollController,
+                    childrenDelegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                        return FoodRecipeTile(
+                          key: ValueKey(foodRecipes[index].id),
+                          id: foodRecipes[index].id,
+                          index: index,
+                          foodRecipe: foodRecipes[index],
+                        );
+                      },
+                      childCount: foodRecipes.length,
+                      // This callback method is what allows to preserve the state:
+                      findChildIndexCallback: (Key key) => findChildIndexCallback(key, foodRecipes),
+                    ),
                   );
-                },
-                childCount: foodRecipes.length,
-
-                // This callback method is what allows to preserve the state:
-                findChildIndexCallback: (Key key) => findChildIndexCallback(key, foodRecipes),
+          default:
+            return Container(
+              child: FeeddyEmptyWidget(
+                packageImage: 1,
+                title: 'We are sorry',
+                subTitle: 'There is no recipes',
               ),
-            ),
+            );
+        }
+      },
     );
   }
 

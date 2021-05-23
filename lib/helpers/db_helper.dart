@@ -68,7 +68,6 @@ class DBHelper {
   }
 
   _onCreateManyToManyTablePlus(Database db, int version, Map<String, dynamic> tableC, Map<String, dynamic> tableA, Map<String, dynamic> tableB) async {
-    print('I am here inside _onCreateManyToManyTablePlus');
     await db.execute("""
             CREATE TABLE IF NOT EXISTS ${tableC['table_plural_name']} (
               id INTEGER PRIMARY KEY, 

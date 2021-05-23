@@ -57,10 +57,6 @@ class FoodCategoriesData with ChangeNotifier {
   }
 
   // Getters:
-  // static get sqliteTable {
-  //   return _sqliteTable;
-  // }
-
   get foodCategories {
     return _foodCategories;
   }
@@ -153,7 +149,6 @@ class FoodCategoriesData with ChangeNotifier {
 
         for (int j = 0; j < 5; j++) {
           try {
-            print('trying beginning');
             FoodRecipe foodRecipe = await foodRecipesData.addFoodRecipe(
               title: faker.food.dish(),
               imageUrl: 'dfvdfvdf',
@@ -165,7 +160,6 @@ class FoodCategoriesData with ChangeNotifier {
               isVegan: false,
               isVegetarian: false,
             );
-            print('foodRecipe.id: ${foodRecipe.id}');
             await foodCategoriesFoodRecipesData.addFoodCategoryFoodRecipe(foodCategory.id, foodRecipe.id);
           } catch (error) {
             print(error);

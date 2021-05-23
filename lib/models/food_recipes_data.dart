@@ -93,9 +93,6 @@ class FoodRecipesData with ChangeNotifier {
 
   // SQLite DB CRUD:
   Future<FoodRecipe> _create(FoodRecipe foodRecipe, Map<String, dynamic> table) async {
-    print('Inside FoodRecipesData._create');
-    print('table: ${table['table_plural_name']}');
-
     var dbClient = await dbHelper.dbPlus();
     foodRecipe.id = await dbClient.insert(table['table_plural_name'], foodRecipe.toMap());
     return foodRecipe;
@@ -155,6 +152,44 @@ class FoodRecipesData with ChangeNotifier {
     return foodRecipesList;
   }
 
+  Future<List<FoodRecipe>> byFoodCategory(FoodCategory foodCategory) async {
+    var dbClient = await dbHelper.dbPlus();
+    List<FoodRecipe> foodRecipesList = [];
+
+    // Gathering on the join table (food_categories_food_recipes) by the food_category_id:
+    Map<String, Object> foodCategoriesFoodRecipesTable = FoodCategoriesFoodRecipesData.sqliteTable;
+    String foodCategoriesFoodRecipesTableName = foodCategoriesFoodRecipesTable['table_plural_name'];
+    List<Map> foodCategoriesFoodRecipesTableFields = foodCategoriesFoodRecipesTable['fields'];
+    List<Map> foodCategoriesFoodRecipesMaps = await dbClient.query(foodCategoriesFoodRecipesTableName, columns: foodCategoriesFoodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'food_category_id = ?', whereArgs: [foodCategory.id]);
+
+    if (foodCategoriesFoodRecipesMaps.length > 0) {
+      // If some association was found (If the given FoodCategory has at least one FoodRecipe)
+      // Conversion into FoodCategoryFoodRecipe objects:
+      List<FoodCategoryFoodRecipe> foodCategoriesFoodRecipesList = [];
+      for (int j = 0; j < foodCategoriesFoodRecipesMaps.length; j++) {
+        FoodCategoryFoodRecipe foodCategoryFoodRecipe;
+        foodCategoryFoodRecipe = FoodCategoryFoodRecipe.fromMap(foodCategoriesFoodRecipesMaps[j]);
+        // Adding the FoodCategoryFoodRecipe object to the temporal list:
+        foodCategoriesFoodRecipesList.add(foodCategoryFoodRecipe);
+      }
+
+      // Gathering of the FoodRecipe Maps based on the gathered FoodCategoryFoodRecipe objects:
+      List<int> foodRecipesIdsList = foodCategoriesFoodRecipesList.map((foodCategoryFoodRecipe) => foodCategoryFoodRecipe.foodRecipeId).toList();
+      Map<String, Object> foodRecipesTable = FoodRecipesData.sqliteTable;
+      String foodRecipesTableName = foodRecipesTable['table_plural_name'];
+      List<Map> foodRecipesTableFields = foodRecipesTable['fields'];
+      List<Map> foodRecipesMaps = await dbClient.query(foodRecipesTableName, columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})');
+      // Conversion into FoodRecipe objects:
+      if (foodRecipesMaps.length > 0) {
+        for (int i = 0; i < foodRecipesMaps.length; i++) {
+          FoodRecipe foodRecipe = FoodRecipe.fromMap(foodRecipesMaps[i]);
+          foodRecipesList.add(foodRecipe);
+        }
+      }
+    }
+    return foodRecipesList;
+  }
+
   Future<int> _destroy(int id, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus();
     return await dbClient.delete(table['table_plural_name'], where: 'id = ?', whereArgs: [id]);
@@ -207,7 +242,6 @@ class FoodRecipesData with ChangeNotifier {
     bool isVegetarian,
   }) async {
     DateTime now = DateTime.now();
-    print('Inside addFoodRecipe');
 
     // TODO: Check that this is fine
     FoodRecipe newRecipe = FoodRecipe(

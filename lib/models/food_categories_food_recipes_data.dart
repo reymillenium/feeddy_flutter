@@ -125,7 +125,6 @@ class FoodCategoriesFoodRecipesData with ChangeNotifier {
 
   Future<void> addFoodCategoryFoodRecipe(int foodCategoryId, int foodRecipeId) async {
     DateTime now = DateTime.now();
-    print('Inside addFoodCategoryFoodRecipe');
 
     FoodCategoryFoodRecipe newFoodCategoryFoodRecipe = FoodCategoryFoodRecipe(
       foodCategoryId: foodCategoryId,
