@@ -280,6 +280,7 @@ class FoodRecipesData with ChangeNotifier {
     DateTime now = DateTime.now();
     FoodRecipe updatingFoodRecipe = _foodRecipes.firstWhere((foodRecipe) => id == foodRecipe.id);
 
+    print('old complexity = ${updatingFoodRecipe.complexity}. New complexity = $complexity');
     updatingFoodRecipe.title = title;
     updatingFoodRecipe.imageUrl = imageUrl;
     updatingFoodRecipe.duration = duration;

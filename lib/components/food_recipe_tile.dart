@@ -36,6 +36,7 @@ class FoodRecipeTile extends StatelessWidget {
 
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
     Function onDeleteFoodRecipeHandler = (id, context) => foodRecipesData.deleteFoodRecipeWithConfirm(id, context);
+    Function onUpdateFoodRecipeHandler = (id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian) => foodRecipesData.updateFoodRecipe(id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian);
 
     final String formattedDate = formatter.format(foodRecipe.createdAt);
     // final String amountLabel = '${currentCurrency['symbol']}${currencyFormat.format(transaction.amount)}';
@@ -130,6 +131,7 @@ class FoodRecipeTile extends StatelessWidget {
                         context: context,
                         builder: (context) => FoodRecipeEditScreen(
                           foodRecipe: foodRecipe,
+                          onUpdateFoodRecipeHandler: onUpdateFoodRecipeHandler,
                         ),
                       );
                     },

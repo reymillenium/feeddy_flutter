@@ -6,6 +6,7 @@ import 'package:feeddy_flutter/_external_packages.dart';
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
 // Components:
+import 'package:feeddy_flutter/components/_components.dart';
 
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
@@ -93,8 +94,7 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
     Map currentCurrency = appData.currentCurrency;
 
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
-    Function onUpdateFoodCategoriesHandler =
-        (id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian) => foodRecipesData.updateFoodRecipe(id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian);
+    // Function onUpdateFoodRecipesHandler = (id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian) => foodRecipesData.updateFoodRecipe(id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian);
 
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
@@ -174,7 +174,23 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
                       _title = newText;
                     });
                   },
-                  onFieldSubmitted: _hasValidData() ? (_) => () => _updateData(context, onUpdateFoodCategoriesHandler) : null,
+                  onFieldSubmitted: _hasValidData() ? (_) => () => _updateData(context, widget.onUpdateFoodRecipeHandler) : null,
+                ),
+
+                MultiPlatformSelectBox(
+                  onSelectedItemChangedIOS: (selectedIndex) async {
+                    setState(() {
+                      changeComplexity(EnumToString.toList(Complexity.values)[selectedIndex]);
+                    });
+                  },
+                  cupertinoInitialIndex: EnumToString.toList(Complexity.values).indexOf(EnumToString.convertToString(_complexity)),
+                  selectedValueAndroid: EnumToString.convertToString(_complexity),
+                  onChangedAndroid: (dynamic newValue) async {
+                    setState(() {
+                      changeComplexity(newValue);
+                    });
+                  },
+                  itemsList: EnumToString.toList(Complexity.values),
                 ),
 
                 // Update button:
@@ -186,7 +202,7 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
                     elevation: 5.0,
                     child: MaterialButton(
                       disabledColor: Colors.grey,
-                      onPressed: _hasValidData() ? () => _updateData(context, onUpdateFoodCategoriesHandler) : null,
+                      onPressed: _hasValidData() ? () => _updateData(context, widget.onUpdateFoodRecipeHandler) : null,
                       // minWidth: 300.0,
                       minWidth: double.infinity,
                       height: 42.0,

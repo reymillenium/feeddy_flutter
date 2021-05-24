@@ -23,12 +23,12 @@ class DropDownButtonCurrency extends StatelessWidget {
     //     child: Text(theme['name']),
     //   );
     // }).toList();
-    List<DropdownMenuItem<int>> dropDownItems = itemsList.asMap().entries.map<DropdownMenuItem<int>>((entry) {
+    List<DropdownMenuItem<dynamic>> dropDownItems = itemsList.asMap().entries.map<DropdownMenuItem<dynamic>>((entry) {
       int index = entry.key;
       Map value = entry.value;
 
-      return DropdownMenuItem<int>(
-        value: index,
+      return DropdownMenuItem<dynamic>(
+        value: value,
         child: Text(value['name']),
       );
     }).toList();

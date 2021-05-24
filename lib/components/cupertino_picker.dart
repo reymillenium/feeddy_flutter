@@ -6,10 +6,12 @@ import 'package:flutter/cupertino.dart';
 
 class CupertinoPickerCustom extends StatelessWidget {
   final Function onSelectedItemChanged;
-  final List<Map> itemsList;
+  final int initialIndex;
+  final List<dynamic> itemsList;
 
   CupertinoPickerCustom({
     this.onSelectedItemChanged,
+    this.initialIndex,
     this.itemsList,
   });
 
@@ -18,8 +20,8 @@ class CupertinoPickerCustom extends StatelessWidget {
     // List<Text> cupertinoPickerChildren = itemsList.map<Text>((String value) {
     //   return Text(value);
     // }).toList();
-    List<Text> cupertinoPickerChildren = itemsList.map((theme) {
-      return Text(theme['name']);
+    List<Text> cupertinoPickerChildren = itemsList.map((value) {
+      return Text(value);
     }).toList();
 
     return CupertinoPicker(
@@ -29,6 +31,7 @@ class CupertinoPickerCustom extends StatelessWidget {
       onSelectedItemChanged: (selectedIndex) {
         onSelectedItemChanged(selectedIndex);
       },
+      scrollController: FixedExtentScrollController(initialItem: initialIndex),
       children: cupertinoPickerChildren,
     );
   }
