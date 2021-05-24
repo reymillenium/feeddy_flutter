@@ -38,8 +38,8 @@ class MultiPlatformSelectBox extends StatelessWidget {
       );
     } else {
       return DropDownButtonCurrency(
-        selectedCurrencyValue: selectedValueAndroid,
-        onChanged: (int newValue) {
+        selectedValue: selectedValueAndroid,
+        onChanged: (dynamic newValue) {
           onChangedAndroid(newValue);
         },
         itemsList: itemsList,

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 // Utilities:
 
 class DropDownButtonCurrency extends StatelessWidget {
-  final int selectedCurrencyValue;
+  final dynamic selectedValue;
   final Function onChanged;
   // final List<String> itemsList;
-  final List<Map> itemsList;
+  final List<dynamic> itemsList;
 
   DropDownButtonCurrency({
-    this.selectedCurrencyValue,
+    this.selectedValue,
     this.onChanged,
     this.itemsList,
   });
@@ -25,27 +25,27 @@ class DropDownButtonCurrency extends StatelessWidget {
     // }).toList();
     List<DropdownMenuItem<dynamic>> dropDownItems = itemsList.asMap().entries.map<DropdownMenuItem<dynamic>>((entry) {
       int index = entry.key;
-      Map value = entry.value;
+      String value = entry.value;
 
       return DropdownMenuItem<dynamic>(
         value: value,
-        child: Text(value['name']),
+        child: Text(value),
       );
     }).toList();
 
-    return DropdownButton<int>(
-      value: selectedCurrencyValue,
+    return DropdownButton<dynamic>(
+      value: selectedValue,
       icon: Icon(Icons.arrow_downward),
       iconSize: 24,
       elevation: 16,
       style: TextStyle(
-          // color: Colors.deepPurple,
-          ),
+        color: Colors.deepPurple,
+      ),
       underline: Container(
         height: 2,
-        // color: Colors.deepPurpleAccent,
+        color: Colors.deepPurpleAccent,
       ),
-      onChanged: (int newValue) {
+      onChanged: (dynamic newValue) {
         onChanged(newValue);
       },
       items: dropDownItems,

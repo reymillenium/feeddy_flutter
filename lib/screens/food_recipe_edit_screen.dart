@@ -177,6 +177,11 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
                   onFieldSubmitted: _hasValidData() ? (_) => () => _updateData(context, widget.onUpdateFoodRecipeHandler) : null,
                 ),
 
+                SizedBox(
+                  height: 40,
+                ),
+
+                // SelectBox for the complexity:
                 MultiPlatformSelectBox(
                   onSelectedItemChangedIOS: (selectedIndex) async {
                     setState(() {
@@ -191,6 +196,10 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
                     });
                   },
                   itemsList: EnumToString.toList(Complexity.values),
+                ),
+
+                SizedBox(
+                  height: 40,
                 ),
 
                 // Update button:
