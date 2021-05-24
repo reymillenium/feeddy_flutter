@@ -263,12 +263,12 @@ class FoodRecipesData with ChangeNotifier {
   }
 
   Future<void> updateFoodRecipe(
-    int id, {
+    int id,
     String title,
-    List<FoodCategory> foodCategories,
+    // List<FoodCategory> foodCategories,
     String imageUrl,
-    List<FoodIngredient> foodIngredients,
-    List<RecipeStep> recipeSteps,
+    // List<FoodIngredient> foodIngredients,
+    // List<RecipeStep> recipeSteps,
     int duration,
     Complexity complexity,
     Affordability affordability,
@@ -276,11 +276,19 @@ class FoodRecipesData with ChangeNotifier {
     bool isLactoseFree,
     bool isVegan,
     bool isVegetarian,
-  }) async {
+  ) async {
     DateTime now = DateTime.now();
     FoodRecipe updatingFoodRecipe = _foodRecipes.firstWhere((foodRecipe) => id == foodRecipe.id);
 
     updatingFoodRecipe.title = title;
+    updatingFoodRecipe.imageUrl = imageUrl;
+    updatingFoodRecipe.duration = duration;
+    updatingFoodRecipe.complexity = complexity;
+    updatingFoodRecipe.affordability = affordability;
+    updatingFoodRecipe.isGlutenFree = isGlutenFree;
+    updatingFoodRecipe.isLactoseFree = isLactoseFree;
+    updatingFoodRecipe.isVegan = isVegan;
+    updatingFoodRecipe.isVegetarian = isVegetarian;
     updatingFoodRecipe.updatedAt = now;
 
     await _update(updatingFoodRecipe, sqliteTable);
