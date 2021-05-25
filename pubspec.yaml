@@ -93,3 +93,6 @@ flutter:
           weight: 300
         - asset: assets/fonts/RobotoCondensed/RobotoCondensed-Italic.ttf
           style: italic
+    - family: AppIcons
+      fonts:
+        - asset: assets/fonts/AppIcons/AppIcons.ttf

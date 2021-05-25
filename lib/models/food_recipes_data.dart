@@ -14,7 +14,7 @@ import 'package:feeddy_flutter/models/_models.dart';
 import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
-import 'package:feeddy_flutter/utilities/constants.dart';
+import 'package:feeddy_flutter/utilities/_utilities.dart';
 
 class FoodRecipesData with ChangeNotifier {
   // Properties:
@@ -222,8 +222,8 @@ class FoodRecipesData with ChangeNotifier {
       try {
         FoodRecipe foodRecipe = await addFoodRecipe(
           title: faker.food.dish(),
-          imageUrl: ListHelper.randomFromList(DUMMY_URLS),
-          duration: 2,
+          imageUrl: ListHelper.randomFromList(DUMMY_FOOD_IMAGE_URLS),
+          duration: NumericHelper.randomIntegerInRange(min: 20, max: 45),
           complexity: Complexity.simple,
           affordability: Affordability.affordable,
           isGlutenFree: false,

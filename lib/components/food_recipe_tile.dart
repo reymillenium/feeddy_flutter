@@ -13,7 +13,9 @@ import 'package:feeddy_flutter/components/_components.dart';
 
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
+
 // Utilities:
+import 'package:feeddy_flutter/utilities/_utilities.dart';
 
 class FoodRecipeTile extends StatelessWidget {
   // Properties:
@@ -110,11 +112,9 @@ class FoodRecipeTile extends StatelessWidget {
                   children: [
                     Text(
                       foodRecipe.title,
-                      // style: TextStyle(
-                      //   fontSize: 18,
-                      //   fontWeight: FontWeight.bold,
-                      // ),
                       style: Theme.of(context).textTheme.headline6,
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
                     ),
                     Text(
                       formattedDate,
@@ -124,6 +124,7 @@ class FoodRecipeTile extends StatelessWidget {
                     ),
                   ],
                 ),
+                subtitle: Text('test'),
                 // subtitle: Text('testing'),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
