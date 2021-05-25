@@ -14,6 +14,7 @@ import 'package:feeddy_flutter/models/_models.dart';
 import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
+import 'package:feeddy_flutter/utilities/constants.dart';
 
 class FoodRecipesData with ChangeNotifier {
   // Properties:
@@ -214,8 +215,32 @@ class FoodRecipesData with ChangeNotifier {
     // }
   }
 
+  void generateDummyDataByFoodCategoryId(int foodCategoryId, int amount) async {
+    FoodCategoriesFoodRecipesData foodCategoriesFoodRecipesData = FoodCategoriesFoodRecipesData();
+
+    for (int j = 0; j < amount; j++) {
+      try {
+        FoodRecipe foodRecipe = await addFoodRecipe(
+          title: faker.food.dish(),
+          imageUrl: ListHelper.randomFromList(DUMMY_URLS),
+          duration: 2,
+          complexity: Complexity.simple,
+          affordability: Affordability.affordable,
+          isGlutenFree: false,
+          isLactoseFree: false,
+          isVegan: false,
+          isVegetarian: false,
+        );
+        await foodCategoriesFoodRecipesData.addFoodCategoryFoodRecipe(foodCategoryId, foodRecipe.id);
+      } catch (error) {
+        print(error);
+      }
+    }
+  }
+
   void _removeWhere(int id) async {
     await _destroy(id, sqliteTable);
+    // TODO: Add destruction of all the FoodCategoryFoodRecipe objects with matching food_recipe_id
     await refresh();
   }
 
