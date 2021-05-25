@@ -47,6 +47,7 @@ class FoodRecipeTile extends StatelessWidget {
     final String formattedDate = formatter.format(foodRecipe.createdAt);
     // final String amountLabel = '${currentCurrency['symbol']}${currencyFormat.format(transaction.amount)}';
     // final double amountFontSize = (84 / amountLabel.length);
+    bool hasDietIcons = (foodRecipe.isGlutenFree || foodRecipe.isLactoseFree || foodRecipe.isVegan || foodRecipe.isVegetarian);
 
     return InkWell(
       onTap: () {
@@ -71,17 +72,66 @@ class FoodRecipeTile extends StatelessWidget {
         child: Column(
           children: [
             // FoodRecipe Image
-            ClipRRect(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-              child: Image.network(
-                foodRecipe.imageUrl,
-                height: 250,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                  child: Image.network(
+                    foodRecipe.imageUrl,
+                    height: 250,
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  right: 10,
+                  child: Container(
+                    color: hasDietIcons ? Colors.black54 : Colors.transparent,
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    child: Row(
+                      children: [
+                        if (foodRecipe.isGlutenFree) ...[
+                          Icon(
+                            AppIcons.gluten_free,
+                            color: Colors.red,
+                          ),
+                        ],
+                        SizedBox(
+                          width: 10,
+                        ),
+                        if (foodRecipe.isLactoseFree) ...[
+                          Icon(
+                            AppIcons.lactose_free,
+                            color: Colors.red,
+                          ),
+                        ],
+                        SizedBox(
+                          width: 10,
+                        ),
+                        if (foodRecipe.isVegan) ...[
+                          Icon(
+                            AppIcons.vegan,
+                            color: Colors.green,
+                          ),
+                        ],
+                        SizedBox(
+                          width: 10,
+                        ),
+                        if (foodRecipe.isVegetarian) ...[
+                          Icon(
+                            AppIcons.vegetarian,
+                            color: Colors.green,
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                )
+              ],
             ),
 
             // Tile with data: Duration, etc
