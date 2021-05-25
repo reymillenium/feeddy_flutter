@@ -54,7 +54,7 @@ extension ColorHelper on Color {
 
   // Returns a contrasting color compared with a given one:
   static Color contrastingColor(Color color) {
-    return color.computeLuminance() > 0.1 ? Colors.black : Colors.white;
+    return color.computeLuminance() > 0.2 ? Colors.black : Colors.white;
   }
 
   // Returns a random material color:

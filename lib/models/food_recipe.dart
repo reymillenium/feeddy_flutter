@@ -70,6 +70,10 @@ class FoodRecipe {
     @required this.updatedAt,
   });
 
+  bool get hasDietQuirks {
+    return (isGlutenFree || isLactoseFree || isVegan || isVegetarian);
+  }
+
   FoodRecipe.fromMap(Map<String, dynamic> foodRecipeMap) {
     id = foodRecipeMap['id'];
     title = foodRecipeMap['title'];

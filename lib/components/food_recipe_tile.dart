@@ -48,8 +48,7 @@ class FoodRecipeTile extends StatelessWidget {
     // final String amountLabel = '${currentCurrency['symbol']}${currencyFormat.format(transaction.amount)}';
     // final double amountFontSize = (84 / amountLabel.length);
     Color primaryColor = Theme.of(context).primaryColor;
-    Color accentColor = Theme.of(context).accentColor;
-    bool hasDietIcons = (foodRecipe.isGlutenFree || foodRecipe.isLactoseFree || foodRecipe.isVegan || foodRecipe.isVegetarian);
+    // Color accentColor = Theme.of(context).accentColor;
 
     return InkWell(
       onTap: () {
@@ -88,7 +87,7 @@ class FoodRecipeTile extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                if (hasDietIcons) ...[
+                if (foodRecipe.hasDietQuirks) ...[
                   Positioned(
                     bottom: 20,
                     right: 10,
@@ -159,14 +158,15 @@ class FoodRecipeTile extends StatelessWidget {
               child: ListTile(
                 // visualDensity: VisualDensity.standard,
                 leading: CircleAvatar(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: primaryColor,
                   radius: 32,
                   child: FittedBox(
                     child: Container(
                       padding: EdgeInsets.all(16),
                       child: Text(
-                        '${foodRecipe.duration}',
+                        '${foodRecipe.duration} min',
                         style: TextStyle(
+                          color: ColorHelper.contrastingColor(primaryColor),
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic,
                           fontSize: 14,
@@ -185,15 +185,53 @@ class FoodRecipeTile extends StatelessWidget {
                       softWrap: true,
                       overflow: TextOverflow.fade,
                     ),
-                    Text(
-                      formattedDate,
-                      style: TextStyle(
-                        color: Colors.black54,
-                      ),
+
+                    // Row with complexity & affordability:
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.work,
+                              size: 18,
+                              color: Colors.black54,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 6),
+                              child: Text(
+                                EnumToString.convertToString(foodRecipe.complexity, camelCase: true),
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              FontAwesomeIcons.dollarSign,
+                              // Icons.attach_money,
+                              size: 18,
+                              color: Colors.black54,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 2),
+                              child: Text(
+                                EnumToString.convertToString(foodRecipe.affordability, camelCase: true),
+                                style: TextStyle(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                subtitle: Text('test'),
+                subtitle: Text(formattedDate),
                 // subtitle: Text('testing'),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
