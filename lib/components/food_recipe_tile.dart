@@ -47,6 +47,8 @@ class FoodRecipeTile extends StatelessWidget {
     final String formattedDate = formatter.format(foodRecipe.createdAt);
     // final String amountLabel = '${currentCurrency['symbol']}${currencyFormat.format(transaction.amount)}';
     // final double amountFontSize = (84 / amountLabel.length);
+    Color primaryColor = Theme.of(context).primaryColor;
+    Color accentColor = Theme.of(context).accentColor;
     bool hasDietIcons = (foodRecipe.isGlutenFree || foodRecipe.isLactoseFree || foodRecipe.isVegan || foodRecipe.isVegetarian);
 
     return InkWell(
@@ -86,51 +88,68 @@ class FoodRecipeTile extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                Positioned(
-                  bottom: 20,
-                  right: 10,
-                  child: Container(
-                    color: hasDietIcons ? Colors.black54 : Colors.transparent,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                    child: Row(
-                      children: [
-                        if (foodRecipe.isGlutenFree) ...[
-                          Icon(
-                            AppIcons.gluten_free,
-                            color: Colors.red,
+                if (hasDietIcons) ...[
+                  Positioned(
+                    bottom: 20,
+                    right: 10,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.black45,
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                      child: Row(
+                        children: [
+                          if (foodRecipe.isGlutenFree) ...[
+                            Tooltip(
+                              child: Icon(
+                                AppIcons.gluten_free,
+                                color: Colors.white,
+                              ),
+                              message: 'Gluten free',
+                            ),
+                          ],
+                          SizedBox(
+                            width: 10,
                           ),
-                        ],
-                        SizedBox(
-                          width: 10,
-                        ),
-                        if (foodRecipe.isLactoseFree) ...[
-                          Icon(
-                            AppIcons.lactose_free,
-                            color: Colors.red,
+                          if (foodRecipe.isLactoseFree) ...[
+                            Tooltip(
+                              child: Icon(
+                                AppIcons.lactose_free,
+                                color: Colors.white,
+                              ),
+                              message: 'Lactose free',
+                            ),
+                          ],
+                          SizedBox(
+                            width: 10,
                           ),
-                        ],
-                        SizedBox(
-                          width: 10,
-                        ),
-                        if (foodRecipe.isVegan) ...[
-                          Icon(
-                            AppIcons.vegan,
-                            color: Colors.green,
+                          if (foodRecipe.isVegan) ...[
+                            Tooltip(
+                              child: Icon(
+                                AppIcons.vegan,
+                                color: Colors.white,
+                              ),
+                              message: 'Vegan',
+                            ),
+                          ],
+                          SizedBox(
+                            width: 10,
                           ),
+                          if (foodRecipe.isVegetarian) ...[
+                            Tooltip(
+                              child: Icon(
+                                AppIcons.vegetarian,
+                                color: Colors.white,
+                              ),
+                              message: 'Vegetarian',
+                            ),
+                          ],
                         ],
-                        SizedBox(
-                          width: 10,
-                        ),
-                        if (foodRecipe.isVegetarian) ...[
-                          Icon(
-                            AppIcons.vegetarian,
-                            color: Colors.green,
-                          ),
-                        ],
-                      ],
+                      ),
                     ),
                   ),
-                )
+                ],
               ],
             ),
 
