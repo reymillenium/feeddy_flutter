@@ -18,12 +18,17 @@ class ExpensyDrawerSwitch extends StatelessWidget {
     @required this.switchLabel,
     @required this.activeColor,
     @required this.switchValue,
+    this.possibleValues = const {
+      'activeText': 'On',
+      'inactiveText': 'Off',
+    },
     @required this.onToggle,
   }) : super(key: key);
 
   final String switchLabel;
   final Color activeColor;
   final bool switchValue;
+  final Map<String, dynamic> possibleValues;
   final Function onToggle;
 
   @override
@@ -45,6 +50,8 @@ class ExpensyDrawerSwitch extends StatelessWidget {
             ),
             FlutterSwitch(
               showOnOff: true,
+              activeText: possibleValues['activeText'],
+              inactiveText: possibleValues['inactiveText'],
               activeColor: activeColor,
               activeTextColor: Colors.black,
               inactiveTextColor: Colors.blue[50],

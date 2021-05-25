@@ -26,11 +26,18 @@ class CupertinoPickerCustom extends StatelessWidget {
 
     return CupertinoPicker(
       // useMagnifier: false,
-      backgroundColor: Colors.lightBlue,
+      // backgroundColor: Colors.red,
+      looping: false,
       itemExtent: 32.0,
       onSelectedItemChanged: (selectedIndex) {
         onSelectedItemChanged(selectedIndex);
       },
+      selectionOverlay: CupertinoPickerDefaultSelectionOverlay(
+        // background: Colors.transparent,
+        // background: CupertinoColors.tertiarySystemFill,
+        capLeftEdge: false,
+        capRightEdge: false,
+      ),
       scrollController: FixedExtentScrollController(initialItem: initialIndex),
       children: cupertinoPickerChildren,
     );

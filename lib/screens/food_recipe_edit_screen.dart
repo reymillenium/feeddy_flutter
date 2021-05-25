@@ -5,6 +5,7 @@ import 'package:feeddy_flutter/_external_packages.dart';
 
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
+
 // Components:
 import 'package:feeddy_flutter/components/_components.dart';
 
@@ -87,6 +88,12 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
   void changeIsVegan(bool value) => setState(() => _isVegan = value);
 
   void changeIsVegetarian(bool value) => setState(() => _isVegetarian = value);
+
+  // void onSwitchShowChart(bool choice) {
+  //   setState(() {
+  //     _showChart = choice;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -171,35 +178,148 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
                   style: TextStyle(),
                   onChanged: (String newText) {
                     setState(() {
+                      // print(newText);
                       _title = newText;
                     });
                   },
                   onFieldSubmitted: _hasValidData() ? (_) => () => _updateData(context, widget.onUpdateFoodRecipeHandler) : null,
                 ),
 
-                SizedBox(
-                  height: 40,
+                // Duration Input
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: TextFormField(
+                    initialValue: _duration.toString(),
+                    autofocus: true,
+                    autocorrect: false,
+                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: 'Duration',
+                      border: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          // color: kLightBlueBackground,
+                          color: Colors.red,
+                          // width: 30,
+                        ),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: primaryColor,
+                          width: 4.0,
+                        ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: accentColor,
+                          // color: Colors.red,
+                          width: 6.0,
+                        ),
+                      ),
+                    ),
+                    style: TextStyle(),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        print(newValue.isEmpty);
+                        _duration = newValue.isNotEmpty ? int.parse(newValue) : 0;
+                      });
+                    },
+                    onFieldSubmitted: _hasValidData() ? (_) => () => _updateData(context, widget.onUpdateFoodRecipeHandler) : null,
+                  ),
                 ),
 
                 // SelectBox for the complexity:
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: MultiPlatformSelectBox(
+                    onSelectedItemChangedIOS: (selectedIndex) async {
+                      setState(() {
+                        changeComplexity(EnumToString.toList(Complexity.values)[selectedIndex]);
+                      });
+                    },
+                    cupertinoInitialIndex: EnumToString.toList(Complexity.values).indexOf(EnumToString.convertToString(_complexity)),
+                    selectedValueAndroid: EnumToString.convertToString(_complexity),
+                    onChangedAndroid: (dynamic newValue) async {
+                      setState(() {
+                        changeComplexity(newValue);
+                      });
+                    },
+                    itemsList: EnumToString.toList(Complexity.values),
+                  ),
+                ),
+
+                // SelectBox for the affordability:
                 MultiPlatformSelectBox(
                   onSelectedItemChangedIOS: (selectedIndex) async {
                     setState(() {
-                      changeComplexity(EnumToString.toList(Complexity.values)[selectedIndex]);
+                      changeAffordability(EnumToString.toList(Affordability.values)[selectedIndex]);
                     });
                   },
-                  cupertinoInitialIndex: EnumToString.toList(Complexity.values).indexOf(EnumToString.convertToString(_complexity)),
-                  selectedValueAndroid: EnumToString.convertToString(_complexity),
+                  cupertinoInitialIndex: EnumToString.toList(Affordability.values).indexOf(EnumToString.convertToString(_affordability)),
+                  selectedValueAndroid: EnumToString.convertToString(_affordability),
                   onChangedAndroid: (dynamic newValue) async {
                     setState(() {
-                      changeComplexity(newValue);
+                      changeAffordability(newValue);
                     });
                   },
-                  itemsList: EnumToString.toList(Complexity.values),
+                  itemsList: EnumToString.toList(Affordability.values),
                 ),
 
-                SizedBox(
-                  height: 40,
+                // Switchers: _isGlutenFree & _isLactoseFree
+                Row(
+                  // mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ExpensyDrawerSwitch(
+                      switchLabel: 'Gluten free',
+                      activeColor: accentColor,
+                      switchValue: _isGlutenFree,
+                      possibleValues: {
+                        'activeText': 'Yes',
+                        'inactiveText': 'No',
+                      },
+                      onToggle: changeIsGlutenFree,
+                    ),
+                    ExpensyDrawerSwitch(
+                      switchLabel: 'Lactose free',
+                      activeColor: accentColor,
+                      switchValue: _isLactoseFree,
+                      possibleValues: {
+                        'activeText': 'Yes',
+                        'inactiveText': 'No',
+                      },
+                      onToggle: changeIsLactoseFree,
+                    ),
+                  ],
+                ),
+
+                // Switchers: _isVegan & _isVegetarian
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ExpensyDrawerSwitch(
+                      switchLabel: 'Vegan',
+                      activeColor: accentColor,
+                      switchValue: _isVegan,
+                      possibleValues: {
+                        'activeText': 'Yes',
+                        'inactiveText': 'No',
+                      },
+                      onToggle: changeIsVegan,
+                    ),
+
+                    // Switchers: _isLactoseFree
+                    ExpensyDrawerSwitch(
+                      switchLabel: 'Vegetarian',
+                      activeColor: accentColor,
+                      switchValue: _isVegetarian,
+                      possibleValues: {
+                        'activeText': 'Yes',
+                        'inactiveText': 'No',
+                      },
+                      onToggle: changeIsVegetarian,
+                    ),
+                  ],
                 ),
 
                 // Update button:
@@ -243,7 +363,7 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
   }
 
   void _updateData(BuildContext context, Function onUpdateFoodRecipeHandler) {
-    if (_title.isNotEmpty) {
+    if (_title.isNotEmpty && _imageUrl.isNotEmpty && !_duration.isNegative) {
       onUpdateFoodRecipeHandler(_foodRecipe.id, _title, _imageUrl, _duration, _complexity, _affordability, _isGlutenFree, _isLactoseFree, _isVegan, _isVegetarian);
     }
     Navigator.pop(context);
