@@ -1,12 +1,16 @@
 // Packages:
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
+
 // Screens:
 import 'package:feeddy_flutter/screens/_screens.dart';
+
 // Models:
 import 'package:feeddy_flutter/models/_models.dart';
+
 // Components:
 import 'package:feeddy_flutter/components/_components.dart';
+
 // Helpers:
 import 'package:feeddy_flutter/helpers/_helpers.dart';
 // Utilities:
@@ -62,84 +66,103 @@ class FoodRecipeTile extends StatelessWidget {
             bottomRight: Radius.circular(20),
           ),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListTile(
-            // visualDensity: VisualDensity.standard,
-            leading: CircleAvatar(
-              backgroundColor: Colors.blue,
-              radius: 32,
-              child: FittedBox(
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    'test',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
+        child: Column(
+          children: [
+            // FoodRecipe Image
+            ClipRRect(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+              child: Image.network(
+                foodRecipe.imageUrl,
+                height: 250,
+                width: double.infinity,
+                fit: BoxFit.cover,
               ),
             ),
 
-            title: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  foodRecipe.title,
-                  // style: TextStyle(
-                  //   fontSize: 18,
-                  //   fontWeight: FontWeight.bold,
-                  // ),
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-                Text(
-                  formattedDate,
-                  style: TextStyle(
-                    color: Colors.black54,
-                  ),
-                ),
-              ],
-            ),
-            // subtitle: Text('testing'),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Tooltip(
-                  message: 'Delete',
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.black,
-                    ),
-                    onPressed: () => onDeleteFoodRecipeHandler(foodRecipe.id, context),
-                  ),
-                ),
-                Tooltip(
-                  message: 'Edit',
-                  child: IconButton(
-                    icon: Icon(
-                      Icons.edit,
-                      color: Colors.black,
-                    ),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        backgroundColor: Colors.transparent,
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) => FoodRecipeEditScreen(
-                          foodRecipe: foodRecipe,
-                          onUpdateFoodRecipeHandler: onUpdateFoodRecipeHandler,
+            // Tile with data: Duration, etc
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                // visualDensity: VisualDensity.standard,
+                leading: CircleAvatar(
+                  backgroundColor: Colors.blue,
+                  radius: 32,
+                  child: FittedBox(
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      child: Text(
+                        '${foodRecipe.duration}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 14,
                         ),
-                      );
-                    },
+                      ),
+                    ),
                   ),
                 ),
-              ],
+
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      foodRecipe.title,
+                      // style: TextStyle(
+                      //   fontSize: 18,
+                      //   fontWeight: FontWeight.bold,
+                      // ),
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    Text(
+                      formattedDate,
+                      style: TextStyle(
+                        color: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+                // subtitle: Text('testing'),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Tooltip(
+                      message: 'Delete',
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: Colors.black,
+                        ),
+                        onPressed: () => onDeleteFoodRecipeHandler(foodRecipe.id, context),
+                      ),
+                    ),
+                    Tooltip(
+                      message: 'Edit',
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.edit,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            isScrollControlled: true,
+                            context: context,
+                            builder: (context) => FoodRecipeEditScreen(
+                              foodRecipe: foodRecipe,
+                              onUpdateFoodRecipeHandler: onUpdateFoodRecipeHandler,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ),
     );

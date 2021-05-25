@@ -14,6 +14,7 @@ import 'package:feeddy_flutter/models/_models.dart';
 import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
+import 'package:feeddy_flutter/utilities/constants.dart';
 
 class FoodCategoriesData with ChangeNotifier {
   // Properties:
@@ -147,24 +148,8 @@ class FoodCategoriesData with ChangeNotifier {
         Color color = ColorHelper.randomMaterialColor();
         FoodCategory foodCategory = await addFoodCategory(title, color);
 
-        for (int j = 0; j < 5; j++) {
-          try {
-            FoodRecipe foodRecipe = await foodRecipesData.addFoodRecipe(
-              title: faker.food.dish(),
-              imageUrl: 'dfvdfvdf',
-              duration: 2,
-              complexity: Complexity.simple,
-              affordability: Affordability.affordable,
-              isGlutenFree: false,
-              isLactoseFree: false,
-              isVegan: false,
-              isVegetarian: false,
-            );
-            await foodCategoriesFoodRecipesData.addFoodCategoryFoodRecipe(foodCategory.id, foodRecipe.id);
-          } catch (error) {
-            print(error);
-          }
-        }
+        // Creates a few dummy FoodRecipe objects by its id:
+        foodRecipesData.generateDummyDataByFoodCategoryId(foodCategory.id, 5);
       }
     }
   }
