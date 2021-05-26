@@ -52,11 +52,11 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
   Widget build(BuildContext context) {
     AppData appData = Provider.of<AppData>(context, listen: true);
     Function closeAllThePanels = appData.closeAllThePanels; // Drawer related:
-    bool isWeeklyFlChart = appData.isWeeklyFlChart;
     bool deviceIsIOS = DeviceHelper.deviceIsIOS(context);
 
-    FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
-    int amountTotalFoodCategories = foodCategoriesData.foodCategories.length;
+    // FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
+    // int amountTotalFoodCategories = foodCategoriesData.foodCategories.length;
+    FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
 
     // WidgetsFlutterBinding.ensureInitialized(); // Without this it might not work in some devices:
     SystemChrome.setPreferredOrientations([
@@ -69,98 +69,109 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
     ]);
 
     FeeddyAppBar appBar = FeeddyAppBar(
-      // title: widget.appTitle,
-      // title: _foodCategory.title,
-      title: '$_appTitle: ${_foodCategory.title}',
+      title: '${_foodCategory.title}',
       showModalNewDishCategory: () => _showModalNewFoodCategory(context),
     );
 
-    return Scaffold(
-      appBar: appBar,
-      onDrawerChanged: (isOpened) {
-        if (!isOpened) {
-          closeAllThePanels();
-        }
-      },
+    return FutureBuilder(
+        future: foodRecipesData.byFoodCategory(_foodCategory),
+        builder: (ctx, snapshot) {
+          List<FoodRecipe> foodRecipes = snapshot.data;
 
-      drawer: FeeddyDrawer(
-          // showChart: _showChart,
-          // showPortraitOnly: _showPortraitOnly,
-          // onSwitchShowChart: onSwitchShowChart,
-          // onSwitchPortraitOnLy: onSwitchPortraitOnLy,
-          ),
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return foodRecipes.isEmpty
+                  ? FeeddyEmptyWidget(
+                      packageImage: 1,
+                      title: 'We are sorry',
+                      subTitle: 'There is no recipes',
+                    )
+                  : Scaffold(
+                      appBar: appBar,
+                      onDrawerChanged: (isOpened) {
+                        if (!isOpened) {
+                          closeAllThePanels();
+                        }
+                      },
 
-      body: NativeDeviceOrientationReader(
-        builder: (context) {
-          final orientation = NativeDeviceOrientationReader.orientation(context);
-          bool safeAreaLeft = DeviceHelper.isLandscapeLeft(orientation);
-          bool safeAreaRight = DeviceHelper.isLandscapeRight(orientation);
-          bool isLandscape = DeviceHelper.isLandscape(orientation);
+                      drawer: FeeddyDrawer(
+                          // showChart: _showChart,
+                          // showPortraitOnly: _showPortraitOnly,
+                          // onSwitchShowChart: onSwitchShowChart,
+                          // onSwitchPortraitOnLy: onSwitchPortraitOnLy,
+                          ),
 
-          return SafeArea(
-            left: safeAreaLeft,
-            right: safeAreaRight,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                // Food Categories List:
-                // Expanded(
-                //   flex: 5,
-                //   child: FoodCategoriesList(),
-                // ),
-                // Food Categories Grid:
-                // Expanded(
-                //   flex: 5,
-                //   child: FoodCategoriesGrid(),
-                // ),
-                // Food Recipes List:
-                Expanded(
-                  flex: 5,
-                  child: FoodRecipesList(
-                    foodCategory: _foodCategory,
-                  ),
+                      body: NativeDeviceOrientationReader(
+                        builder: (context) {
+                          final orientation = NativeDeviceOrientationReader.orientation(context);
+                          bool safeAreaLeft = DeviceHelper.isLandscapeLeft(orientation);
+                          bool safeAreaRight = DeviceHelper.isLandscapeRight(orientation);
+                          bool isLandscape = DeviceHelper.isLandscape(orientation);
+
+                          return SafeArea(
+                            left: safeAreaLeft,
+                            right: safeAreaRight,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                // Food Recipes List:
+                                Expanded(
+                                  flex: 5,
+                                  child: FoodRecipesList(
+                                    foodCategory: _foodCategory,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+
+                      // Navigation Bar (without nav links)
+                      bottomNavigationBar: BottomAppBar(
+                        child: Row(
+                          children: [
+                            IconButton(icon: Icon(null), onPressed: () {}),
+                            Text(
+                              'Total: ${foodRecipes.length} recipes',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                                // fontSize: amountFontSize,
+                                color: Colors.white,
+                              ),
+                            ),
+                            // Spacer(),
+                            // IconButton(icon: Icon(Icons.search), onPressed: () {}),
+                            // IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+                          ],
+                        ),
+                        shape: CircularNotchedRectangle(),
+                        color: Theme.of(context).primaryColor,
+                      ),
+
+                      // FAB
+                      floatingActionButton: deviceIsIOS
+                          ? null
+                          : FloatingActionButton(
+                              tooltip: 'Add Category',
+                              child: Icon(Icons.add),
+                              onPressed: () => _showModalNewFoodCategory(context),
+                            ),
+                      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+                      floatingActionButtonLocation: deviceIsIOS ? null : FloatingActionButtonLocation.endDocked,
+                    );
+            default:
+              return Container(
+                child: FeeddyEmptyWidget(
+                  packageImage: 1,
+                  title: 'We are sorry',
+                  subTitle: 'There is no recipes',
                 ),
-              ],
-            ),
-          );
-        },
-      ),
-
-      // Navigation Bar (without nav links)
-      bottomNavigationBar: BottomAppBar(
-        child: Row(
-          children: [
-            IconButton(icon: Icon(null), onPressed: () {}),
-            Text(
-              'Total: $amountTotalFoodCategories categories',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic,
-                // fontSize: amountFontSize,
-                color: Colors.white,
-              ),
-            ),
-            // Spacer(),
-            // IconButton(icon: Icon(Icons.search), onPressed: () {}),
-            // IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
-          ],
-        ),
-        shape: CircularNotchedRectangle(),
-        color: Theme.of(context).primaryColor,
-      ),
-
-      // FAB
-      floatingActionButton: deviceIsIOS
-          ? null
-          : FloatingActionButton(
-              tooltip: 'Add Category',
-              child: Icon(Icons.add),
-              onPressed: () => _showModalNewFoodCategory(context),
-            ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButtonLocation: deviceIsIOS ? null : FloatingActionButtonLocation.endDocked,
-    );
+              );
+          }
+        });
   }
 
   void _showModalNewFoodCategory(BuildContext context) {
