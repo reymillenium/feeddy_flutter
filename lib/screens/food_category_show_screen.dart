@@ -34,7 +34,6 @@ class FoodCategoryShowScreen extends StatefulWidget {
 
 class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
   // State Properties:
-  // int touchedIndex;
   bool _showChart = false;
   bool _showPortraitOnly = false;
   String _appTitle;
