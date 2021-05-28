@@ -71,7 +71,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
 
     FeeddyAppBar appBar = FeeddyAppBar(
       title: '${_foodCategory.title}',
-      showModalNewDishCategory: () => _showModalNewFoodCategory(context),
+      showModalNewDishCategory: () => _showModalNewFoodRecipe(context),
     );
 
     return FutureBuilder(
@@ -93,6 +93,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                       ],
                       objectsLength: 0,
                       objectsName: 'recipes',
+                      showModal: () => _showModalNewFoodRecipe(context),
                     )
                   : FeeddyScaffold(
                       appTitle: _foodCategory.title,
@@ -106,7 +107,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                       ],
                       objectsLength: foodRecipes.length,
                       objectsName: 'recipes',
-                      showModal: () => _showModalNewFoodCategory(context),
+                      showModal: () => _showModalNewFoodRecipe(context),
                     );
             default:
               return FeeddyScaffold(
@@ -120,19 +121,20 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                 ],
                 objectsLength: 0,
                 objectsName: 'recipes',
+                showModal: () => _showModalNewFoodRecipe(context),
               );
           }
         });
   }
 
-  void _showModalNewFoodCategory(BuildContext context) {
+  void _showModalNewFoodRecipe(BuildContext context) {
     SoundHelper().playSmallButtonClick();
-    showModalBottomSheet(
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      context: context,
-      builder: (context) => FoodCategoryNewScreen(),
-    );
+    // showModalBottomSheet(
+    //   backgroundColor: Colors.transparent,
+    //   isScrollControlled: true,
+    //   context: context,
+    //   builder: (context) => FoodRecipeNewScreen(),
+    // );
   }
 }
 

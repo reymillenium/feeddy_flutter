@@ -58,7 +58,7 @@ class FeeddyScaffold extends StatelessWidget {
 
     FeeddyAppBar appBar = FeeddyAppBar(
       title: appTitle,
-      showModalNewDishCategory: () => showModal,
+      showModalNewDishCategory: showModal,
     );
 
     return Scaffold(
