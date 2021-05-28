@@ -16,7 +16,7 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 // Utilities:
 
 class FoodRecipeShowScreen extends StatefulWidget {
-  static const String screenId = 'food_category_show_screen';
+  static const String screenId = 'food_recipe_show_screen';
 
   // Properties:
   final String appTitle;
@@ -34,8 +34,6 @@ class FoodRecipeShowScreen extends StatefulWidget {
 
 class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
   // State Properties:
-  // int touchedIndex;
-  bool _showChart = false;
   bool _showPortraitOnly = false;
   String _appTitle;
   FoodRecipe _foodRecipe;
@@ -52,7 +50,6 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
   Widget build(BuildContext context) {
     AppData appData = Provider.of<AppData>(context, listen: true);
     Function closeAllThePanels = appData.closeAllThePanels; // Drawer related:
-    bool isWeeklyFlChart = appData.isWeeklyFlChart;
     bool deviceIsIOS = DeviceHelper.deviceIsIOS(context);
 
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
@@ -69,9 +66,7 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
     ]);
 
     FeeddyAppBar appBar = FeeddyAppBar(
-      // title: widget.appTitle,
-      // title: _foodCategory.title,
-      title: '$_appTitle: ${_foodRecipe.title}',
+      title: _foodRecipe.title,
       showModalNewDishCategory: () => _showModalNewFoodRecipe(context),
     );
 

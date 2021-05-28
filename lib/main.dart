@@ -145,9 +145,6 @@ class MyApp extends StatelessWidget {
         FoodCategoryIndexScreen.screenId: (context) => FoodCategoryIndexScreen(appTitle: appTitle),
         FoodCategoryNewScreen.screenId: (context) => FoodCategoryNewScreen(),
         FoodCategoryEditScreen.screenId: (context) => FoodCategoryEditScreen(),
-
-        // It needs a FoodCategory objects besides the appTitle (so it goes in the 'Named Routes with extra arguments' section)
-        // FoodCategoryShowScreen.screenId: (context) => FoodCategoryShowScreen(),
       },
 
       // Named Routes with extra arguments:
@@ -170,6 +167,25 @@ class MyApp extends StatelessWidget {
             },
           );
         }
+
+        if (settings.name == FoodRecipeShowScreen.screenId) {
+          // Cast the arguments to the correct type: FoodRecipeShowScreenArguments.
+          // final args = settings.arguments as FoodRecipeShowScreenArguments;
+          final args = settings.arguments as Map;
+
+          // Then, extract the required data from the arguments and pass the data to the correct screen.
+          return MaterialPageRoute(
+            builder: (context) {
+              return FoodRecipeShowScreen(
+                appTitle: appTitle,
+                // foodRecipe: args.foodRecipe,
+                // It can even use a Map instead:
+                foodRecipe: args['foodRecipe'],
+              );
+            },
+          );
+        }
+
         // The code only supports
         // PassArgumentsScreen.screenId right now.
         // Other values need to be implemented if we

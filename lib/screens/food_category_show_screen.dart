@@ -93,12 +93,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                         }
                       },
 
-                      drawer: FeeddyDrawer(
-                          // showChart: _showChart,
-                          // showPortraitOnly: _showPortraitOnly,
-                          // onSwitchShowChart: onSwitchShowChart,
-                          // onSwitchPortraitOnLy: onSwitchPortraitOnLy,
-                          ),
+                      drawer: FeeddyDrawer(),
 
                       body: NativeDeviceOrientationReader(
                         builder: (context) {
@@ -115,6 +110,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: <Widget>[
                                 // Food Recipes List:
+
                                 Expanded(
                                   flex: 5,
                                   child: FoodRecipesList(

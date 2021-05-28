@@ -14,7 +14,7 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 // Utilities:
 
 class FoodRecipeEditScreen extends StatefulWidget {
-  static const String screenId = 'food_category_edit_screen';
+  static const String screenId = 'food_recipe_edit_screen';
 
   // Properties:
   final FoodRecipe foodRecipe;
@@ -88,12 +88,6 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
   void changeIsVegan(bool value) => setState(() => _isVegan = value);
 
   void changeIsVegetarian(bool value) => setState(() => _isVegetarian = value);
-
-  // void onSwitchShowChart(bool choice) {
-  //   setState(() {
-  //     _showChart = choice;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

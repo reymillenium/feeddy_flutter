@@ -53,6 +53,7 @@ class FoodRecipeTile extends StatelessWidget {
     return InkWell(
       onTap: () {
         print('InkWell onTap');
+        Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe});
       },
       child: Card(
         // shadowColor: Colors.purpleAccent,
