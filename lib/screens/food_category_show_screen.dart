@@ -21,12 +21,10 @@ class FoodCategoryShowScreen extends StatefulWidget {
   static const String screenId = 'food_category_show_screen';
 
   // Properties:
-  final String appTitle;
   final FoodCategory foodCategory;
 
   const FoodCategoryShowScreen({
     Key key,
-    this.appTitle,
     this.foodCategory,
   }) : super(key: key);
 
@@ -36,43 +34,18 @@ class FoodCategoryShowScreen extends StatefulWidget {
 
 class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
   // State Properties:
-  bool _showChart = false;
-  bool _showPortraitOnly = false;
-  String _appTitle;
   FoodCategory _foodCategory;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _appTitle = widget.appTitle;
     _foodCategory = widget.foodCategory;
   }
 
   @override
   Widget build(BuildContext context) {
-    AppData appData = Provider.of<AppData>(context, listen: true);
-    Function closeAllThePanels = appData.closeAllThePanels; // Drawer related:
-    bool deviceIsIOS = DeviceHelper.deviceIsIOS(context);
-
-    // FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
-    // int amountTotalFoodCategories = foodCategoriesData.foodCategories.length;
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
-
-    // WidgetsFlutterBinding.ensureInitialized(); // Without this it might not work in some devices:
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      // DeviceOrientation.portraitDown,
-      if (!_showPortraitOnly) ...[
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ],
-    ]);
-
-    FeeddyAppBar appBar = FeeddyAppBar(
-      title: '${_foodCategory.title}',
-      showModalNewDishCategory: () => _showModalNewFoodRecipe(context),
-    );
 
     return FutureBuilder(
         future: foodRecipesData.byFoodCategory(_foodCategory),

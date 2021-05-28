@@ -42,10 +42,6 @@ class FeeddyScaffold extends StatelessWidget {
     Function closeAllThePanels = appData.closeAllThePanels; // Drawer related:
     bool deviceIsIOS = DeviceHelper.deviceIsIOS(context);
 
-    // FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
-    // int amountTotalFoodCategories = foodCategoriesData.foodCategories.length;
-    FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
-
     // WidgetsFlutterBinding.ensureInitialized(); // Without this it might not work in some devices:
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
