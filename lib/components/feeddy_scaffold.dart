@@ -22,7 +22,7 @@ class FeeddyScaffold extends StatelessWidget {
   final bool _showPortraitOnly = false;
   final String appTitle;
   final Function showModal;
-  final String objectsName;
+  final String objectName;
   final int objectsLength;
   final List<Widget> innerWidgets;
 
@@ -31,7 +31,7 @@ class FeeddyScaffold extends StatelessWidget {
     Key key,
     this.appTitle,
     this.showModal,
-    this.objectsName,
+    this.objectName,
     this.objectsLength,
     this.innerWidgets,
   }) : super(key: key);
@@ -54,7 +54,8 @@ class FeeddyScaffold extends StatelessWidget {
 
     FeeddyAppBar appBar = FeeddyAppBar(
       title: appTitle,
-      showModalNewDishCategory: showModal,
+      onPressedAdd: showModal,
+      objectName: objectName,
     );
 
     return Scaffold(
@@ -92,7 +93,7 @@ class FeeddyScaffold extends StatelessWidget {
           children: [
             IconButton(icon: Icon(null), onPressed: () {}),
             Text(
-              'Total: $objectsLength $objectsName',
+              'Total: ${objectName.toPluralFormForQuantity(quantity: objectsLength)}',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic,
@@ -113,7 +114,7 @@ class FeeddyScaffold extends StatelessWidget {
       floatingActionButton: deviceIsIOS
           ? null
           : FloatingActionButton(
-              tooltip: 'Add Category',
+              tooltip: 'Add ${objectName.inCaps}',
               child: Icon(Icons.add),
               onPressed: () => showModal,
             ),

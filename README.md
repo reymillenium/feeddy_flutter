@@ -25,6 +25,7 @@ This is a foods listing app, using Flutter. It is a multi screen app with a simp
 - flutter_switch: ^0.3.1
 - flutter_colorpicker: ^0.4.0
 - enum_to_string: ^2.0.1
+- humanizer: ^0.0.2
 
 ## Screen Shots
 

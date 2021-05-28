@@ -55,7 +55,7 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
       innerWidgets: [],
       showModal: () => _showModalNewFoodRecipe(context),
       objectsLength: 0,
-      objectsName: 'things',
+      objectName: 'thing',
     );
   }
 

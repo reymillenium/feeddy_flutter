@@ -8,8 +8,10 @@ import 'package:feeddy_flutter/_external_packages.dart';
 import 'package:feeddy_flutter/models/_models.dart';
 
 // Components:
+import 'package:feeddy_flutter/components/_components.dart';
 
 // Helpers:
+import 'package:feeddy_flutter/helpers/_helpers.dart';
 
 // Utilities:
 import 'package:feeddy_flutter/utilities/constants.dart';
@@ -17,12 +19,14 @@ import 'package:feeddy_flutter/utilities/constants.dart';
 class FeeddyAppBar extends StatelessWidget with PreferredSizeWidget {
   // Properties:
   final String title;
-  final Function showModalNewDishCategory;
+  final Function onPressedAdd;
+  final String objectName;
 
   const FeeddyAppBar({
     Key key,
     this.title,
-    this.showModalNewDishCategory,
+    this.onPressedAdd,
+    this.objectName,
   }) : super(key: key);
 
   @override
@@ -46,9 +50,9 @@ class FeeddyAppBar extends StatelessWidget with PreferredSizeWidget {
         IconButton(
           iconSize: 40,
           icon: Icon(Icons.add_rounded),
-          tooltip: 'Add Category',
+          tooltip: 'Add ${objectName.inCaps}',
           // onPressed: () => showModalNewTransaction(context),
-          onPressed: showModalNewDishCategory,
+          onPressed: onPressedAdd,
         ),
       ],
       // bottom: PreferredSize(

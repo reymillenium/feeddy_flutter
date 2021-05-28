@@ -65,7 +65,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                         ),
                       ],
                       objectsLength: 0,
-                      objectsName: 'recipes',
+                      objectName: 'recipe',
                       showModal: () => _showModalNewFoodRecipe(context),
                     )
                   : FeeddyScaffold(
@@ -79,7 +79,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                         ),
                       ],
                       objectsLength: foodRecipes.length,
-                      objectsName: 'recipes',
+                      objectName: 'recipe',
                       showModal: () => _showModalNewFoodRecipe(context),
                     );
             default:
@@ -93,7 +93,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                   ),
                 ],
                 objectsLength: 0,
-                objectsName: 'recipes',
+                objectName: 'recipe',
                 showModal: () => _showModalNewFoodRecipe(context),
               );
           }
