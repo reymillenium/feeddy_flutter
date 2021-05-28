@@ -21,7 +21,7 @@ class FeeddyScaffold extends StatelessWidget {
   // Properties:
   final bool _showPortraitOnly = false;
   final String appTitle;
-  final Function showModal;
+  final Function onPressedAdd;
   final String objectName;
   final int objectsLength;
   final List<Widget> innerWidgets;
@@ -30,7 +30,7 @@ class FeeddyScaffold extends StatelessWidget {
   const FeeddyScaffold({
     Key key,
     this.appTitle,
-    this.showModal,
+    this.onPressedAdd,
     this.objectName,
     this.objectsLength,
     this.innerWidgets,
@@ -53,8 +53,8 @@ class FeeddyScaffold extends StatelessWidget {
     ]);
 
     FeeddyAppBar appBar = FeeddyAppBar(
-      title: appTitle,
-      onPressedAdd: showModal,
+      appTitle: appTitle,
+      onPressedAdd: onPressedAdd,
       objectName: objectName,
     );
 
@@ -116,7 +116,7 @@ class FeeddyScaffold extends StatelessWidget {
           : FloatingActionButton(
               tooltip: 'Add ${objectName.inCaps}',
               child: Icon(Icons.add),
-              onPressed: () => showModal,
+              onPressed: () => onPressedAdd,
             ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButtonLocation: deviceIsIOS ? null : FloatingActionButtonLocation.endDocked,

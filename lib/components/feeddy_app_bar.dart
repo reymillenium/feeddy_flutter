@@ -18,13 +18,13 @@ import 'package:feeddy_flutter/utilities/constants.dart';
 
 class FeeddyAppBar extends StatelessWidget with PreferredSizeWidget {
   // Properties:
-  final String title;
+  final String appTitle;
   final Function onPressedAdd;
   final String objectName;
 
   const FeeddyAppBar({
     Key key,
-    this.title,
+    this.appTitle,
     this.onPressedAdd,
     this.objectName,
   }) : super(key: key);
@@ -36,7 +36,7 @@ class FeeddyAppBar extends StatelessWidget with PreferredSizeWidget {
 
     return AppBar(
       title: Text(
-        title,
+        appTitle,
         // style: TextStyle(
         //   fontSize: 24,
         //   fontWeight: FontWeight.bold,
@@ -51,7 +51,6 @@ class FeeddyAppBar extends StatelessWidget with PreferredSizeWidget {
           iconSize: 40,
           icon: Icon(Icons.add_rounded),
           tooltip: 'Add ${objectName.inCaps}',
-          // onPressed: () => showModalNewTransaction(context),
           onPressed: onPressedAdd,
         ),
       ],

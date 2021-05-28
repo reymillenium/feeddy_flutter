@@ -53,7 +53,7 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
     return FeeddyScaffold(
       appTitle: _foodRecipe.title,
       innerWidgets: [],
-      showModal: () => _showModalNewFoodRecipe(context),
+      onPressedAdd: () => _showModalNewFoodRecipe(context),
       objectsLength: 0,
       objectName: 'thing',
     );
