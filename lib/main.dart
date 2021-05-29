@@ -149,51 +149,51 @@ class MyApp extends StatelessWidget {
 
       // Named Routes with extra arguments:
       onGenerateRoute: (settings) {
-        // If you push the PassArguments route
-        if (settings.name == FoodCategoryShowScreen.screenId) {
-          // Cast the arguments to the correct type: FoodCategoryShowScreenArguments.
-          // final args = settings.arguments as FoodCategoryShowScreenArguments;
-          final args = settings.arguments as Map;
+        final args = settings.arguments as Map;
 
-          // Then, extract the required data from the arguments and pass the data to the correct screen.
-          return MaterialPageRoute(
-            builder: (context) {
-              return FoodCategoryShowScreen(
-                // foodCategory: args.foodCategory,
-                // It can even use a Map instead:
-                foodCategory: args['foodCategory'],
-              );
-            },
-          );
+        switch (settings.name) {
+          case FoodCategoryShowScreen.screenId:
+            return MaterialPageRoute(
+              builder: (context) {
+                return FoodCategoryShowScreen(
+                  foodCategory: args['foodCategory'],
+                );
+              },
+            );
+            break;
+
+          case FoodRecipeShowScreen.screenId:
+            return MaterialPageRoute(
+              builder: (context) {
+                return FoodRecipeShowScreen(
+                  appTitle: appTitle,
+                  foodRecipe: args['foodRecipe'],
+                );
+              },
+            );
+            break;
+
+          default:
+            return MaterialPageRoute(
+              builder: (context) {
+                return UnknownScreen(
+                  appTitle: 'Unknown screen',
+                );
+              },
+            );
+            break;
         }
+      },
 
-        if (settings.name == FoodRecipeShowScreen.screenId) {
-          // Cast the arguments to the correct type: FoodRecipeShowScreenArguments.
-          // final args = settings.arguments as FoodRecipeShowScreenArguments;
-          final args = settings.arguments as Map;
-
-          // Then, extract the required data from the arguments and pass the data to the correct screen.
-          return MaterialPageRoute(
-            builder: (context) {
-              return FoodRecipeShowScreen(
-                appTitle: appTitle,
-                // foodRecipe: args.foodRecipe,
-                // It can even use a Map instead:
-                foodRecipe: args['foodRecipe'],
-              );
-            },
-          );
-        }
-
-        // The code only supports
-        // PassArgumentsScreen.screenId right now.
-        // Other values need to be implemented if we
-        // add them. The assertion here will help remind
-        // us of that higher up in the call stack, since
-        // this assertion would otherwise fire somewhere
-        // in the framework.
-        assert(false, 'Need to implement ${settings.name}');
-        return null;
+      // 404 screen:
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(
+          builder: (context) {
+            return UnknownScreen(
+              appTitle: 'Unknown screen',
+            );
+          },
+        );
       },
     );
   }
