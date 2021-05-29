@@ -172,7 +172,6 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
                   style: TextStyle(),
                   onChanged: (String newText) {
                     setState(() {
-                      // print(newText);
                       _title = newText;
                     });
                   },
@@ -214,7 +213,6 @@ class _FoodRecipeEditScreenState extends State<FoodRecipeEditScreen> {
                     style: TextStyle(),
                     onChanged: (String newValue) {
                       setState(() {
-                        print(newValue.isEmpty);
                         _duration = newValue.isNotEmpty ? int.parse(newValue) : 0;
                       });
                     },

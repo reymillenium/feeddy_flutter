@@ -15,7 +15,6 @@ class DBHelper {
   static const String DB_NAME = 'expensy.db';
 
   Future<Database> dbPlus() async {
-    print('Inside dbPlus');
     if (_db != null) {
       return _db;
     }
@@ -24,7 +23,6 @@ class DBHelper {
   }
 
   initDbPlus() async {
-    print('Inside initDbPlus');
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, DB_NAME);
     // deleteDatabase(path);
@@ -63,7 +61,6 @@ class DBHelper {
       tableFieldsString += "${fieldName == 'id' ? 'id INTEGER PRIMARY KEY' : ', '}${fieldName == 'id' ? '' : '$fieldName $fieldType'}";
     });
     String finalSQLSentence = "CREATE TABLE IF NOT EXISTS $tableName ($tableFieldsString)";
-    print('Final sentence => $finalSQLSentence');
     await db.execute(finalSQLSentence);
   }
 
