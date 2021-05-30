@@ -48,37 +48,95 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
 
   @override
   Widget build(BuildContext context) {
-    FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
+    FoodIngredientsData foodIngredientsData = Provider.of<FoodIngredientsData>(context, listen: true);
+
+    return FutureBuilder(
+        future: foodIngredientsData.byFoodRecipe(_foodRecipe),
+        builder: (ctx, snapshot) {
+          List<FoodIngredient> foodIngredients = snapshot.data;
+
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              return foodIngredients.isEmpty
+                  ? FeeddyScaffold(
+                      appTitle: _foodRecipe.title,
+                      innerWidgets: [
+                        FeeddyEmptyWidget(
+                          packageImage: 1,
+                          title: 'We are sorry',
+                          subTitle: 'There is no ingredients',
+                        ),
+                      ],
+                      objectsLength: 0,
+                      objectName: 'ingredient',
+                      onPressedAdd: () => _showModalNewFoodRecipe(context),
+                    )
+                  : FeeddyScaffold(
+                      appTitle: _foodRecipe.title,
+                      innerWidgets: [
+                        Expanded(
+                          flex: 5,
+                          child: FoodIngredientsList(
+                            foodRecipe: _foodRecipe,
+                          ),
+                        ),
+                      ],
+                      objectsLength: foodIngredients.length,
+                      objectName: 'ingredient',
+                      onPressedAdd: () => _showModalNewFoodRecipe(context),
+                    );
+            default:
+              return FeeddyScaffold(
+                appTitle: _foodRecipe.title,
+                innerWidgets: [
+                  FeeddyEmptyWidget(
+                    packageImage: 1,
+                    title: 'We are sorry',
+                    subTitle: 'There is no ingredients',
+                  ),
+                ],
+                objectsLength: 0,
+                objectName: 'ingredient',
+                onPressedAdd: () => _showModalNewFoodRecipe(context),
+              );
+          }
+        });
 
     return FeeddyScaffold(
       appTitle: _foodRecipe.title,
       innerWidgets: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              height: 300,
-              width: double.infinity,
-              child: Image.network(
-                _foodRecipe.imageUrl,
-                fit: BoxFit.cover,
+        Expanded(
+          flex: 3,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                child: Image.network(
+                  _foodRecipe.imageUrl,
+                  height: 250,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                'Ingredients',
-                style: Theme.of(context).textTheme.headline6,
+              Container(
+                // margin: EdgeInsets.symmetric(vertical: 1),
+                child: Text(
+                  'Ingredients',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
               ),
-            ),
-            Container(
-              height: 200,
-              width: double.infinity,
-              child: FoodIngredientsList(
-                foodRecipe: _foodRecipe,
-              ),
-            ),
-          ],
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 5,
+          child: FoodIngredientsList(
+            foodRecipe: _foodRecipe,
+          ),
         ),
       ],
       onPressedAdd: () => _showModalNewFoodRecipe(context),
