@@ -217,6 +217,7 @@ class FoodRecipesData with ChangeNotifier {
 
   void generateDummyDataByFoodCategoryId(int foodCategoryId, int amount) async {
     FoodCategoriesFoodRecipesData foodCategoriesFoodRecipesData = FoodCategoriesFoodRecipesData();
+    FoodIngredientsData foodIngredientsData = FoodIngredientsData();
 
     for (int j = 0; j < amount; j++) {
       try {
@@ -232,6 +233,7 @@ class FoodRecipesData with ChangeNotifier {
           isVegetarian: false,
         );
         await foodCategoriesFoodRecipesData.addFoodCategoryFoodRecipe(foodCategoryId, foodRecipe.id);
+        await foodIngredientsData.generateDummyDataByFoodRecipeId(foodRecipe.id, 12);
       } catch (error) {
         print(error);
       }

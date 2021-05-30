@@ -79,7 +79,7 @@ class FeeddyScaffold extends StatelessWidget {
             left: safeAreaLeft,
             right: safeAreaRight,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: innerWidgets,
             ),

@@ -10,5 +10,6 @@ export 'package:feeddy_flutter/models/food_recipe.dart';
 export 'package:feeddy_flutter/models/food_recipes_data.dart';
 
 export 'package:feeddy_flutter/models/food_ingredient.dart';
+export 'package:feeddy_flutter/models/food_ingredients_data.dart';
 
 export 'package:feeddy_flutter/models/recipe_step.dart';

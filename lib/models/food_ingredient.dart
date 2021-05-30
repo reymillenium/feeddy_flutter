@@ -54,10 +54,10 @@ class FoodIngredient {
     id = foodIngredientMap['id'];
     name = foodIngredientMap['name'];
     amount = foodIngredientMap['amount'];
-    measurementUnit = foodIngredientMap['measurementUnit'];
-
-    createdAt = DateTime.parse(foodIngredientMap['createdAt']);
-    updatedAt = DateTime.parse(foodIngredientMap['updatedAt']);
+    measurementUnit = EnumToString.fromString(MeasurementUnit.values, foodIngredientMap['measurement_unit']);
+    foodRecipeId = foodIngredientMap['food_recipe_id'];
+    createdAt = DateTime.parse(foodIngredientMap['created_at']);
+    updatedAt = DateTime.parse(foodIngredientMap['updated_at']);
   }
 
   Map<String, dynamic> toMap() {
@@ -65,9 +65,10 @@ class FoodIngredient {
       'id': id,
       'name': name,
       'amount': amount,
-      'measurementUnit': measurementUnit,
-      'createdAt': createdAt.toString(),
-      'updatedAt': updatedAt.toString(),
+      'measurement_unit': EnumToString.convertToString(measurementUnit),
+      'food_recipe_id': foodRecipeId,
+      'created_at': createdAt.toString(),
+      'updated_at': updatedAt.toString(),
     };
     return foodIngredientMap;
   }

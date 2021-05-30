@@ -17,5 +17,8 @@ export 'package:feeddy_flutter/components/food_category_panel.dart'; // Second a
 // FoodRecipe related:
 export 'package:feeddy_flutter/components/food_recipes_list.dart';
 export 'package:feeddy_flutter/components/food_recipe_tile.dart';
+// FoodIngredient related:
+export 'package:feeddy_flutter/components/food_ingredients_list.dart';
+export 'package:feeddy_flutter/components/food_ingredient_tile.dart';
 // General:
 export 'package:feeddy_flutter/components/feeddy_scaffold.dart';

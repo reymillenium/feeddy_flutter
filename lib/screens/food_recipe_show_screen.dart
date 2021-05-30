@@ -52,7 +52,35 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
 
     return FeeddyScaffold(
       appTitle: _foodRecipe.title,
-      innerWidgets: [],
+      innerWidgets: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                _foodRecipe.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 10),
+              child: Text(
+                'Ingredients',
+                style: Theme.of(context).textTheme.headline6,
+              ),
+            ),
+            Container(
+              height: 200,
+              width: double.infinity,
+              child: FoodIngredientsList(
+                foodRecipe: _foodRecipe,
+              ),
+            ),
+          ],
+        ),
+      ],
       onPressedAdd: () => _showModalNewFoodRecipe(context),
       objectsLength: 0,
       objectName: 'thing',
