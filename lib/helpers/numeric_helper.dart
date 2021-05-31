@@ -5,6 +5,25 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 
 // Utilities:
 
+// ***********************************************************************************
+// *                     * * *  E X T E N S I O N S  * * *                           *
+// ***********************************************************************************
+
+extension DoubleFromDoubleExtension on double {
+  // Returns a rounded double number from a not rounded double (this) and given the amount of places after the comma:
+  double roundDouble({int places = 2}) {
+    double mod = pow(10.0, places);
+    return ((this * mod).round().toDouble() / mod);
+  }
+}
+
+extension ListFromIntExtension on int {
+  // Converts an integer to a list of digits:
+  List<int> get digitize {
+    return "$this".split('').map((s) => int.parse(s)).toList();
+  }
+}
+
 class NumericHelper {
   // ***********************************************************************************
   // *                         * * *  I N T E G E R S  * * *                           *
@@ -13,6 +32,11 @@ class NumericHelper {
   // Returns a random integer number, between two given integers (both included):
   static int randomIntegerInRange({int min = 0, int max = 1}) {
     return Random().nextInt(max - min + 1) + min;
+  }
+
+  // Converts an integer to a list of digits:
+  static List<int> digitize(int n) {
+    return "$n".split('').map((s) => int.parse(s)).toList();
   }
 
   // ***********************************************************************************

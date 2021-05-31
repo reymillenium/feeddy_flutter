@@ -140,6 +140,62 @@ extension BoolFromStringExtension on String {
   }
 }
 
+extension IntFromStringExtension on String {
+  //Converts a string of an int into a proper int:
+  // It returns 0 when => FormatException: Invalid double => No number included or empty string
+  int get parseIntOrZero {
+    String text = this;
+    int result;
+    try {
+      result = int.parse(text.replaceAll(new RegExp(r'[^0-9]'), ''));
+    } catch (e) {
+      result = 0;
+    }
+    return result;
+  }
+
+  //Converts a string of an int into a proper int:
+  // It returns null when => FormatException: Invalid double => No number included or empty string
+  dynamic get parseIntOrNull {
+    String text = this;
+    dynamic result;
+    try {
+      result = int.parse(text.replaceAll(new RegExp(r'[^0-9]'), ''));
+    } catch (e) {
+      result = null;
+    }
+    return result;
+  }
+}
+
+extension DoubleFromStringExtension on String {
+  //Converts a string of a double into a proper double:
+  // It returns 0 when => FormatException: Invalid double => No number included, only a dot included or empty string
+  double get parseDoubleOrZero {
+    String text = this;
+    double result;
+    try {
+      result = double.parse(text.replaceAll(new RegExp(r'[^0-9\.]'), ''));
+    } catch (e) {
+      result = 0.0;
+    }
+    return result;
+  }
+
+  //Converts a string of a double into a proper double:
+  // It returns null when => FormatException: Invalid double => No number included, only a dot included or empty string
+  dynamic get parseDoubleOrNull {
+    String text = this;
+    dynamic result;
+    try {
+      result = double.parse(text.replaceAll(new RegExp(r'[^0-9\.]'), ''));
+    } catch (e) {
+      result = null;
+    }
+    return result;
+  }
+}
+
 class StringHelper {
 // ***********************************************************************************
 // *               * * *  N U M B E R S  E X T R A C T I O N  * * *                  *
@@ -152,17 +208,17 @@ class StringHelper {
     try {
       result = double.parse(text.replaceAll(new RegExp(r'[^0-9\.]'), ''));
     } catch (e) {
-      result = 0;
+      result = 0.0;
     }
     return result;
   }
 
   // Returns an integer from a given String
   // It returns 0 when => FormatException: Invalid double => No number included or empty string
-  static double extractIntegerOrZero(String text) {
-    double result;
+  static int extractIntegerOrZero(String text) {
+    int result;
     try {
-      result = double.parse(text.replaceAll(new RegExp(r'[^0-9]'), ''));
+      result = int.parse(text.replaceAll(new RegExp(r'[^0-9]'), ''));
     } catch (e) {
       result = 0;
     }
