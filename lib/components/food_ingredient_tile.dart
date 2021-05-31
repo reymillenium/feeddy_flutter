@@ -73,87 +73,7 @@ class FoodIngredientTile extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // FoodRecipe Image
-            // Stack(
-            //   children: [
-            //     ClipRRect(
-            //       borderRadius: BorderRadius.only(
-            //         topLeft: Radius.circular(10),
-            //         topRight: Radius.circular(10),
-            //       ),
-            //       child: Image.network(
-            //         foodIngredient.imageUrl,
-            //         height: 250,
-            //         width: double.infinity,
-            //         fit: BoxFit.cover,
-            //       ),
-            //     ),
-            //     if (foodIngredient.hasDietQuirks) ...[
-            //       Positioned(
-            //         bottom: 20,
-            //         right: 10,
-            //         child: Container(
-            //           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            //           decoration: BoxDecoration(
-            //             color: Colors.black45,
-            //             borderRadius: BorderRadius.all(Radius.circular(10)),
-            //           ),
-            //           child: Row(
-            //             children: [
-            //               if (foodIngredient.isGlutenFree) ...[
-            //                 Tooltip(
-            //                   child: Icon(
-            //                     AppIcons.gluten_free,
-            //                     color: Colors.white,
-            //                   ),
-            //                   message: 'Gluten free',
-            //                 ),
-            //               ],
-            //               SizedBox(
-            //                 width: 10,
-            //               ),
-            //               if (foodIngredient.isLactoseFree) ...[
-            //                 Tooltip(
-            //                   child: Icon(
-            //                     AppIcons.lactose_free,
-            //                     color: Colors.white,
-            //                   ),
-            //                   message: 'Lactose free',
-            //                 ),
-            //               ],
-            //               SizedBox(
-            //                 width: 10,
-            //               ),
-            //               if (foodIngredient.isVegan) ...[
-            //                 Tooltip(
-            //                   child: Icon(
-            //                     AppIcons.vegan,
-            //                     color: Colors.white,
-            //                   ),
-            //                   message: 'Vegan',
-            //                 ),
-            //               ],
-            //               SizedBox(
-            //                 width: 10,
-            //               ),
-            //               if (foodIngredient.isVegetarian) ...[
-            //                 Tooltip(
-            //                   child: Icon(
-            //                     AppIcons.vegetarian,
-            //                     color: Colors.white,
-            //                   ),
-            //                   message: 'Vegetarian',
-            //                 ),
-            //               ],
-            //             ],
-            //           ),
-            //         ),
-            //       ),
-            //     ],
-            //   ],
-            // ),
-
-            // Tile with data: Duration, etc
+            // ListTile with data: title, duration and date
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
@@ -186,50 +106,6 @@ class FoodIngredientTile extends StatelessWidget {
                       softWrap: true,
                       overflow: TextOverflow.fade,
                     ),
-
-                    // Row with complexity & affordability:
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: [
-                    //     Row(
-                    //       children: [
-                    //         Icon(
-                    //           Icons.work,
-                    //           size: 18,
-                    //           color: Colors.black54,
-                    //         ),
-                    //         Padding(
-                    //           padding: const EdgeInsets.only(left: 6),
-                    //           child: Text(
-                    //             EnumToString.convertToString(foodIngredient.complexity, camelCase: true),
-                    //             style: TextStyle(
-                    //               color: Colors.black54,
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //     Row(
-                    //       children: [
-                    //         Icon(
-                    //           FontAwesomeIcons.dollarSign,
-                    //           // Icons.attach_money,
-                    //           size: 18,
-                    //           color: Colors.black54,
-                    //         ),
-                    //         Padding(
-                    //           padding: const EdgeInsets.only(left: 2),
-                    //           child: Text(
-                    //             EnumToString.convertToString(foodIngredient.affordability, camelCase: true),
-                    //             style: TextStyle(
-                    //               color: Colors.black54,
-                    //             ),
-                    //           ),
-                    //         ),
-                    //       ],
-                    //     ),
-                    //   ],
-                    // ),
                   ],
                 ),
                 subtitle: Text(formattedDate),
