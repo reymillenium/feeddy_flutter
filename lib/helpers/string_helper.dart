@@ -10,7 +10,7 @@ import 'package:feeddy_flutter/_external_packages.dart';
 // *                     * * *  E X T E N S I O N S  * * *                           *
 // ***********************************************************************************
 
-extension StringFromStringExtension on String {
+extension ReturnsStringFromStringExtension on String {
   // Capitalizes only the first character of a String:
   String get inCaps => this.length > 0 ? '${this[0].toUpperCase()}${this.substring(1)}' : '';
 
@@ -99,7 +99,7 @@ extension StringFromStringExtension on String {
   }
 }
 
-extension ListFromStringExtension on String {
+extension ReturnsListFromStringExtension on String {
   // Converts a given string into a list of words.
   List<String> get intoListOfWords {
     return this.split(RegExp('[^a-zA-Z-]+')).where((s) => s.isNotEmpty).toList();
@@ -111,7 +111,7 @@ extension ListFromStringExtension on String {
   }
 }
 
-extension BoolFromStringExtension on String {
+extension ReturnsBoolFromStringExtension on String {
   // Determines if a string is an anagram from another string:
   bool isAnagram(String str1, String str2) {
     String normalize(String str) => (str.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]', caseSensitive: false), '').split('')..sort()).join('');
@@ -140,7 +140,7 @@ extension BoolFromStringExtension on String {
   }
 }
 
-extension IntFromStringExtension on String {
+extension ReturnsIntFromStringExtension on String {
   //Converts a string of an int into a proper int:
   // It returns 0 when => FormatException: Invalid double => No number included or empty string
   int get parseIntOrZero {
@@ -168,7 +168,7 @@ extension IntFromStringExtension on String {
   }
 }
 
-extension DoubleFromStringExtension on String {
+extension ReturnsDoubleFromStringExtension on String {
   //Converts a string of a double into a proper double:
   // It returns 0 when => FormatException: Invalid double => No number included, only a dot included or empty string
   double get parseDoubleOrZero {

@@ -9,7 +9,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 // *                     * * *  E X T E N S I O N S  * * *                           *
 // ***********************************************************************************
 
-extension DoubleFromDoubleExtension on double {
+extension ReturnsDoubleFromDoubleExtension on double {
   // Returns a rounded double number from a not rounded double (this) and given the amount of places after the comma:
   double roundDouble({int places = 2}) {
     double mod = pow(10.0, places);
@@ -17,7 +17,23 @@ extension DoubleFromDoubleExtension on double {
   }
 }
 
-extension ListFromIntExtension on int {
+extension ReturnsIntFromIntExtension on int {
+  // Generates a list, containing the Fibonacci sequence, up until the nth term.
+  List<int> get fibonacci {
+    int n = this;
+    int last = 1;
+    int last2 = 0;
+    return List<int>.generate(n, (int i) {
+      if (i < 2) return i;
+      int curr = last + last2;
+      last2 = last;
+      last = curr;
+      return curr;
+    });
+  }
+}
+
+extension ReturnsListFromIntExtension on int {
   // Converts an integer to a list of digits:
   List<int> get digitize {
     return "$this".split('').map((s) => int.parse(s)).toList();
@@ -37,6 +53,29 @@ class NumericHelper {
   // Converts an integer to a list of digits:
   static List<int> digitize(int n) {
     return "$n".split('').map((s) => int.parse(s)).toList();
+  }
+
+  // Returns the biggest int included in a List of int numbers:
+  static int biggestIntFromList(List<int> list) {
+    return list.reduce(max);
+  }
+
+  // Returns the lowest int included in a List of int numbers:
+  static int lowestIntFromList(List<int> list) {
+    return list.reduce(min);
+  }
+
+  // Generates a list, containing the Fibonacci sequence, up until the nth term.
+  static List<int> fibonacci(int n) {
+    int last = 1;
+    int last2 = 0;
+    return List<int>.generate(n, (int i) {
+      if (i < 2) return i;
+      int curr = last + last2;
+      last2 = last;
+      last = curr;
+      return curr;
+    });
   }
 
   // ***********************************************************************************
@@ -69,5 +108,19 @@ class NumericHelper {
   // Returns the biggest double included in a List of double numbers:
   static double biggestDoubleFromList(List<double> list) {
     return list.reduce(max);
+  }
+
+  // Returns the lowest double included in a List of double numbers:
+  static double lowestDoubleFromList(List<double> list) {
+    return list.reduce(min);
+  }
+
+  // ***********************************************************************************
+  // *                 * * *  I N T E G E R S  &  D O U B L E S  * * *                 *
+  // ***********************************************************************************
+
+  // Returns the sum value of a list of numbers.
+  num sum(List<num> numbersList) {
+    return numbersList.reduce((num a, num b) => a + b);
   }
 }
