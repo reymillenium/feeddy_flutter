@@ -85,7 +85,7 @@ class FoodIngredientTile extends StatelessWidget {
                     child: Container(
                       padding: EdgeInsets.all(16),
                       child: Text(
-                        '${foodIngredient.amount} $measurementUnit',
+                        '${NumericHelper.roundDouble(foodIngredient.amount, 1)} $measurementUnit',
                         style: TextStyle(
                           color: ColorHelper.contrastingColor(primaryColor),
                           fontWeight: FontWeight.bold,
