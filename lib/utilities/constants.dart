@@ -10,6 +10,7 @@ import 'package:feeddy_flutter/_inner_packages.dart';
 // ***********************************************************************************
 
 final Color barBackgroundColor = const Color(0xff72d8bf);
+final Color partialListsRefillColor = const Color(0xffEAEAEA);
 
 // ***********************************************************************************
 // *                     * * *  A N I M A T I O N S  * * *                           *

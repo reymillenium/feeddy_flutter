@@ -17,8 +17,11 @@ export 'package:feeddy_flutter/components/food_category_panel.dart'; // Second a
 // FoodRecipe related:
 export 'package:feeddy_flutter/components/food_recipes_list.dart';
 export 'package:feeddy_flutter/components/food_recipe_tile.dart';
+export 'package:feeddy_flutter/components/food_recipe_details_header.dart'; // Goes on the FoodRecipeShowScreen, on top of the FoodIngredientsList
 // FoodIngredient related:
 export 'package:feeddy_flutter/components/food_ingredients_list.dart';
 export 'package:feeddy_flutter/components/food_ingredient_tile.dart';
 // General:
 export 'package:feeddy_flutter/components/feeddy_scaffold.dart';
+export 'package:feeddy_flutter/components/simple_list_header.dart';
+export 'package:feeddy_flutter/components/partial_list_container.dart';

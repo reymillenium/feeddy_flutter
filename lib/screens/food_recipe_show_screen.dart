@@ -49,6 +49,7 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
   @override
   Widget build(BuildContext context) {
     FoodIngredientsData foodIngredientsData = Provider.of<FoodIngredientsData>(context, listen: true);
+    Color primaryColor = Theme.of(context).primaryColor;
 
     return FutureBuilder(
         future: foodIngredientsData.byFoodRecipe(_foodRecipe),
@@ -75,9 +76,39 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
                       appTitle: _foodRecipe.title,
                       innerWidgets: [
                         Expanded(
-                          flex: 5,
-                          child: FoodIngredientsList(
-                            foodRecipe: _foodRecipe,
+                          child: ListView(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            children: [
+                              // Recipe Details Header
+                              FoodRecipeDetailsHeader(
+                                foodRecipe: _foodRecipe,
+                              ),
+
+                              // Ingredients List Header Text:
+                              SimpleListHeader(
+                                listHeader: 'Ingredients',
+                              ),
+
+                              // Ingredients List:
+                              PartialListContainer(
+                                innerWidgetList: FoodIngredientsList(
+                                  foodRecipe: _foodRecipe,
+                                ),
+                              ),
+
+                              // Recipe Steps List Header Text:
+                              SimpleListHeader(
+                                listHeader: 'Recipe Steps',
+                              ),
+
+                              // TODO: Still to implement
+                              PartialListContainer(
+                                innerWidgetList: FoodIngredientsList(
+                                  foodRecipe: _foodRecipe,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
