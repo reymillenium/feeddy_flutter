@@ -48,6 +48,7 @@ class RecipeStepsList extends StatelessWidget {
                         return RecipeStepTile(
                           key: ValueKey(recipeSteps[index].id),
                           recipeStep: recipeSteps[index],
+                          index: index,
                         );
                       },
                       childCount: recipeSteps.length,

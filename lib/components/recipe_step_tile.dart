@@ -20,14 +20,15 @@ import 'package:feeddy_flutter/utilities/_utilities.dart';
 class RecipeStepTile extends StatelessWidget {
   // Properties:
   final RecipeStep recipeStep;
+  final int index;
 
   // Constructor:
   RecipeStepTile({
     Key key,
     this.recipeStep,
+    this.index,
   }) : super(key: key);
 
-  // Runtime constants:
   final DateFormat formatter = DateFormat().add_yMMMMd();
   final currencyFormat = new NumberFormat("#,##0.00", "en_US");
 
@@ -74,38 +75,43 @@ class RecipeStepTile extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: ListTile(
                 // visualDensity: VisualDensity.standard,
-                // leading: CircleAvatar(
-                //   backgroundColor: primaryColor,
-                //   radius: 32,
-                //   child: FittedBox(
-                //     child: Container(
-                //       padding: EdgeInsets.all(16),
-                //       child: Text(
-                //         '${NumericHelper.roundDouble(recipeStep.amount, 1)} ${measurementUnit.toCamelCase.readable}',
-                //         style: TextStyle(
-                //           color: ColorHelper.contrastingColor(primaryColor),
-                //           fontWeight: FontWeight.bold,
-                //           fontStyle: FontStyle.italic,
-                //           fontSize: 14,
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                leading: CircleAvatar(
+                  backgroundColor: primaryColor,
+                  radius: 16,
+                  child: FittedBox(
+                    child: Container(
+                      padding: EdgeInsets.all(16),
+                      child: Text(
+                        '${index + 1}',
+                        style: TextStyle(
+                          color: ColorHelper.contrastingColor(primaryColor),
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
 
+                // Description:
                 title: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      recipeStep.description,
-                      style: Theme.of(context).textTheme.headline6,
-                      softWrap: true,
-                      overflow: TextOverflow.fade,
+                    Tooltip(
+                      child: Text(
+                        recipeStep.description,
+                        style: Theme.of(context).textTheme.bodyText1,
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                        maxLines: 2,
+                      ),
+                      message: recipeStep.description,
                     ),
                   ],
                 ),
-                subtitle: Text(formattedDate),
-                // subtitle: Text('testing'),
+
+                // Action icons:
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
