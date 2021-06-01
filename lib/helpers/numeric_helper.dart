@@ -19,6 +19,7 @@ extension ReturnsDoubleFromDoubleExtension on double {
 
 extension ReturnsIntFromIntExtension on int {
   // Generates a list, containing the Fibonacci sequence, up until the nth term.
+  // Example: fibonacci(6); // [0, 1, 1, 2, 3, 5]
   List<int> get fibonacci {
     int n = this;
     int last = 1;
@@ -30,6 +31,29 @@ extension ReturnsIntFromIntExtension on int {
       last = curr;
       return curr;
     });
+  }
+
+  // Returns the nth term of the Fibonacci sequence.
+  // Example: fibonacciNumber(6); // 8
+  int get fibonacciNumber {
+    int n = this;
+    if (n <= 0) return 0;
+    return n < 2 ? n : ((n - 1).fibonacciNumber + (n - 2).fibonacciNumber);
+  }
+
+  // Calculates the factorial of an integer.
+  // Example: factorial(6); // 720
+  int factorial(int n) {
+    if (n < 0) throw ('Negative numbers are not allowed.');
+    return n <= 1 ? 1 : n * this.factorial(n - 1);
+  }
+
+  // Calculates the factorial of an integer.
+  // Example: factorial(6); // 720
+  int get factorialTempGet {
+    int n = this;
+    if (n < 0) throw ('Negative numbers are not allowed.');
+    return n <= 1 ? 1 : n * (n - 1).factorialTempGet;
   }
 }
 
@@ -66,6 +90,7 @@ class NumericHelper {
   }
 
   // Generates a list, containing the Fibonacci sequence, up until the nth term.
+  // Example: fibonacci(6); // [0, 1, 1, 2, 3, 5]
   static List<int> fibonacci(int n) {
     int last = 1;
     int last2 = 0;
@@ -76,6 +101,20 @@ class NumericHelper {
       last = curr;
       return curr;
     });
+  }
+
+  // Returns the nth term of the Fibonacci sequence.
+  // Example: fibonacciNumber(6); // 8
+  static int fibonacciNumber(int n) {
+    if (n <= 0) return 0;
+    return n < 2 ? n : (fibonacciNumber(n - 1) + fibonacciNumber(n - 2));
+  }
+
+  // Calculates the factorial of an integer.
+  // Example: factorial(6); // 720
+  static int factorial(int n) {
+    if (n < 0) throw ('Negative numbers are not allowed.');
+    return n <= 1 ? 1 : n * factorial(n - 1);
   }
 
   // ***********************************************************************************
@@ -120,7 +159,13 @@ class NumericHelper {
   // ***********************************************************************************
 
   // Returns the sum value of a list of numbers.
-  num sum(List<num> numbersList) {
+  static num sum(List<num> numbersList) {
     return numbersList.reduce((num a, num b) => a + b);
+  }
+
+  // Maps a number from one range to another range.
+  // Example: mapNumRange(5, 0, 10, 0, 100); // 50
+  static num mapNumRange(num n, num inMin, num inMax, num outMin, num outMax) {
+    return ((n - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
   }
 }
