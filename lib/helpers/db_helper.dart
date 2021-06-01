@@ -53,6 +53,10 @@ class DBHelper {
     // food_ingredients table:
     Map<String, Object> foodIngredientsTable = FoodIngredientsData.sqliteTable;
     await _createTable(db, 1, foodIngredientsTable);
+
+    // recipe_steps table:
+    Map<String, Object> recipeStepsTable = RecipeStepsData.sqliteTable;
+    await _createTable(db, 1, recipeStepsTable);
   }
 
   _createTable(Database db, int version, Map<String, dynamic> table) async {
