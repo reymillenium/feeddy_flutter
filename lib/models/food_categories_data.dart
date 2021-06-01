@@ -148,7 +148,7 @@ class FoodCategoriesData with ChangeNotifier {
         Color color = ColorHelper.randomMaterialColor();
         FoodCategory foodCategory = await addFoodCategory(title, color);
 
-        // Creates a few dummy FoodRecipe objects by its id:
+        // Creates a few dummy FoodRecipe objects by its id (as well as FoodRecipeFoodCategory, FoodIngredient & RecipeStep objects):
         foodRecipesData.generateDummyDataByFoodCategoryId(foodCategory.id, 5);
       }
     }

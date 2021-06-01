@@ -218,6 +218,7 @@ class FoodRecipesData with ChangeNotifier {
   void generateDummyDataByFoodCategoryId(int foodCategoryId, int amount) async {
     FoodCategoriesFoodRecipesData foodCategoriesFoodRecipesData = FoodCategoriesFoodRecipesData();
     FoodIngredientsData foodIngredientsData = FoodIngredientsData();
+    RecipeStepsData recipeStepsData = RecipeStepsData();
 
     for (int j = 0; j < amount; j++) {
       try {
@@ -232,8 +233,12 @@ class FoodRecipesData with ChangeNotifier {
           isVegan: false,
           isVegetarian: false,
         );
+        // FoodCategoriesFoodRecipe objects to keep consistency (relations between tables) on the DB containing the dummy data:
         await foodCategoriesFoodRecipesData.addFoodCategoryFoodRecipe(foodCategoryId, foodRecipe.id);
+        // FoodIngredient objects as dummy data:
         await foodIngredientsData.generateDummyDataByFoodRecipeId(foodRecipe.id, 12);
+        // RecipeStep objects as dummy data:
+        await recipeStepsData.generateDummyDataByFoodRecipeId(foodRecipe.id, 12);
       } catch (error) {
         print(error);
       }

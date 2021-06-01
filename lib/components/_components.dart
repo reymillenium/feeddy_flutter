@@ -21,6 +21,9 @@ export 'package:feeddy_flutter/components/food_recipe_details_header.dart'; // G
 // FoodIngredient related:
 export 'package:feeddy_flutter/components/food_ingredients_list.dart';
 export 'package:feeddy_flutter/components/food_ingredient_tile.dart';
+// RecipeStep related:
+export 'package:feeddy_flutter/components/recipe_steps_list.dart';
+export 'package:feeddy_flutter/components/recipe_step_tile.dart';
 // General:
 export 'package:feeddy_flutter/components/feeddy_scaffold.dart';
 export 'package:feeddy_flutter/components/simple_list_header.dart';

@@ -50,6 +50,11 @@ void main() {
       ChangeNotifierProvider<FoodIngredientsData>(
         create: (context) => FoodIngredientsData(),
       ),
+
+      // Data related to the RecipeStepsData objects: (sqlite)
+      ChangeNotifierProvider<RecipeStepsData>(
+        create: (context) => RecipeStepsData(),
+      ),
     ],
     // child: MyApp(),
     child: InitialSplashScreen(),

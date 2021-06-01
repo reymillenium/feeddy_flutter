@@ -102,9 +102,9 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
                                 listHeader: 'Recipe Steps',
                               ),
 
-                              // TODO: Still to implement
+                              // Recipe Steps List:
                               PartialListContainer(
-                                innerWidgetList: FoodIngredientsList(
+                                innerWidgetList: RecipeStepsList(
                                   foodRecipe: _foodRecipe,
                                 ),
                               ),
