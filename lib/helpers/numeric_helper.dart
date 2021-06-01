@@ -19,7 +19,7 @@ extension ReturnsDoubleFromDoubleExtension on double {
 
 extension ReturnsIntFromIntExtension on int {
   // Generates a list, containing the Fibonacci sequence, up until the nth term.
-  // Example: fibonacci(6); // [0, 1, 1, 2, 3, 5]
+  // Example: 6.fibonacci; // [0, 1, 1, 2, 3, 5]
   List<int> get fibonacci {
     int n = this;
     int last = 1;
@@ -34,7 +34,7 @@ extension ReturnsIntFromIntExtension on int {
   }
 
   // Returns the nth term of the Fibonacci sequence.
-  // Example: fibonacciNumber(6); // 8
+  // Example: 6.fibonacciNumber; // 8
   int get fibonacciNumber {
     int n = this;
     if (n <= 0) return 0;
@@ -42,18 +42,39 @@ extension ReturnsIntFromIntExtension on int {
   }
 
   // Calculates the factorial of an integer.
-  // Example: factorial(6); // 720
+  // Example: 6.factorial; // 720
   int factorial(int n) {
     if (n < 0) throw ('Negative numbers are not allowed.');
     return n <= 1 ? 1 : n * this.factorial(n - 1);
   }
 
   // Calculates the factorial of an integer.
-  // Example: factorial(6); // 720
+  // Example: 6.factorialTempGet; // 720
   int get factorialTempGet {
     int n = this;
     if (n < 0) throw ('Negative numbers are not allowed.');
     return n <= 1 ? 1 : n * (n - 1).factorialTempGet;
+  }
+}
+
+extension ReturnsBoolFromIntExtension on int {
+  // Checks if the first integer argument is divisible by the second one.
+  // Example: 6.isDivisible(3); // true
+  bool isDivisible(int divisor) {
+    int dividend = this;
+    return dividend % divisor == 0;
+  }
+
+  // Returns true if the given number is even, false otherwise.
+  // Example: 3.isEven; // false
+  bool get isEven {
+    return this % 2 == 0;
+  }
+
+  // Returns true if the given number is odd, false otherwise.
+  // Example: 3.isOdd; // true
+  bool get isOdd {
+    return this % 2 != 0;
   }
 }
 
@@ -117,6 +138,24 @@ class NumericHelper {
     return n <= 1 ? 1 : n * factorial(n - 1);
   }
 
+  // Checks if the first integer argument is divisible by the second one.
+  // Example: isDivisible(6, 3); // true
+  static bool isDivisible(int dividend, int divisor) {
+    return dividend % divisor == 0;
+  }
+
+  // Returns true if the given number is even, false otherwise.
+  // Example: isEven(3); // false
+  static bool isEven(num n) {
+    return n % 2 == 0;
+  }
+
+  // Returns true if the given number is odd, false otherwise.
+  // Example: isOdd(3); // true
+  bool isOdd(num n) {
+    return n % 2 != 0;
+  }
+
   // ***********************************************************************************
   // *                           * * *  D O U B L E S  * * *                           *
   // ***********************************************************************************
@@ -167,5 +206,17 @@ class NumericHelper {
   // Example: mapNumRange(5, 0, 10, 0, 100); // 50
   static num mapNumRange(num n, num inMin, num inMax, num outMin, num outMax) {
     return ((n - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+  }
+
+  // Converts an angle from degrees to radians.
+  // Example: degreesToRads(90.0); // ~1.5708
+  num degreesToRads(num deg) {
+    return (deg * pi) / 180.0;
+  }
+
+  // Converts an angle from radians to degrees.
+  // Example: radsToDegrees(pi / 2); // 90
+  num radsToDegrees(num rad) {
+    return (rad * 180.0) / pi;
   }
 }
