@@ -62,11 +62,6 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
         Navigator.pushNamed(context, FavoritesScreen.screenId);
         break;
     }
-
-    setState(() {
-      _activeIndex = index;
-    });
-    print('onTapSelectNavigation _activeIndex: $_activeIndex');
   }
 
   @override
@@ -74,7 +69,6 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
     AppData appData = Provider.of<AppData>(context, listen: true);
     Function closeAllThePanels = appData.closeAllThePanels; // Drawer related:
     bool deviceIsIOS = DeviceHelper.deviceIsIOS(context);
-    print('build _activeIndex: $_activeIndex');
 
     // WidgetsFlutterBinding.ensureInitialized(); // Without this it might not work in some devices:
     SystemChrome.setPreferredOrientations([

@@ -2,6 +2,7 @@
 
 import 'package:feeddy_flutter/_inner_packages.dart';
 import 'package:feeddy_flutter/_external_packages.dart';
+import 'package:feeddy_flutter/screens/favorites_screen.dart';
 
 // Screens:
 
@@ -178,6 +179,10 @@ class AppData extends ChangeNotifier {
     },
   ];
 
+  // BottomNavigationBar Active Tab Index:
+  // String _currentRouteScreenId = '';
+  // int _activeTabBottomNavigationBar = 0;
+
   // Constructor:
   AppData() {
     ThemeData newThemeData = ThemeData(
@@ -254,6 +259,14 @@ class AppData extends ChangeNotifier {
     return _availableWeeklyCharts[_weeklyChartIndex]['code'] == 'weekly_fl_chart';
   }
 
+  // get currentRouteScreenId {
+  //   return _currentRouteScreenId;
+  // }
+
+  // get activeTabBottomNavigationBar {
+  //   return _activeTabBottomNavigationBar;
+  // }
+
   // Public methods:
   void setCurrentThemeColor(int themeColorIndex) {
     _themeColorIndex = themeColorIndex;
@@ -313,4 +326,22 @@ class AppData extends ChangeNotifier {
     }
     notifyListeners();
   }
+
+  // void setCurrentRouteScreenId(String routeScreenId) {
+  //   _currentRouteScreenId = routeScreenId;
+  //   setActiveTabBottomNavigationBar(routeScreenId);
+  //   notifyListeners();
+  // }
+
+  // void setActiveTabBottomNavigationBar(String routeScreenId) {
+  //   switch (routeScreenId) {
+  //     case FavoritesScreen.screenId:
+  //       _activeTabBottomNavigationBar = 1;
+  //       break;
+  //     default:
+  //       _activeTabBottomNavigationBar = 0;
+  //       break;
+  //   }
+  //   notifyListeners();
+  // }
 }

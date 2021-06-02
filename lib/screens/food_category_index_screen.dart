@@ -27,14 +27,56 @@ class FoodCategoryIndexScreen extends StatefulWidget {
   _FoodCategoryIndexScreenState createState() => _FoodCategoryIndexScreenState();
 }
 
-class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> {
+class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> with RouteAware, RouteObserverMixin {
+  final String _screenId = FoodCategoryIndexScreen.screenId;
+  int _activeTab = 0;
+
+  /// Called when the top route has been popped off, and the current route
+  /// shows up.
+  @override
+  void didPopNext() {
+    print('didPopNext => Emerges: $_screenId');
+    setState(() {
+      _activeTab = 0;
+    });
+  }
+
+  /// Called when the current route has been pushed.
+  @override
+  void didPush() {
+    print('didPush => Arriving to: $_screenId');
+    setState(() {
+      _activeTab = 0;
+    });
+  }
+
+  /// Called when the current route has been popped off.
+  @override
+  void didPop() {
+    print('didPop => Popping of: $_screenId');
+  }
+
+  /// Called when a new route has been pushed, and the current route is no
+  /// longer visible.
+  @override
+  void didPushNext() {
+    print('didPushNext => Covering: $_screenId');
+  }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   print("Back To old Screen");
+  //   super.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
     int amountTotalFoodCategories = foodCategoriesData.foodCategories.length;
 
     return FeeddyScaffold(
-      activeIndex: 0,
+      activeIndex: _activeTab,
       appTitle: widget.appTitle,
       innerWidgets: [
         // Food Categories Grid:

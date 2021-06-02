@@ -33,3 +33,5 @@ export 'package:flutter_colorpicker/flutter_colorpicker.dart';
 export 'package:enum_to_string/enum_to_string.dart'; // Allows to convert from and into enum and String objects
 
 export 'package:humanizer/humanizer.dart'; // Allows to convert values into human-friendly representations
+
+export 'package:route_observer_mixin/route_observer_mixin.dart'; // RouteObserveMixin provides easy access to didPush/didPop/didPushNext/didPopNext.

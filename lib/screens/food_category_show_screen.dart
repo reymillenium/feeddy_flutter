@@ -32,9 +32,50 @@ class FoodCategoryShowScreen extends StatefulWidget {
   _FoodCategoryShowScreenState createState() => _FoodCategoryShowScreenState();
 }
 
-class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
+class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with RouteAware, RouteObserverMixin {
   // State Properties:
   FoodCategory _foodCategory;
+  final String _screenId = FoodCategoryShowScreen.screenId;
+  int _activeTab = 0;
+
+  /// Called when the top route has been popped off, and the current route
+  /// shows up.
+  @override
+  void didPopNext() {
+    print('didPopNext => Emerges: $_screenId');
+    setState(() {
+      _activeTab = 0;
+    });
+  }
+
+  /// Called when the current route has been pushed.
+  @override
+  void didPush() {
+    print('didPush => Arriving to: $_screenId');
+    setState(() {
+      _activeTab = 0;
+    });
+  }
+
+  /// Called when the current route has been popped off.
+  @override
+  void didPop() {
+    print('didPop => Popping of: $_screenId');
+  }
+
+  /// Called when a new route has been pushed, and the current route is no
+  /// longer visible.
+  @override
+  void didPushNext() {
+    print('didPushNext => Covering: $_screenId');
+  }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   print("Back To old Screen");
+  //   super.dispose();
+  // }
 
   @override
   void initState() {
@@ -46,6 +87,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
   @override
   Widget build(BuildContext context) {
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
+    // print(ModalRoute.of(context).settings);
 
     return FutureBuilder(
         future: foodRecipesData.byFoodCategory(_foodCategory),
@@ -56,7 +98,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
             case ConnectionState.done:
               return foodRecipes.isEmpty
                   ? FeeddyScaffold(
-                      activeIndex: 0,
+                      activeIndex: _activeTab,
                       appTitle: _foodCategory.title,
                       innerWidgets: [
                         FeeddyEmptyWidget(
@@ -70,7 +112,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                       onPressedAdd: () => _showModalNewFoodRecipe(context),
                     )
                   : FeeddyScaffold(
-                      activeIndex: 0,
+                      activeIndex: _activeTab,
                       appTitle: _foodCategory.title,
                       innerWidgets: [
                         Expanded(
@@ -86,7 +128,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                     );
             default:
               return FeeddyScaffold(
-                activeIndex: 0,
+                activeIndex: _activeTab,
                 appTitle: _foodCategory.title,
                 innerWidgets: [
                   FeeddyEmptyWidget(

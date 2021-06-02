@@ -26,6 +26,9 @@ void main() {
   // With several providers:
   runApp(MultiProvider(
     providers: [
+      // Route Observer:
+      RouteObserverProvider(),
+
       // Config about the app:
       ChangeNotifierProvider<AppData>(
         create: (context) => AppData(),
@@ -146,6 +149,9 @@ class MyApp extends StatelessWidget {
               ),
         ),
       ),
+      // navigatorObservers: [routeObserver],
+      // navigatorObservers: <RouteObserver<ModalRoute<void>>>[routeObserver],
+      navigatorObservers: [RouteObserverProvider.of(context)],
       debugShowCheckedModeBanner: false,
       // home: FoodCategoryIndexScreen(appTitle: appTitle),
       initialRoute: FoodCategoryIndexScreen.screenId,

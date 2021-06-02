@@ -32,11 +32,13 @@ class FoodRecipeShowScreen extends StatefulWidget {
   _FoodRecipeShowScreenState createState() => _FoodRecipeShowScreenState();
 }
 
-class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
+class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> with RouteAware, RouteObserverMixin {
   // State Properties:
   bool _showPortraitOnly = false;
   String _appTitle;
   FoodRecipe _foodRecipe;
+  final String _screenId = FoodRecipeShowScreen.screenId;
+  int _activeTab = 0;
 
   @override
   void initState() {
@@ -45,6 +47,45 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
     _appTitle = widget.appTitle;
     _foodRecipe = widget.foodRecipe;
   }
+
+  /// Called when the top route has been popped off, and the current route
+  /// shows up.
+  @override
+  void didPopNext() {
+    print('didPopNext => Emerges: $_screenId');
+    setState(() {
+      _activeTab = 0;
+    });
+  }
+
+  /// Called when the current route has been pushed.
+  @override
+  void didPush() {
+    print('didPush => Arriving to: $_screenId');
+    setState(() {
+      _activeTab = 0;
+    });
+  }
+
+  /// Called when the current route has been popped off.
+  @override
+  void didPop() {
+    print('didPop => Popping of: $_screenId');
+  }
+
+  /// Called when a new route has been pushed, and the current route is no
+  /// longer visible.
+  @override
+  void didPushNext() {
+    print('didPushNext => Covering: $_screenId');
+  }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   print("Back To old Screen");
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +101,7 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
             case ConnectionState.done:
               return foodIngredients.isEmpty
                   ? FeeddyScaffold(
-                      activeIndex: 0,
+                      activeIndex: _activeTab,
                       appTitle: _foodRecipe.title,
                       innerWidgets: [
                         FeeddyEmptyWidget(
@@ -74,7 +115,7 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
                       onPressedAdd: () => _showModalNewFoodRecipe(context),
                     )
                   : FeeddyScaffold(
-                      activeIndex: 0,
+                      activeIndex: _activeTab,
                       appTitle: _foodRecipe.title,
                       innerWidgets: [
                         Expanded(
@@ -120,7 +161,7 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
                     );
             default:
               return FeeddyScaffold(
-                activeIndex: 0,
+                activeIndex: _activeTab,
                 appTitle: _foodRecipe.title,
                 innerWidgets: [
                   FeeddyEmptyWidget(
@@ -135,48 +176,6 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> {
               );
           }
         });
-
-    return FeeddyScaffold(
-      appTitle: _foodRecipe.title,
-      innerWidgets: [
-        Expanded(
-          flex: 3,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
-                child: Image.network(
-                  _foodRecipe.imageUrl,
-                  height: 250,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                ),
-              ),
-              Container(
-                // margin: EdgeInsets.symmetric(vertical: 1),
-                child: Text(
-                  'Ingredients',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          flex: 5,
-          child: FoodIngredientsList(
-            foodRecipe: _foodRecipe,
-          ),
-        ),
-      ],
-      onPressedAdd: () => _showModalNewFoodRecipe(context),
-      objectsLength: 0,
-      objectName: 'thing',
-    );
   }
 
   void _showModalNewFoodRecipe(BuildContext context) {

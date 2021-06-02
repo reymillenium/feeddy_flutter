@@ -30,10 +30,51 @@ class UnknownScreen extends StatefulWidget {
   _UnknownScreenState createState() => _UnknownScreenState();
 }
 
-class _UnknownScreenState extends State<UnknownScreen> {
+class _UnknownScreenState extends State<UnknownScreen> with RouteAware, RouteObserverMixin {
   // State Properties:
   bool _showPortraitOnly = false;
   String _appTitle;
+  final String _screenId = UnknownScreen.screenId;
+  int _activeTab = 0;
+
+  /// Called when the top route has been popped off, and the current route
+  /// shows up.
+  @override
+  void didPopNext() {
+    print('didPopNext => Emerges: $_screenId');
+    setState(() {
+      _activeTab = 0;
+    });
+  }
+
+  /// Called when the current route has been pushed.
+  @override
+  void didPush() {
+    print('didPush => Arriving to: $_screenId');
+    setState(() {
+      _activeTab = 0;
+    });
+  }
+
+  /// Called when the current route has been popped off.
+  @override
+  void didPop() {
+    print('didPop => Popping of: $_screenId');
+  }
+
+  /// Called when a new route has been pushed, and the current route is no
+  /// longer visible.
+  @override
+  void didPushNext() {
+    print('didPushNext => Covering: $_screenId');
+  }
+
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   print("Back To old Screen");
+  //   super.dispose();
+  // }
 
   @override
   void initState() {
@@ -45,7 +86,7 @@ class _UnknownScreenState extends State<UnknownScreen> {
   @override
   Widget build(BuildContext context) {
     return FeeddyScaffold(
-      activeIndex: 0,
+      activeIndex: _activeTab,
       appTitle: _appTitle,
       innerWidgets: [
         FeeddyEmptyWidget(

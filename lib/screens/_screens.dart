@@ -13,3 +13,4 @@ export 'package:feeddy_flutter/screens/unknown_screen.dart';
 
 // Others:
 export 'package:feeddy_flutter/screens/favorites_screen.dart';
+export 'package:feeddy_flutter/main.dart';

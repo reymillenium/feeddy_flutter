@@ -32,6 +32,7 @@ dependencies:
   flutter_colorpicker: ^0.4.0
   enum_to_string: ^2.0.1
   humanizer: ^0.0.2
+  route_observer_mixin: ^1.5.0+1
 
 dev_dependencies:
   flutter_test:
