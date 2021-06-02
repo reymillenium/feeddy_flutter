@@ -34,6 +34,7 @@ class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> {
     int amountTotalFoodCategories = foodCategoriesData.foodCategories.length;
 
     return FeeddyScaffold(
+      activeIndex: 0,
       appTitle: widget.appTitle,
       innerWidgets: [
         // Food Categories Grid:

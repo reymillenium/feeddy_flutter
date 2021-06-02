@@ -155,6 +155,7 @@ class MyApp extends StatelessWidget {
         FoodCategoryIndexScreen.screenId: (context) => FoodCategoryIndexScreen(appTitle: appTitle),
         FoodCategoryNewScreen.screenId: (context) => FoodCategoryNewScreen(),
         FoodCategoryEditScreen.screenId: (context) => FoodCategoryEditScreen(),
+        FavoritesScreen.screenId: (context) => FavoritesScreen(),
       },
 
       // Named Routes with extra arguments:

@@ -56,6 +56,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
             case ConnectionState.done:
               return foodRecipes.isEmpty
                   ? FeeddyScaffold(
+                      activeIndex: 0,
                       appTitle: _foodCategory.title,
                       innerWidgets: [
                         FeeddyEmptyWidget(
@@ -69,6 +70,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                       onPressedAdd: () => _showModalNewFoodRecipe(context),
                     )
                   : FeeddyScaffold(
+                      activeIndex: 0,
                       appTitle: _foodCategory.title,
                       innerWidgets: [
                         Expanded(
@@ -84,6 +86,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> {
                     );
             default:
               return FeeddyScaffold(
+                activeIndex: 0,
                 appTitle: _foodCategory.title,
                 innerWidgets: [
                   FeeddyEmptyWidget(

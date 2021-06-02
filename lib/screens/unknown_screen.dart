@@ -45,6 +45,7 @@ class _UnknownScreenState extends State<UnknownScreen> {
   @override
   Widget build(BuildContext context) {
     return FeeddyScaffold(
+      activeIndex: 0,
       appTitle: _appTitle,
       innerWidgets: [
         FeeddyEmptyWidget(

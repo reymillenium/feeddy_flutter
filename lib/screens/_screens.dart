@@ -10,3 +10,6 @@ export 'package:feeddy_flutter/screens/food_recipe_show_screen.dart';
 
 // 404 page:
 export 'package:feeddy_flutter/screens/unknown_screen.dart';
+
+// Others:
+export 'package:feeddy_flutter/screens/favorites_screen.dart';
