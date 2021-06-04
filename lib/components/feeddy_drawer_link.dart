@@ -28,8 +28,13 @@ class FeeddyDrawerLink extends StatelessWidget {
     this.screenId,
   }) : super(key: key);
 
-  void onTapLink(String screenId, BuildContext context) {
+  void onTapLink(String screenId, BuildContext context) async {
+    // Working:
     // Navigator.of(context).pushNamed(screenId);
+
+    // Initially Not working:
+    // When trying to solve the error:
+    //Flutter setState() or markNeedsBuild() called when widget tree was locked
     Navigator.of(context).pushReplacementNamed(screenId);
   }
 

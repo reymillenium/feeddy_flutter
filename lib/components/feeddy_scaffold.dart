@@ -90,7 +90,22 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
       appBar: appBar,
       onDrawerChanged: (isOpened) {
         if (!isOpened) {
-          closeAllThePanels();
+          // closeAllThePanels();
+          // This fixes the error:
+          // Flutter setState() or markNeedsBuild() called when widget tree was locked
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            closeAllThePanels();
+          });
+
+          // This also fixes the ame error:
+          // Future.delayed(Duration.zero, () {
+          //   closeAllThePanels();
+          // });
+
+          // And also this fixes the same error:
+          // Timer.run(() {
+          //   closeAllThePanels();
+          // });
         }
       },
 
