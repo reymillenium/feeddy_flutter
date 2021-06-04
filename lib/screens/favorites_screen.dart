@@ -83,7 +83,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with RouteAware, Rout
       ],
       objectsLength: 0,
       objectName: 'favorite',
-      onPressedAdd: () => _showModalNewFavorite(context),
+      onPressedFAB: () => _showModalNewFavorite(context),
     );
   }
 

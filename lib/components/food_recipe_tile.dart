@@ -51,8 +51,13 @@ class FoodRecipeTile extends StatelessWidget {
     // Color accentColor = Theme.of(context).accentColor;
 
     return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe});
+      onTap: () async {
+        // Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe});
+        var foodRecipeId = await Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe});
+        print('foodRecipeId: $foodRecipeId');
+        if (foodRecipeId != null) {
+          onDeleteFoodRecipeHandler(foodRecipeId, context);
+        }
       },
       child: Card(
         // shadowColor: Colors.purpleAccent,

@@ -87,7 +87,7 @@ class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> with 
       ],
       objectsLength: amountTotalFoodCategories,
       objectName: 'category',
-      onPressedAdd: () => _showModalNewFoodCategory(context),
+      onPressedFAB: () => _showModalNewFoodCategory(context),
     );
   }
 

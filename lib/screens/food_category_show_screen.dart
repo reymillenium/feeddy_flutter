@@ -109,7 +109,8 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                       ],
                       objectsLength: 0,
                       objectName: 'recipe',
-                      onPressedAdd: () => _showModalNewFoodRecipe(context),
+                      iconFAB: FontAwesomeIcons.question,
+                      onPressedFAB: () => _showModalNewFoodRecipe(context),
                     )
                   : FeeddyScaffold(
                       activeIndex: _activeTab,
@@ -124,7 +125,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                       ],
                       objectsLength: foodRecipes.length,
                       objectName: 'recipe',
-                      onPressedAdd: () => _showModalNewFoodRecipe(context),
+                      onPressedFAB: () => _showModalNewFoodRecipe(context),
                     );
             default:
               return FeeddyScaffold(
@@ -139,7 +140,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                 ],
                 objectsLength: 0,
                 objectName: 'recipe',
-                onPressedAdd: () => _showModalNewFoodRecipe(context),
+                onPressedFAB: () => _showModalNewFoodRecipe(context),
               );
           }
         });

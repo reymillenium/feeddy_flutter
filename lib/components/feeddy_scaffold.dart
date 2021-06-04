@@ -21,21 +21,25 @@ class FeeddyScaffold extends StatefulWidget {
   // Properties:
   final bool _showPortraitOnly = false;
   final String appTitle;
-  final Function onPressedAdd;
+  final Function onPressedFAB;
   final String objectName;
   final int objectsLength;
   final List<Widget> innerWidgets;
   final int activeIndex;
+  final bool isAdditionFAB;
+  final IconData iconFAB;
 
   // Constructor:
   const FeeddyScaffold({
     Key key,
     this.appTitle,
-    this.onPressedAdd,
+    this.onPressedFAB,
     this.objectName,
     this.objectsLength,
     this.innerWidgets,
     this.activeIndex,
+    this.isAdditionFAB = true,
+    this.iconFAB = FontAwesomeIcons.plus,
   }) : super(key: key);
 
   @override
@@ -45,12 +49,22 @@ class FeeddyScaffold extends StatefulWidget {
 class _FeeddyScaffoldState extends State<FeeddyScaffold> {
   final bool _showPortraitOnly = false;
   int _activeIndex;
+  // bool _isAdditionFAB;
+  // IconData _iconFAB = Icons.add;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _activeIndex = widget.activeIndex;
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    print('didChangeDependencies => widget.iconFAB: ${widget.iconFAB}');
+
+    super.didChangeDependencies();
   }
 
   void onTapSelectNavigation(int index, BuildContext context) {
@@ -82,7 +96,7 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
 
     FeeddyAppBar appBar = FeeddyAppBar(
       appTitle: widget.appTitle,
-      onPressedAdd: widget.onPressedAdd,
+      onPressedAdd: widget.onPressedFAB,
       objectName: widget.objectName,
     );
 
@@ -182,12 +196,14 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
       ),
 
       // FAB
-      floatingActionButton: deviceIsIOS
+      floatingActionButton: !deviceIsIOS
           ? null
           : FloatingActionButton(
-              tooltip: 'Add ${widget.objectName.inCaps}',
-              child: Icon(Icons.add),
-              onPressed: () => widget.onPressedAdd,
+              tooltip: '${widget.isAdditionFAB ? 'Add' : 'Delete'} ${widget.objectName.inCaps}',
+              // child: Icon(_iconFAB ?? Icons.add),
+              // child: Icon(_iconFAB),
+              child: Icon(widget.iconFAB),
+              onPressed: widget.onPressedFAB,
             ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButtonLocation: deviceIsIOS ? null : FloatingActionButtonLocation.endDocked,

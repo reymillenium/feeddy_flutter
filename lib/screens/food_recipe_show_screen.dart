@@ -112,11 +112,12 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> with RouteA
                       ],
                       objectsLength: 0,
                       objectName: 'ingredient',
-                      onPressedAdd: () => _showModalNewFoodRecipe(context),
+                      iconFAB: FontAwesomeIcons.question,
+                      onPressedFAB: () {},
                     )
                   : FeeddyScaffold(
                       activeIndex: _activeTab,
-                      appTitle: _foodRecipe.title,
+                      appTitle: _foodRecipe.title + ' df',
                       innerWidgets: [
                         Expanded(
                           child: ListView(
@@ -157,7 +158,9 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> with RouteA
                       ],
                       objectsLength: foodIngredients.length,
                       objectName: 'ingredient',
-                      onPressedAdd: () => _showModalNewFoodRecipe(context),
+                      onPressedFAB: () => _showModalNewFoodRecipe(_foodRecipe.id, context),
+                      isAdditionFAB: false,
+                      iconFAB: Icons.delete,
                     );
             default:
               return FeeddyScaffold(
@@ -172,20 +175,23 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> with RouteA
                 ],
                 objectsLength: 0,
                 objectName: 'ingredient',
-                onPressedAdd: () => _showModalNewFoodRecipe(context),
+                // iconFAB: FontAwesomeIcons.question,
+                onPressedFAB: () {},
               );
           }
         });
   }
 
-  void _showModalNewFoodRecipe(BuildContext context) {
+  void _showModalNewFoodRecipe(dynamic foodRecipeId, BuildContext context) {
     SoundHelper().playSmallButtonClick();
+    // print('Inside _showModalNewFoodRecipe');
     // showModalBottomSheet(
     //   backgroundColor: Colors.transparent,
     //   isScrollControlled: true,
     //   context: context,
     //   builder: (context) => FoodCategoryNewScreen(),
     // );
+    Navigator.of(context).pop(foodRecipeId);
   }
 }
 

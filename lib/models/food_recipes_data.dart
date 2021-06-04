@@ -329,7 +329,8 @@ class FoodRecipesData with ChangeNotifier {
 
   Future<void> deleteFoodRecipeWithConfirm(int id, BuildContext context) {
     DialogHelper.showDialogPlus(id, context, () => _removeWhere(id)).then((value) {
-      (context as Element).reassemble();
+      // This commenting, fixes an exception when deleting
+      // (context as Element).reassemble();
       refresh();
     });
   }

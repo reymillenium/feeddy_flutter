@@ -95,7 +95,7 @@ class _UnknownScreenState extends State<UnknownScreen> with RouteAware, RouteObs
           subTitle: 'That screen does not exist',
         ),
       ],
-      onPressedAdd: () => _showModalNewThing(context),
+      onPressedFAB: () => _showModalNewThing(context),
       objectsLength: 0,
       objectName: 'thing',
     );
