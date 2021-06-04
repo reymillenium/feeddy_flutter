@@ -9,6 +9,7 @@ import 'package:feeddy_flutter/models/_models.dart';
 
 // Components:
 import 'package:feeddy_flutter/components/_components.dart';
+import 'package:feeddy_flutter/screens/_screens.dart';
 
 // Helpers:
 
@@ -95,6 +96,13 @@ class FeeddyDrawer extends StatelessWidget {
                 // Text('Primary Color:'),
               ],
             ),
+          ),
+
+          // Links:
+          FeeddyDrawerLink(
+            icon: Icons.category,
+            title: 'Categories',
+            screenId: FoodCategoryIndexScreen.screenId,
           ),
 
           // Drawer options: (Expansion Panels)
