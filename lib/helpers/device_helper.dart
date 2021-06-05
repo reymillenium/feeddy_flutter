@@ -16,6 +16,11 @@ class DeviceHelper {
     return MediaQuery.of(context).size.height;
   }
 
+  // Returns the total amount of pixels in the horizontal axis of the device:
+  static double totalHorizontalWidth({BuildContext context}) {
+    return MediaQuery.of(context).size.width;
+  }
+
   // Returns the amount of pixels already used by the Status Bar in the vertical axis of the device:
   static double statusBarTopPadding({BuildContext context}) {
     return MediaQuery.of(context).padding.top;
