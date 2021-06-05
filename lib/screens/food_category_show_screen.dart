@@ -37,6 +37,8 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
   FoodCategory _foodCategory;
   final String _screenId = FoodCategoryShowScreen.screenId;
   int _activeTab = 0;
+  List<String> availableFilters = ["isGlutenFree", "isLactoseFree", "isVegan", "isVegetarian"];
+  List<String> selectedFilters = [];
 
   /// Called when the top route has been popped off, and the current route
   /// shows up.
@@ -84,6 +86,41 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
     _foodCategory = widget.foodCategory;
   }
 
+  void _openFilterDialog(BuildContext context) async {
+    await FilterListDialog.display<String>(
+      context,
+      listData: availableFilters,
+      selectedListData: selectedFilters,
+      height: 480,
+      headlineText: "Select Count",
+      searchFieldHintText: "Search Here",
+      choiceChipLabel: (item) {
+        return item.toCamelCase.readable;
+      },
+      validateSelectedItem: (list, val) {
+        return list.contains(val);
+      },
+      onItemSearch: (list, text) {
+        if (list.any((element) => element.toLowerCase().contains(text.toLowerCase()))) {
+          return list.where((element) => element.toLowerCase().contains(text.toLowerCase())).toList();
+        } else {
+          return [];
+        }
+      },
+      onApplyButtonClick: (list) {
+        if (list != null) {
+          setState(() {
+            selectedFilters = List.from(list);
+          });
+        }
+        print(selectedFilters);
+        Navigator.pop(context);
+        // Navigator.pop(context, true);
+      },
+      useRootNavigator: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
@@ -125,7 +162,8 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                       ],
                       objectsLength: foodRecipes.length,
                       objectName: 'recipe',
-                      onPressedFAB: () => _showModalNewFoodRecipe(context),
+                      // onPressedFAB: () => _showModalNewFoodRecipe(context),
+                      onPressedFAB: () => _openFilterDialog(context),
                     );
             default:
               return FeeddyScaffold(
