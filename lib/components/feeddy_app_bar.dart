@@ -21,12 +21,14 @@ class FeeddyAppBar extends StatelessWidget with PreferredSizeWidget {
   final String appTitle;
   final Function onPressedAdd;
   final String objectName;
+  final IconData actionIcon;
 
   const FeeddyAppBar({
     Key key,
     this.appTitle,
     this.onPressedAdd,
     this.objectName,
+    this.actionIcon = Icons.add,
   }) : super(key: key);
 
   @override
@@ -48,8 +50,8 @@ class FeeddyAppBar extends StatelessWidget with PreferredSizeWidget {
       ),
       actions: [
         IconButton(
-          iconSize: 40,
-          icon: Icon(Icons.add_rounded),
+          iconSize: 32,
+          icon: Icon(actionIcon),
           tooltip: 'Add ${objectName.inCaps}',
           onPressed: onPressedAdd,
         ),

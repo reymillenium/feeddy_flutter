@@ -28,6 +28,7 @@ class FeeddyScaffold extends StatefulWidget {
   final int activeIndex;
   final bool isAdditionFAB;
   final IconData iconFAB;
+  final IconData appBarActionIcon;
 
   // Constructor:
   const FeeddyScaffold({
@@ -40,6 +41,7 @@ class FeeddyScaffold extends StatefulWidget {
     this.activeIndex,
     this.isAdditionFAB = true,
     this.iconFAB = FontAwesomeIcons.plus,
+    this.appBarActionIcon = Icons.add,
   }) : super(key: key);
 
   @override
@@ -100,6 +102,7 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
       appTitle: widget.appTitle,
       onPressedAdd: widget.onPressedFAB,
       objectName: widget.objectName,
+      actionIcon: widget.appBarActionIcon,
     );
 
     return Scaffold(

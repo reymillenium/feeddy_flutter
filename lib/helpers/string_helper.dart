@@ -78,6 +78,11 @@ extension ReturnsStringFromStringExtension on String {
     return this.replaceAll(RegExp(r'[^\x20-\x7E]'), '');
   }
 
+  // Removes all the white spaces:
+  String get removeWhiteSpaces {
+    return this.replaceAll(' ', '');
+  }
+
   // Replaces all but the last num runes of a string with the specified mask.
   String mask({int num = 4, String mask = '*'}) {
     return this.substring(this.length - num).padLeft(this.length, mask);
@@ -312,5 +317,10 @@ class StringHelper {
   // Checks if a string is upper case.
   static bool isUpperCase(String str) {
     return str == str.toUpperCase();
+  }
+
+  // Removes all the white spaces:
+  static String removeWhiteSpaces(String str) {
+    return str.replaceAll(' ', '');
   }
 }

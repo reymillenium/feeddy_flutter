@@ -91,8 +91,8 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
       context,
       listData: availableFilters,
       selectedListData: selectedFilters,
-      height: 480,
-      headlineText: "Select Count",
+      height: 300,
+      headlineText: "Show me the Food Recipes:",
       searchFieldHintText: "Search Here",
       choiceChipLabel: (item) {
         return item.toCamelCase.readable;
@@ -101,8 +101,8 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
         return list.contains(val);
       },
       onItemSearch: (list, text) {
-        if (list.any((element) => element.toLowerCase().contains(text.toLowerCase()))) {
-          return list.where((element) => element.toLowerCase().contains(text.toLowerCase())).toList();
+        if (list.any((element) => element.toLowerCase().contains(text.toLowerCase().removeWhiteSpaces))) {
+          return list.where((element) => element.toLowerCase().contains(text.toLowerCase().removeWhiteSpaces)).toList();
         } else {
           return [];
         }
@@ -164,6 +164,8 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                       objectName: 'recipe',
                       // onPressedFAB: () => _showModalNewFoodRecipe(context),
                       onPressedFAB: () => _openFilterDialog(context),
+                      // appBarActionIcon: FontAwesomeIcons.filter,
+                      appBarActionIcon: Icons.filter_alt_outlined,
                     );
             default:
               return FeeddyScaffold(
