@@ -22,6 +22,7 @@ class FeeddyScaffold extends StatefulWidget {
   final bool _showPortraitOnly = false;
   final String appTitle;
   final Function onPressedFAB;
+  final Function onPressedBarActionIcon;
   final String objectName;
   final int objectsLength;
   final List<Widget> innerWidgets;
@@ -35,6 +36,7 @@ class FeeddyScaffold extends StatefulWidget {
     Key key,
     this.appTitle,
     this.onPressedFAB,
+    this.onPressedBarActionIcon,
     this.objectName,
     this.objectsLength,
     this.innerWidgets,
@@ -51,6 +53,7 @@ class FeeddyScaffold extends StatefulWidget {
 class _FeeddyScaffoldState extends State<FeeddyScaffold> {
   final bool _showPortraitOnly = false;
   int _activeIndex;
+
   // bool _isAdditionFAB;
   // IconData _iconFAB = Icons.add;
 
@@ -64,7 +67,7 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
-    print('didChangeDependencies => widget.iconFAB: ${widget.iconFAB}');
+    // print('didChangeDependencies => widget.iconFAB: ${widget.iconFAB}');
 
     super.didChangeDependencies();
   }
@@ -100,7 +103,7 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
 
     FeeddyAppBar appBar = FeeddyAppBar(
       appTitle: widget.appTitle,
-      onPressedAdd: widget.onPressedFAB,
+      onPressedAdd: widget.onPressedBarActionIcon ?? widget.onPressedFAB,
       objectName: widget.objectName,
       actionIcon: widget.appBarActionIcon,
     );

@@ -153,9 +153,11 @@ class FoodRecipesData with ChangeNotifier {
     return foodRecipesList;
   }
 
-  Future<List<FoodRecipe>> byFoodCategory(FoodCategory foodCategory) async {
+  Future<List<FoodRecipe>> byFoodCategory(FoodCategory foodCategory, {List<String> filtersList}) async {
     var dbClient = await dbHelper.dbPlus();
     List<FoodRecipe> foodRecipesList = [];
+    filtersList = filtersList ?? [];
+    print('filtersList: $filtersList');
 
     // Gathering on the join table (food_categories_food_recipes) by the food_category_id:
     Map<String, Object> foodCategoriesFoodRecipesTable = FoodCategoriesFoodRecipesData.sqliteTable;
@@ -179,13 +181,47 @@ class FoodRecipesData with ChangeNotifier {
       Map<String, Object> foodRecipesTable = FoodRecipesData.sqliteTable;
       String foodRecipesTableName = foodRecipesTable['table_plural_name'];
       List<Map> foodRecipesTableFields = foodRecipesTable['fields'];
+      // String filteringString = filtersList.isEmpty ? '' : "${filtersList.map((e) => "AND '$e' = 1").join(', ')}";
+      // print('filteringString: $filteringString');
       List<Map> foodRecipesMaps = await dbClient.query(foodRecipesTableName, columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})');
+
+      // Has errors yet:
+      // List<Map> foodRecipesMaps = await dbClient.query(foodRecipesTableName, columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})${filtersList.isEmpty ? "" : " AND ${filtersList.map((e) => "'$e' = 1").join(', ')}"}');
       // Conversion into FoodRecipe objects:
       if (foodRecipesMaps.length > 0) {
         for (int i = 0; i < foodRecipesMaps.length; i++) {
           FoodRecipe foodRecipe = FoodRecipe.fromMap(foodRecipesMaps[i]);
           foodRecipesList.add(foodRecipe);
         }
+      }
+
+      // If a filtersList was provided:
+      if (filtersList.isNotEmpty) {
+        filtersList.forEach((filter) {
+          print(filter);
+          switch (filter) {
+            case 'isGlutenFree':
+              // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isGlutenFree == true).toList();
+              foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isGlutenFree == false);
+              break;
+            case 'isVegan':
+              // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isVegan == true).toList();
+              foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isVegan == false);
+              break;
+            case 'isVegetarian':
+              // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isVegetarian == true).toList();
+              foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isVegetarian == false);
+              break;
+            case 'isLactoseFree':
+              // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isLactoseFree == true).toList();
+              foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isLactoseFree == false);
+              break;
+          }
+        });
+
+        // foodRecipesList = foodRecipesList.map((foodRecipe) {
+        //   return foodRecipe; //... finish this
+        // }).toList();
       }
     }
     return foodRecipesList;

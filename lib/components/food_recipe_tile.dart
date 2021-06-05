@@ -54,7 +54,6 @@ class FoodRecipeTile extends StatelessWidget {
       onTap: () async {
         // Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe});
         var foodRecipeId = await Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe});
-        print('foodRecipeId: $foodRecipeId');
         if (foodRecipeId != null) {
           onDeleteFoodRecipeHandler(foodRecipeId, context);
         }

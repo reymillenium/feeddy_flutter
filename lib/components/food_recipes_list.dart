@@ -17,11 +17,13 @@ class FoodRecipesList extends StatelessWidget {
   // Properties:
   final _listViewScrollController = ScrollController();
   final foodCategory;
+  final List<String> selectedFilters;
 
   // Constructor:
   FoodRecipesList({
     Key key,
     this.foodCategory,
+    this.selectedFilters,
   }) : super(key: key);
 
   @override
@@ -29,7 +31,7 @@ class FoodRecipesList extends StatelessWidget {
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
 
     return FutureBuilder<List<FoodRecipe>>(
-      future: foodRecipesData.byFoodCategory(foodCategory),
+      future: foodRecipesData.byFoodCategory(foodCategory, filtersList: selectedFilters),
       builder: (ctx, snapshot) {
         List<FoodRecipe> foodRecipes = snapshot.data;
         switch (snapshot.connectionState) {

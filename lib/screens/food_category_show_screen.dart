@@ -113,7 +113,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
             selectedFilters = List.from(list);
           });
         }
-        print(selectedFilters);
+        // print(selectedFilters);
         Navigator.pop(context);
         // Navigator.pop(context, true);
       },
@@ -127,7 +127,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
     // print(ModalRoute.of(context).settings);
 
     return FutureBuilder(
-        future: foodRecipesData.byFoodCategory(_foodCategory),
+        future: foodRecipesData.byFoodCategory(_foodCategory, filtersList: selectedFilters),
         builder: (ctx, snapshot) {
           List<FoodRecipe> foodRecipes = snapshot.data;
 
@@ -146,7 +146,9 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                       ],
                       objectsLength: 0,
                       objectName: 'recipe',
+                      appBarActionIcon: Icons.filter_alt_outlined,
                       iconFAB: FontAwesomeIcons.question,
+                      onPressedBarActionIcon: () => _openFilterDialog(context),
                       onPressedFAB: () => _showModalNewFoodRecipe(context),
                     )
                   : FeeddyScaffold(
@@ -157,15 +159,15 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                           flex: 5,
                           child: FoodRecipesList(
                             foodCategory: _foodCategory,
+                            selectedFilters: selectedFilters,
                           ),
                         ),
                       ],
                       objectsLength: foodRecipes.length,
                       objectName: 'recipe',
-                      // onPressedFAB: () => _showModalNewFoodRecipe(context),
-                      onPressedFAB: () => _openFilterDialog(context),
-                      // appBarActionIcon: FontAwesomeIcons.filter,
                       appBarActionIcon: Icons.filter_alt_outlined,
+                      onPressedBarActionIcon: () => _openFilterDialog(context),
+                      onPressedFAB: () => _showModalNewFoodRecipe(context),
                     );
             default:
               return FeeddyScaffold(
@@ -180,6 +182,9 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                 ],
                 objectsLength: 0,
                 objectName: 'recipe',
+                appBarActionIcon: Icons.filter_alt_outlined,
+                iconFAB: FontAwesomeIcons.question,
+                onPressedBarActionIcon: () => _openFilterDialog(context),
                 onPressedFAB: () => _showModalNewFoodRecipe(context),
               );
           }
