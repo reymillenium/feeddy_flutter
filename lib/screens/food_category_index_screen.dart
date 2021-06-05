@@ -30,6 +30,8 @@ class FoodCategoryIndexScreen extends StatefulWidget {
 class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> with RouteAware, RouteObserverMixin {
   final String _screenId = FoodCategoryIndexScreen.screenId;
   int _activeTab = 0;
+  List<String> countList = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Tweleve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", "Twenty"];
+  List<String> selectedCountList = [];
 
   /// Called when the top route has been popped off, and the current route
   /// shows up.
@@ -70,6 +72,41 @@ class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> with 
   //   super.dispose();
   // }
 
+  void _openFilterDialog(BuildContext context) async {
+    await FilterListDialog.display<String>(
+      context,
+      listData: countList,
+      selectedListData: selectedCountList,
+      height: 480,
+      headlineText: "Select Count",
+      searchFieldHintText: "Search Here",
+      choiceChipLabel: (item) {
+        return item.toCamelCase.readable;
+      },
+      validateSelectedItem: (list, val) {
+        return list.contains(val);
+      },
+      onItemSearch: (list, text) {
+        if (list.any((element) => element.toLowerCase().contains(text.toLowerCase()))) {
+          return list.where((element) => element.toLowerCase().contains(text.toLowerCase())).toList();
+        } else {
+          return [];
+        }
+      },
+      onApplyButtonClick: (list) {
+        if (list != null) {
+          setState(() {
+            selectedCountList = List.from(list);
+          });
+        }
+        print(selectedCountList);
+        Navigator.pop(context);
+        // Navigator.pop(context, true);
+      },
+      useRootNavigator: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     FoodCategoriesData foodCategoriesData = Provider.of<FoodCategoriesData>(context, listen: true);
@@ -87,7 +124,8 @@ class _FoodCategoryIndexScreenState extends State<FoodCategoryIndexScreen> with 
       ],
       objectsLength: amountTotalFoodCategories,
       objectName: 'category',
-      onPressedFAB: () => _showModalNewFoodCategory(context),
+      // onPressedFAB: () => _showModalNewFoodCategory(context),
+      onPressedFAB: () => _openFilterDialog(context),
     );
   }
 

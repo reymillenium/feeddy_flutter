@@ -35,3 +35,5 @@ export 'package:enum_to_string/enum_to_string.dart'; // Allows to convert from a
 export 'package:humanizer/humanizer.dart'; // Allows to convert values into human-friendly representations
 
 export 'package:route_observer_mixin/route_observer_mixin.dart'; // RouteObserveMixin provides easy access to didPush/didPop/didPushNext/didPopNext.
+
+export 'package:filter_list/filter_list.dart'; // Allows to search/filter on the basis of single/multiple selection from a provided dynamic list.
