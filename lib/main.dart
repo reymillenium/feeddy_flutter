@@ -100,7 +100,7 @@ class InitialSplashScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        photoSize: 260,
+        photoSize: 180,
         onClick: () {},
         loaderColor: Colors.red,
       ),
