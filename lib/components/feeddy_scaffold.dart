@@ -83,6 +83,8 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
     AppData appData = Provider.of<AppData>(context, listen: true);
     Function closeAllThePanels = appData.closeAllThePanels; // Drawer related:
     bool deviceIsIOS = DeviceHelper.deviceIsIOS(context);
+    Color primaryColor = Theme.of(context).primaryColor;
+    Color contrastingColor = ColorHelper.contrastingColor(primaryColor);
 
     // WidgetsFlutterBinding.ensureInitialized(); // Without this it might not work in some devices:
     SystemChrome.setPreferredOrientations([
@@ -144,13 +146,13 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
         },
       ),
 
-      // Navigation Bar (without nav links)
+      // Version # 1: BottomAppBar (without nav links): Has a good notch but no navigation
       // bottomNavigationBar: BottomAppBar(
       //   child: Row(
       //     children: [
       //       IconButton(icon: Icon(null), onPressed: () {}),
       //       Text(
-      //         'Total: ${objectName.toPluralFormForQuantity(quantity: objectsLength)}',
+      //         'Total: ${widget.objectName.toPluralFormForQuantity(quantity: widget.objectsLength)}',
       //         style: TextStyle(
       //           fontWeight: FontWeight.bold,
       //           fontStyle: FontStyle.italic,
@@ -166,47 +168,117 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
       //   shape: CircularNotchedRectangle(),
       //   color: Theme.of(context).primaryColor,
       // ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) => onTapSelectNavigation(index, context),
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.category,
+
+      // Version # 2: BottomNavigationBar: Has navigation & works good by activeTab, but no notch
+      // bottomNavigationBar: BottomNavigationBar(
+      //   onTap: (index) => onTapSelectNavigation(index, context),
+      //   // backgroundColor: Theme.of(context).primaryColor,
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.category,
+      //       ),
+      //       label: '',
+      //       activeIcon: Icon(
+      //         Icons.category,
+      //         color: Colors.red,
+      //       ),
+      //       tooltip: 'Categories',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(
+      //         Icons.star,
+      //       ),
+      //       label: '',
+      //       activeIcon: Icon(
+      //         Icons.star,
+      //         color: Colors.red,
+      //       ),
+      //       tooltip: 'Favorites',
+      //     ),
+      //   ],
+      //   currentIndex: _activeIndex,
+      // ),
+
+      // Version # 3: BottomAppBar + BottomNavigationBar (with nav links): Has navigation & notch, but colors are crazy
+      // bottomNavigationBar: BottomAppBar(
+      //   child: BottomNavigationBar(
+      //     // backgroundColor: Theme.of(context).primaryColor,
+      //     backgroundColor: Colors.transparent,
+      //     onTap: (index) => onTapSelectNavigation(index, context),
+      //     items: [
+      //       BottomNavigationBarItem(
+      //         icon: Icon(
+      //           Icons.category,
+      //         ),
+      //         label: '',
+      //         activeIcon: Icon(
+      //           Icons.category,
+      //           color: Colors.red,
+      //         ),
+      //         tooltip: 'Categories',
+      //       ),
+      //       BottomNavigationBarItem(
+      //         icon: Icon(
+      //           Icons.star,
+      //         ),
+      //         label: '',
+      //         activeIcon: Icon(
+      //           Icons.star,
+      //           color: Colors.red,
+      //         ),
+      //         tooltip: 'Favorites',
+      //       ),
+      //     ],
+      //     currentIndex: _activeIndex,
+      //   ),
+      //   shape: CircularNotchedRectangle(),
+      //   color: Theme.of(context).primaryColor,
+      //   // notchMargin: 4,
+      //   // clipBehavior: Clip.antiAlias,
+      // ),
+
+      // Version # 4: Hybrid with BottomAppBar + Row with BottomNavigationBarItem (without nav links): Has a good notch but no navigation
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              color: _activeIndex == 0 ? Colors.red : contrastingColor,
+              icon: Icon(Icons.category),
+              tooltip: 'Categories',
+              onPressed: () => onTapSelectNavigation(0, context),
             ),
-            label: '',
-            activeIcon: Icon(
-              Icons.category,
-              color: Colors.red,
+            IconButton(
+              color: _activeIndex == 1 ? Colors.red : contrastingColor,
+              icon: Icon(Icons.star),
+              tooltip: 'favorites',
+              onPressed: () => onTapSelectNavigation(1, context),
             ),
-            tooltip: 'Categories',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.star,
-            ),
-            label: '',
-            activeIcon: Icon(
-              Icons.star,
-              color: Colors.red,
-            ),
-            tooltip: 'Favorites',
-          ),
-        ],
-        currentIndex: _activeIndex,
+            // Spacer(),
+          ],
+        ),
+        shape: CircularNotchedRectangle(),
+        color: Theme.of(context).primaryColor,
+        // color: Colors.white,
       ),
 
       // FAB
-      floatingActionButton: !deviceIsIOS
-          ? null
-          : FloatingActionButton(
-              tooltip: '${widget.isAdditionFAB ? 'Add' : 'Delete'} ${widget.objectName.inCaps}',
-              // child: Icon(_iconFAB ?? Icons.add),
-              // child: Icon(_iconFAB),
-              child: Icon(widget.iconFAB),
-              onPressed: widget.onPressedFAB,
-            ),
+      floatingActionButton: FloatingActionButton(
+        // backgroundColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        hoverColor: Colors.transparent,
+        tooltip: '${widget.isAdditionFAB ? 'Add' : 'Delete'} ${widget.objectName.inCaps}',
+        // child: Icon(_iconFAB ?? Icons.add),
+        // child: Icon(_iconFAB),
+        child: Icon(widget.iconFAB),
+        onPressed: widget.onPressedFAB,
+      ),
       // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButtonLocation: deviceIsIOS ? null : FloatingActionButtonLocation.endDocked,
+      // floatingActionButtonLocation: deviceIsIOS ? null : FloatingActionButtonLocation.endDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
