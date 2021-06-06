@@ -246,6 +246,16 @@ class FoodRecipesData with ChangeNotifier {
     return foodRecipesList;
   }
 
+  List<FoodRecipe> filterFoodRecipesByDietRequirementsPlus(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
+    // If a filtersList was provided:
+    if (filtersList.isNotEmpty) {
+      foodRecipesList.removeWhere((foodRecipe) {
+        return ((filtersList.contains('isGlutenFree') && !foodRecipe.isGlutenFree) || (filtersList.contains('isVegan') && !foodRecipe.isVegan) || (filtersList.contains('isVegetarian') && !foodRecipe.isVegetarian) || (filtersList.contains('isLactoseFree') && !foodRecipe.isLactoseFree));
+      });
+    }
+    return foodRecipesList;
+  }
+
   Future<int> _destroy(int id, Map<String, dynamic> table) async {
     var dbClient = await dbHelper.dbPlus();
     return await dbClient.delete(table['table_plural_name'], where: 'id = ?', whereArgs: [id]);
