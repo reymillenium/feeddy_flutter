@@ -181,12 +181,13 @@ class FoodRecipesData with ChangeNotifier {
       Map<String, Object> foodRecipesTable = FoodRecipesData.sqliteTable;
       String foodRecipesTableName = foodRecipesTable['table_plural_name'];
       List<Map> foodRecipesTableFields = foodRecipesTable['fields'];
-      // String filteringString = filtersList.isEmpty ? '' : "${filtersList.map((e) => "AND '$e' = 1").join(', ')}";
+      // Original query by the foodRecipesIdsList only:
+      // List<Map> foodRecipesMaps = await dbClient.query(foodRecipesTableName, columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})');
+      // Improved query by the foodRecipesIdsList and adding filtering:
+      String filteringString = (filtersList.isEmpty) ? '' : "(${filtersList.map((e) => "$e = 1").join(' OR ')}) AND ";
       // print('filteringString: $filteringString');
-      List<Map> foodRecipesMaps = await dbClient.query(foodRecipesTableName, columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})');
+      List<Map> foodRecipesMaps = await dbClient.query(foodRecipesTableName, columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: '${filteringString}id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})');
 
-      // Has errors yet:
-      // List<Map> foodRecipesMaps = await dbClient.query(foodRecipesTableName, columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: 'id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})${filtersList.isEmpty ? "" : " AND ${filtersList.map((e) => "'$e' = 1").join(', ')}"}');
       // Conversion into FoodRecipe objects:
       if (foodRecipesMaps.length > 0) {
         for (int i = 0; i < foodRecipesMaps.length; i++) {
@@ -195,46 +196,52 @@ class FoodRecipesData with ChangeNotifier {
         }
       }
 
-      // If a filtersList was provided:
-      if (filtersList.isNotEmpty) {
-        List<FoodRecipe> foodRecipesIsGlutenFree = [];
-        List<FoodRecipe> foodRecipesIsVegan = [];
-        List<FoodRecipe> foodRecipesIsVegetarian = [];
-        List<FoodRecipe> foodRecipesIsLactoseFree = [];
-        filtersList.forEach((filter) {
-          // print(filter);
-          switch (filter) {
-            case 'isGlutenFree':
-              // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isGlutenFree == true).toList();
-              // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isGlutenFree == false);
-              foodRecipesIsGlutenFree = foodRecipesList.where((foodRecipe) => foodRecipe.isGlutenFree == true).toList();
-              break;
-            case 'isVegan':
-              // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isVegan == true).toList();
-              // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isVegan == false);
-              foodRecipesIsVegan = foodRecipesList.where((foodRecipe) => foodRecipe.isVegan == true).toList();
-              break;
-            case 'isVegetarian':
-              // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isVegetarian == true).toList();
-              // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isVegetarian == false);
-              foodRecipesIsVegetarian = foodRecipesList.where((foodRecipe) => foodRecipe.isVegetarian == true).toList();
-              break;
-            case 'isLactoseFree':
-              // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isLactoseFree == true).toList();
-              // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isLactoseFree == false);
-              foodRecipesIsLactoseFree = foodRecipesList.where((foodRecipe) => foodRecipe.isLactoseFree == true).toList();
-              break;
-          }
-        });
+      // Manual filtering (Not necessary):
+      // foodRecipesList = filterFoodRecipesByDietRequirements(foodRecipesList, filtersList);
+    }
+    return foodRecipesList;
+  }
 
-        // Join of all the diet specific lists (removes duplicates):
-        foodRecipesList = [
-          ...foodRecipesIsGlutenFree,
-          ...foodRecipesIsVegan,
-          ...foodRecipesIsVegetarian,
-          ...foodRecipesIsLactoseFree,
-        ].toSet().toList();
-      }
+  List<FoodRecipe> filterFoodRecipesByDietRequirements(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
+    // If a filtersList was provided:
+    if (filtersList.isNotEmpty) {
+      List<FoodRecipe> foodRecipesIsGlutenFree = [];
+      List<FoodRecipe> foodRecipesIsVegan = [];
+      List<FoodRecipe> foodRecipesIsVegetarian = [];
+      List<FoodRecipe> foodRecipesIsLactoseFree = [];
+      filtersList.forEach((filter) {
+        // print(filter);
+        switch (filter) {
+          case 'isGlutenFree':
+            // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isGlutenFree == true).toList();
+            // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isGlutenFree == false);
+            foodRecipesIsGlutenFree = foodRecipesList.where((foodRecipe) => foodRecipe.isGlutenFree == true).toList();
+            break;
+          case 'isVegan':
+            // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isVegan == true).toList();
+            // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isVegan == false);
+            foodRecipesIsVegan = foodRecipesList.where((foodRecipe) => foodRecipe.isVegan == true).toList();
+            break;
+          case 'isVegetarian':
+            // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isVegetarian == true).toList();
+            // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isVegetarian == false);
+            foodRecipesIsVegetarian = foodRecipesList.where((foodRecipe) => foodRecipe.isVegetarian == true).toList();
+            break;
+          case 'isLactoseFree':
+            // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isLactoseFree == true).toList();
+            // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isLactoseFree == false);
+            foodRecipesIsLactoseFree = foodRecipesList.where((foodRecipe) => foodRecipe.isLactoseFree == true).toList();
+            break;
+        }
+      });
+
+      // Join of all the diet specific lists (removes duplicates):
+      foodRecipesList = [
+        ...foodRecipesIsGlutenFree,
+        ...foodRecipesIsVegan,
+        ...foodRecipesIsVegetarian,
+        ...foodRecipesIsLactoseFree,
+      ].toSet().toList();
     }
     return foodRecipesList;
   }
