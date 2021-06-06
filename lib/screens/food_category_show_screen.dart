@@ -113,9 +113,7 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
             selectedFilters = List.from(list);
           });
         }
-        // print(selectedFilters);
         Navigator.pop(context);
-        // Navigator.pop(context, true);
       },
       useRootNavigator: false,
     );

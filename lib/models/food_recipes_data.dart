@@ -157,7 +157,6 @@ class FoodRecipesData with ChangeNotifier {
     var dbClient = await dbHelper.dbPlus();
     List<FoodRecipe> foodRecipesList = [];
     filtersList = filtersList ?? [];
-    print('filtersList: $filtersList');
 
     // Gathering on the join table (food_categories_food_recipes) by the food_category_id:
     Map<String, Object> foodCategoriesFoodRecipesTable = FoodCategoriesFoodRecipesData.sqliteTable;
@@ -211,7 +210,6 @@ class FoodRecipesData with ChangeNotifier {
       List<FoodRecipe> foodRecipesIsVegetarian = [];
       List<FoodRecipe> foodRecipesIsLactoseFree = [];
       filtersList.forEach((filter) {
-        // print(filter);
         switch (filter) {
           case 'isGlutenFree':
             foodRecipesIsGlutenFree = foodRecipesList.where((foodRecipe) => foodRecipe.isGlutenFree == true).toList();
