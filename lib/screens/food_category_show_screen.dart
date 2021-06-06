@@ -156,8 +156,9 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                         Expanded(
                           flex: 5,
                           child: FoodRecipesList(
-                            foodCategory: _foodCategory,
+                            // foodCategory: _foodCategory,
                             selectedFilters: selectedFilters,
+                            foodRecipes: foodRecipes,
                           ),
                         ),
                       ],

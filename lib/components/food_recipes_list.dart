@@ -16,60 +16,87 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 class FoodRecipesList extends StatelessWidget {
   // Properties:
   final _listViewScrollController = ScrollController();
-  final foodCategory;
+  // final foodCategory;
   final List<String> selectedFilters;
+  final List<FoodRecipe> foodRecipes;
 
   // Constructor:
   FoodRecipesList({
     Key key,
-    this.foodCategory,
+    // this.foodCategory,
     this.selectedFilters,
+    this.foodRecipes,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
+    // FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
 
-    return FutureBuilder<List<FoodRecipe>>(
-      future: foodRecipesData.byFoodCategory(foodCategory, filtersList: selectedFilters),
-      builder: (ctx, snapshot) {
-        List<FoodRecipe> foodRecipes = snapshot.data;
-        switch (snapshot.connectionState) {
-          case ConnectionState.done:
-            return foodRecipes.isEmpty
-                ? FeeddyEmptyWidget(
-                    packageImage: 1,
-                    title: 'We are sorry',
-                    subTitle: 'There is no recipes',
-                  )
-                : ListView.custom(
-                    padding: const EdgeInsets.only(left: 0, top: 0, right: 0),
-                    controller: _listViewScrollController,
-                    childrenDelegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        return FoodRecipeTile(
-                          key: ValueKey(foodRecipes[index].id),
-                          id: foodRecipes[index].id,
-                          index: index,
-                          foodRecipe: foodRecipes[index],
-                        );
-                      },
-                      childCount: foodRecipes.length,
-                      // This callback method is what allows to preserve the state:
-                      findChildIndexCallback: (Key key) => findChildIndexCallback(key, foodRecipes),
-                    ),
-                  );
-          default:
-            return Container(
-              child: FeeddyEmptyWidget(
-                packageImage: 1,
-                title: 'We are sorry',
-                subTitle: 'There is no recipes',
-              ),
-            );
-        }
-      },
-    );
+    //   return FutureBuilder<List<FoodRecipe>>(
+    //     future: foodRecipesData.byFoodCategory(foodCategory, filtersList: selectedFilters),
+    //     builder: (ctx, snapshot) {
+    //       List<FoodRecipe> foodRecipes = snapshot.data;
+    //       switch (snapshot.connectionState) {
+    //         case ConnectionState.done:
+    //           return foodRecipes.isEmpty
+    //               ? FeeddyEmptyWidget(
+    //                   packageImage: 1,
+    //                   title: 'We are sorry',
+    //                   subTitle: 'There is no recipes',
+    //                 )
+    //               : ListView.custom(
+    //                   padding: const EdgeInsets.only(left: 0, top: 0, right: 0),
+    //                   controller: _listViewScrollController,
+    //                   childrenDelegate: SliverChildBuilderDelegate(
+    //                     (BuildContext context, int index) {
+    //                       return FoodRecipeTile(
+    //                         key: ValueKey(foodRecipes[index].id),
+    //                         id: foodRecipes[index].id,
+    //                         index: index,
+    //                         foodRecipe: foodRecipes[index],
+    //                       );
+    //                     },
+    //                     childCount: foodRecipes.length,
+    //                     // This callback method is what allows to preserve the state:
+    //                     findChildIndexCallback: (Key key) => findChildIndexCallback(key, foodRecipes),
+    //                   ),
+    //                 );
+    //         default:
+    //           return Container(
+    //             child: FeeddyEmptyWidget(
+    //               packageImage: 1,
+    //               title: 'We are sorry',
+    //               subTitle: 'There is no recipes',
+    //             ),
+    //           );
+    //       }
+    //     },
+    //   );
+    // }
+
+    return foodRecipes.isEmpty
+        ? FeeddyEmptyWidget(
+            packageImage: 1,
+            title: 'We are sorry',
+            subTitle: 'There is no recipes',
+          )
+        : ListView.custom(
+            padding: const EdgeInsets.only(left: 0, top: 0, right: 0),
+            controller: _listViewScrollController,
+            childrenDelegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return FoodRecipeTile(
+                  key: ValueKey(foodRecipes[index].id),
+                  id: foodRecipes[index].id,
+                  index: index,
+                  foodRecipe: foodRecipes[index],
+                );
+              },
+              childCount: foodRecipes.length,
+              // This callback method is what allows to preserve the state:
+              findChildIndexCallback: (Key key) => findChildIndexCallback(key, foodRecipes),
+            ),
+          );
   }
 
   // This callback method is what allows to preserve the state:
