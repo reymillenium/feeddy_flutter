@@ -203,6 +203,65 @@ class FoodRecipesData with ChangeNotifier {
     return foodRecipesList;
   }
 
+  Future<List<FoodRecipe>> thoseFavoritesByUserId(int userId, {List<String> filtersList}) async {
+    var dbClient = await dbHelper.dbPlus();
+    List<FoodRecipe> foodRecipesList = [];
+    filtersList = filtersList ?? [];
+    FavoriteFoodRecipesData favoriteFoodRecipesData = FavoriteFoodRecipesData();
+    // Gathering of the foodRecipesIdsList on the FavoriteFoodRecipes table (favorite_food_recipes) by the user_id:
+    List<FavoriteFoodRecipe> favoriteFoodRecipesList = await favoriteFoodRecipesData.byUserId(userId);
+
+    if (favoriteFoodRecipesList.isNotEmpty) {
+      List<int> foodRecipesIdsList = favoriteFoodRecipesList.map((favoriteFoodRecipe) => favoriteFoodRecipe.foodRecipeId).toList();
+
+      Map<String, Object> foodRecipesTable = FoodRecipesData.sqliteTable;
+      String foodRecipesTableName = foodRecipesTable['table_plural_name'];
+      List<Map> foodRecipesTableFields = foodRecipesTable['fields'];
+      String filteringString = (filtersList.isEmpty) ? '' : "(${filtersList.map((e) => "$e = 1").join(' OR ')}) AND ";
+      List<Map> foodRecipesMaps = await dbClient.query(foodRecipesTableName, columns: foodRecipesTableFields.map<String>((field) => field['field_name']).toList(), where: '${filteringString}id IN (${foodRecipesIdsList.map((e) => "'$e'").join(', ')})');
+
+      // Conversion into FoodRecipe objects:
+      if (foodRecipesMaps.length > 0) {
+        for (int i = 0; i < foodRecipesMaps.length; i++) {
+          FoodRecipe foodRecipe = FoodRecipe.fromMap(foodRecipesMaps[i]);
+          foodRecipesList.add(foodRecipe);
+        }
+      }
+    }
+
+    return foodRecipesList;
+  }
+
+  Future<void> setAsFavorite(int userId, int foodRecipeId) async {
+    FavoriteFoodRecipesData favoriteFoodRecipesData = FavoriteFoodRecipesData();
+    await favoriteFoodRecipesData.addFavoriteFoodRecipe(userId: userId, foodRecipeId: foodRecipeId);
+    // await refresh();
+  }
+
+  Future<void> setAsNotFavorite(int userId, int foodRecipeId) async {
+    FavoriteFoodRecipesData favoriteFoodRecipesData = FavoriteFoodRecipesData();
+    await favoriteFoodRecipesData.deleteFavoriteFoodRecipeWithoutConfirm(userId, foodRecipeId);
+    // await refresh();
+  }
+
+  Future<void> toggleFavorite(int userId, int foodRecipeId) async {
+    // print('Inside toggleFavorite');
+    bool isFavorite = await this.isFavorite(userId, foodRecipeId);
+    if (isFavorite) {
+      await this.setAsNotFavorite(userId, foodRecipeId);
+    } else {
+      await this.setAsFavorite(userId, foodRecipeId);
+    }
+    await refresh();
+  }
+
+  Future<bool> isFavorite(int userId, int foodRecipeId) async {
+    FavoriteFoodRecipesData favoriteFoodRecipesData = FavoriteFoodRecipesData();
+    List<FavoriteFoodRecipe> favoriteFoodRecipes = await favoriteFoodRecipesData.byUserId(userId);
+    List<int> foodRecipeIdsList = favoriteFoodRecipes.map((favoriteFoodRecipe) => favoriteFoodRecipe.foodRecipeId).toList();
+    return foodRecipeIdsList.contains(foodRecipeId);
+  }
+
   List<FoodRecipe> filterFoodRecipesByDietPermissive(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
     if (filtersList.isNotEmpty) {
       List<FoodRecipe> foodRecipesIsGlutenFree = [];

@@ -22,6 +22,7 @@ class FoodRecipeTile extends StatelessWidget {
   final FoodRecipe foodRecipe;
   final int id;
   final int index;
+  final bool isFavorite;
 
   // Constructor:
   FoodRecipeTile({
@@ -29,6 +30,7 @@ class FoodRecipeTile extends StatelessWidget {
     this.foodRecipe,
     this.id,
     this.index,
+    this.isFavorite,
   }) : super(key: key);
 
   // Runtime constants:
@@ -43,6 +45,7 @@ class FoodRecipeTile extends StatelessWidget {
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
     Function onDeleteFoodRecipeHandler = (id, context) => foodRecipesData.deleteFoodRecipeWithConfirm(id, context);
     Function onUpdateFoodRecipeHandler = (id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian) => foodRecipesData.updateFoodRecipe(id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian);
+    Function toggleFavorite = (userId, foodRecipeId) => foodRecipesData.toggleFavorite(userId, foodRecipeId);
 
     final String formattedDate = formatter.format(foodRecipe.createdAt);
     // final String amountLabel = '${currentCurrency['symbol']}${currencyFormat.format(transaction.amount)}';
@@ -150,6 +153,21 @@ class FoodRecipeTile extends StatelessWidget {
                           ],
                         ],
                       ),
+                    ),
+                  ),
+                ],
+                ...[
+                  Positioned(
+                    top: 20,
+                    right: 10,
+                    child: IconButton(
+                      iconSize: 32,
+                      icon: Icon(
+                        Icons.star,
+                        color: isFavorite ? Colors.red : Colors.black,
+                      ),
+                      tooltip: 'Favorite',
+                      onPressed: () => toggleFavorite(1, foodRecipe.id),
                     ),
                   ),
                 ],

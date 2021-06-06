@@ -122,12 +122,18 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
   @override
   Widget build(BuildContext context) {
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
-    // print(ModalRoute.of(context).settings);
+    FavoriteFoodRecipesData favoriteFoodRecipesData = Provider.of<FavoriteFoodRecipesData>(context, listen: true);
 
     return FutureBuilder(
-        future: foodRecipesData.byFoodCategory(_foodCategory, filtersList: selectedFilters),
-        builder: (ctx, snapshot) {
-          List<FoodRecipe> foodRecipes = snapshot.data;
+        // future: foodRecipesData.byFoodCategory(_foodCategory, filtersList: selectedFilters),
+        future: Future.wait([foodRecipesData.byFoodCategory(_foodCategory, filtersList: selectedFilters), favoriteFoodRecipesData.byUserId(1)]),
+        builder: (ctx, AsyncSnapshot<List<dynamic>> snapshot) {
+          List<FoodRecipe> foodRecipes;
+          List<FavoriteFoodRecipe> favoriteFoodRecipes;
+          if (snapshot.data != null) {
+            foodRecipes = snapshot.data[0] ?? [];
+            favoriteFoodRecipes = snapshot.data[1] ?? [];
+          }
 
           switch (snapshot.connectionState) {
             case ConnectionState.done:
@@ -156,9 +162,10 @@ class _FoodCategoryShowScreenState extends State<FoodCategoryShowScreen> with Ro
                         Expanded(
                           flex: 5,
                           child: FoodRecipesList(
-                            // foodCategory: _foodCategory,
+                            foodCategory: _foodCategory,
                             selectedFilters: selectedFilters,
                             foodRecipes: foodRecipes,
+                            favoriteFoodRecipes: favoriteFoodRecipes,
                           ),
                         ),
                       ],

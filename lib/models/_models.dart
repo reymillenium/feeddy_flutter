@@ -14,3 +14,6 @@ export 'package:feeddy_flutter/models/food_ingredients_data.dart';
 
 export 'package:feeddy_flutter/models/recipe_step.dart';
 export 'package:feeddy_flutter/models/recipe_steps_data.dart';
+
+export 'package:feeddy_flutter/models/favorite_food_recipe.dart';
+export 'package:feeddy_flutter/models/favorite_food_recipes_data.dart';
