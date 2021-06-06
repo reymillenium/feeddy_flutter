@@ -113,4 +113,11 @@ class FoodRecipe {
     };
     return foodRecipeMap;
   }
+
+  dynamic getProp(String key) => <String, dynamic>{
+        'isGlutenFree': isGlutenFree,
+        'isLactoseFree': isLactoseFree,
+        'isVegan': isVegan,
+        'isVegetarian': isVegetarian,
+      }[key];
 }

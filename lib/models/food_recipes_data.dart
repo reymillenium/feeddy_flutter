@@ -196,14 +196,15 @@ class FoodRecipesData with ChangeNotifier {
         }
       }
 
-      // Manual filtering (Not necessary):
-      // foodRecipesList = filterFoodRecipesByDietRequirements(foodRecipesList, filtersList);
+      // Permissive filtering (Not necessary anymore. Now it is performed on the sqlite query):
+      // foodRecipesList = filterFoodRecipesByDietPermissive(foodRecipesList, filtersList); // First version
+      // foodRecipesList = filterFoodRecipesByDietPlusPermissive(foodRecipesList, filtersList); // Improved version
+      // foodRecipesList = filterFoodRecipesByDietPlusUltraPermissive(foodRecipesList, filtersList); // An even more improved version
     }
     return foodRecipesList;
   }
 
-  List<FoodRecipe> filterFoodRecipesByDietRequirements(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
-    // If a filtersList was provided:
+  List<FoodRecipe> filterFoodRecipesByDietPermissive(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
     if (filtersList.isNotEmpty) {
       List<FoodRecipe> foodRecipesIsGlutenFree = [];
       List<FoodRecipe> foodRecipesIsVegan = [];
@@ -213,29 +214,21 @@ class FoodRecipesData with ChangeNotifier {
         // print(filter);
         switch (filter) {
           case 'isGlutenFree':
-            // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isGlutenFree == true).toList();
-            // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isGlutenFree == false);
             foodRecipesIsGlutenFree = foodRecipesList.where((foodRecipe) => foodRecipe.isGlutenFree == true).toList();
             break;
           case 'isVegan':
-            // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isVegan == true).toList();
-            // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isVegan == false);
             foodRecipesIsVegan = foodRecipesList.where((foodRecipe) => foodRecipe.isVegan == true).toList();
             break;
           case 'isVegetarian':
-            // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isVegetarian == true).toList();
-            // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isVegetarian == false);
             foodRecipesIsVegetarian = foodRecipesList.where((foodRecipe) => foodRecipe.isVegetarian == true).toList();
             break;
           case 'isLactoseFree':
-            // foodRecipesList = foodRecipesList.where((foodRecipe) => foodRecipe.isLactoseFree == true).toList();
-            // foodRecipesList.removeWhere((foodRecipe) => foodRecipe.isLactoseFree == false);
             foodRecipesIsLactoseFree = foodRecipesList.where((foodRecipe) => foodRecipe.isLactoseFree == true).toList();
             break;
         }
       });
 
-      // Join of all the diet specific lists (removes duplicates):
+      // Joining all the diet specific lists (removes the duplicates):
       foodRecipesList = [
         ...foodRecipesIsGlutenFree,
         ...foodRecipesIsVegan,
@@ -246,11 +239,31 @@ class FoodRecipesData with ChangeNotifier {
     return foodRecipesList;
   }
 
-  List<FoodRecipe> filterFoodRecipesByDietRequirementsPlus(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
-    // If a filtersList was provided:
+  // Permissive filtering (same behavior, shorter extension)
+  List<FoodRecipe> filterFoodRecipesByDietPlusPermissive(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
     if (filtersList.isNotEmpty) {
       foodRecipesList.removeWhere((foodRecipe) {
         return ((filtersList.contains('isGlutenFree') && !foodRecipe.isGlutenFree) || (filtersList.contains('isVegan') && !foodRecipe.isVegan) || (filtersList.contains('isVegetarian') && !foodRecipe.isVegetarian) || (filtersList.contains('isLactoseFree') && !foodRecipe.isLactoseFree));
+      });
+    }
+    return foodRecipesList;
+  }
+
+  // Permissive filtering (same behavior, even shorter)
+  List<FoodRecipe> filterFoodRecipesByDietPlusUltraPermissive(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
+    if (filtersList.isNotEmpty) {
+      foodRecipesList = foodRecipesList.where((foodRecipe) {
+        return (filtersList.any((filter) => foodRecipe.getProp(filter)));
+      }).toList();
+    }
+    return foodRecipesList;
+  }
+
+  // Strict filtering (different behavior. Another alternative for another chance)
+  List<FoodRecipe> filterFoodRecipesByDietPlusUltraRestrictive(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
+    if (filtersList.isNotEmpty) {
+      foodRecipesList.removeWhere((foodRecipe) {
+        return (filtersList.any((filter) => !foodRecipe.getProp(filter)));
       });
     }
     return foodRecipesList;
