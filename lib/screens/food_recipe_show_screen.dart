@@ -21,11 +21,13 @@ class FoodRecipeShowScreen extends StatefulWidget {
   // Properties:
   final String appTitle;
   final FoodRecipe foodRecipe;
+  final bool isFavorite;
 
   const FoodRecipeShowScreen({
     Key key,
     this.appTitle,
     this.foodRecipe,
+    this.isFavorite,
   }) : super(key: key);
 
   @override
@@ -127,6 +129,7 @@ class _FoodRecipeShowScreenState extends State<FoodRecipeShowScreen> with RouteA
                               // Recipe Details Header
                               FoodRecipeDetailsHeader(
                                 foodRecipe: _foodRecipe,
+                                isFavorite: widget.isFavorite,
                               ),
 
                               // Ingredients List Header Text:

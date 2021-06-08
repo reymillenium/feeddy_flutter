@@ -17,19 +17,42 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 // Utilities:
 import 'package:feeddy_flutter/utilities/_utilities.dart';
 
-class FoodRecipeDetailsHeader extends StatelessWidget {
+class FoodRecipeDetailsHeader extends StatefulWidget {
   // Properties:
   final FoodRecipe foodRecipe;
+  final bool isFavorite;
 
   // Constructor:
   FoodRecipeDetailsHeader({
     Key key,
     this.foodRecipe,
+    this.isFavorite,
   }) : super(key: key);
+
+  @override
+  _FoodRecipeDetailsHeaderState createState() => _FoodRecipeDetailsHeaderState();
+}
+
+class _FoodRecipeDetailsHeaderState extends State<FoodRecipeDetailsHeader> {
+  // State Properties:
+  bool _isFavorite;
 
   // Runtime constants:
   final DateFormat formatter = DateFormat().add_yMMMMd();
   final currencyFormat = new NumberFormat("#,##0.00", "en_US");
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _isFavorite = widget.isFavorite;
+  }
+
+  void toggleLocallyFavorite() {
+    setState(() {
+      _isFavorite = !_isFavorite;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +62,9 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
     FoodRecipesData foodRecipesData = Provider.of<FoodRecipesData>(context, listen: true);
     // Function onDeleteFoodRecipeHandler = (id, context) => foodRecipesData.deleteFoodRecipeWithConfirm(id, context);
     // Function onUpdateFoodRecipeHandler = (id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian) => foodRecipesData.updateFoodRecipe(id, title, imageUrl, duration, complexity, affordability, isGlutenFree, isLactoseFree, isVegan, isVegetarian);
+    Function toggleFavorite = (userId, foodRecipeId) => foodRecipesData.toggleFavorite(userId, foodRecipeId);
 
-    final String formattedDate = formatter.format(foodRecipe.createdAt);
+    final String formattedDate = formatter.format(widget.foodRecipe.createdAt);
     // final String amountLabel = '${currentCurrency['symbol']}${currencyFormat.format(transaction.amount)}';
     // final double amountFontSize = (84 / amountLabel.length);
     Color primaryColor = Theme.of(context).primaryColor;
@@ -73,13 +97,13 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                   topRight: Radius.circular(10),
                 ),
                 child: Image.network(
-                  foodRecipe.imageUrl,
+                  widget.foodRecipe.imageUrl,
                   height: 250,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
               ),
-              if (foodRecipe.hasDietQuirks) ...[
+              if (widget.foodRecipe.hasDietQuirks) ...[
                 Positioned(
                   bottom: 20,
                   right: 10,
@@ -91,7 +115,7 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                     ),
                     child: Row(
                       children: [
-                        if (foodRecipe.isGlutenFree) ...[
+                        if (widget.foodRecipe.isGlutenFree) ...[
                           Tooltip(
                             child: Icon(
                               AppIcons.gluten_free,
@@ -103,7 +127,7 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        if (foodRecipe.isLactoseFree) ...[
+                        if (widget.foodRecipe.isLactoseFree) ...[
                           Tooltip(
                             child: Icon(
                               AppIcons.lactose_free,
@@ -115,7 +139,7 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        if (foodRecipe.isVegan) ...[
+                        if (widget.foodRecipe.isVegan) ...[
                           Tooltip(
                             child: Icon(
                               AppIcons.vegan,
@@ -127,7 +151,7 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        if (foodRecipe.isVegetarian) ...[
+                        if (widget.foodRecipe.isVegetarian) ...[
                           Tooltip(
                             child: Icon(
                               AppIcons.vegetarian,
@@ -138,6 +162,25 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                         ],
                       ],
                     ),
+                  ),
+                ),
+              ],
+              ...[
+                Positioned(
+                  top: 20,
+                  right: 10,
+                  child: IconButton(
+                    iconSize: 32,
+                    icon: Icon(
+                      Icons.star,
+                      color: _isFavorite ? Colors.red : Colors.black,
+                    ),
+                    tooltip: 'Favorite',
+                    // onPressed: () => toggleFavorite(1, widget.foodRecipe.id),
+                    onPressed: () {
+                      toggleLocallyFavorite();
+                      toggleFavorite(1, widget.foodRecipe.id);
+                    },
                   ),
                 ),
               ],
@@ -152,7 +195,7 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    foodRecipe.title,
+                    widget.foodRecipe.title,
                     style: Theme.of(context).textTheme.headline6,
                     softWrap: true,
                     overflow: TextOverflow.fade,
@@ -174,7 +217,7 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 6),
                             child: Text(
-                              '${foodRecipe.duration} min',
+                              '${widget.foodRecipe.duration} min',
                               style: TextStyle(
                                 color: Colors.black54,
                               ),
@@ -193,7 +236,7 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 6),
                             child: Text(
-                              EnumToString.convertToString(foodRecipe.complexity, camelCase: true),
+                              EnumToString.convertToString(widget.foodRecipe.complexity, camelCase: true),
                               style: TextStyle(
                                 color: Colors.black54,
                               ),
@@ -213,7 +256,7 @@ class FoodRecipeDetailsHeader extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.only(left: 2),
                             child: Text(
-                              EnumToString.convertToString(foodRecipe.affordability, camelCase: true),
+                              EnumToString.convertToString(widget.foodRecipe.affordability, camelCase: true),
                               style: TextStyle(
                                 color: Colors.black54,
                               ),

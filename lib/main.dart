@@ -190,6 +190,7 @@ class MyApp extends StatelessWidget {
                 return FoodRecipeShowScreen(
                   appTitle: appTitle,
                   foodRecipe: args['foodRecipe'],
+                  isFavorite: args['isFavorite'],
                 );
               },
             );

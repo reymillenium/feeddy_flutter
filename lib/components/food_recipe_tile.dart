@@ -56,7 +56,7 @@ class FoodRecipeTile extends StatelessWidget {
     return InkWell(
       onTap: () async {
         // Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe});
-        var foodRecipeId = await Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe});
+        var foodRecipeId = await Navigator.of(context).pushNamed(FoodRecipeShowScreen.screenId, arguments: {'foodRecipe': foodRecipe, 'isFavorite': isFavorite});
         if (foodRecipeId != null) {
           onDeleteFoodRecipeHandler(foodRecipeId, context);
         }
