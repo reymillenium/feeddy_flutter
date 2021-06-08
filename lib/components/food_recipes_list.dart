@@ -16,18 +16,18 @@ import 'package:feeddy_flutter/helpers/_helpers.dart';
 class FoodRecipesList extends StatelessWidget {
   // Properties:
   final _listViewScrollController = ScrollController();
-  final foodCategory;
   final List<String> selectedFilters;
   final List<FoodRecipe> foodRecipes;
   final List<FavoriteFoodRecipe> favoriteFoodRecipes;
+  final String pageStorageKey;
 
   // Constructor:
   FoodRecipesList({
     Key key,
-    this.foodCategory,
     this.selectedFilters,
     this.foodRecipes,
     this.favoriteFoodRecipes,
+    this.pageStorageKey,
   }) : super(key: key);
 
   @override
@@ -82,6 +82,7 @@ class FoodRecipesList extends StatelessWidget {
             subTitle: 'There is no recipes',
           )
         : ListView.custom(
+            key: PageStorageKey<String>('$pageStorageKey'),
             padding: const EdgeInsets.only(left: 0, top: 0, right: 0),
             controller: _listViewScrollController,
             childrenDelegate: SliverChildBuilderDelegate(

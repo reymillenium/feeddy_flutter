@@ -151,6 +151,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> with RouteAware, Rout
                             selectedFilters: selectedFilters,
                             foodRecipes: foodRecipes,
                             favoriteFoodRecipes: favoriteFoodRecipes,
+                            pageStorageKey: _screenId,
                           ),
                         ),
                       ],
