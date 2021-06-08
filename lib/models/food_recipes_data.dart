@@ -245,7 +245,6 @@ class FoodRecipesData with ChangeNotifier {
   }
 
   Future<void> toggleFavorite(int userId, int foodRecipeId) async {
-    // print('Inside toggleFavorite');
     bool isFavorite = await this.isFavorite(userId, foodRecipeId);
     if (isFavorite) {
       await this.setAsNotFavorite(userId, foodRecipeId);
