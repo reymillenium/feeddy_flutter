@@ -246,19 +246,14 @@ class FoodRecipesData with ChangeNotifier {
 
   Future<void> toggleFavorite(int userId, int foodRecipeId) async {
     bool isFavorite = await this.isFavorite(userId, foodRecipeId);
-    if (isFavorite) {
-      await this.setAsNotFavorite(userId, foodRecipeId);
-    } else {
-      await this.setAsFavorite(userId, foodRecipeId);
-    }
+    await (isFavorite ? this.setAsNotFavorite(userId, foodRecipeId) : this.setAsFavorite(userId, foodRecipeId));
     await refresh();
   }
 
   Future<bool> isFavorite(int userId, int foodRecipeId) async {
     FavoriteFoodRecipesData favoriteFoodRecipesData = FavoriteFoodRecipesData();
     List<FavoriteFoodRecipe> favoriteFoodRecipes = await favoriteFoodRecipesData.byUserId(userId);
-    List<int> foodRecipeIdsList = favoriteFoodRecipes.map((favoriteFoodRecipe) => favoriteFoodRecipe.foodRecipeId).toList();
-    return foodRecipeIdsList.contains(foodRecipeId);
+    return favoriteFoodRecipes.any((favoriteFoodRecipe) => favoriteFoodRecipe.foodRecipeId == foodRecipeId);
   }
 
   List<FoodRecipe> filterFoodRecipesByDietPermissive(List<FoodRecipe> foodRecipesList, List<String> filtersList) {
