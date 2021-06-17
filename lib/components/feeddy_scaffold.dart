@@ -67,8 +67,6 @@ class _FeeddyScaffoldState extends State<FeeddyScaffold> {
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
-    // print('didChangeDependencies => widget.iconFAB: ${widget.iconFAB}');
-
     super.didChangeDependencies();
   }
 
